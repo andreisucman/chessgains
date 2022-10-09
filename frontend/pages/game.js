@@ -38,7 +38,7 @@ export default function Game() {
   const { Moralis, isInitialized } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
-  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
+  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`);
   const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
   const [showFinalScreen, setShowFinalScreen] = useState(null);
   const [showSelectAi, setShowSelectAi] = useState(false);

@@ -7,7 +7,7 @@ export default function PersistState(props) {
   const { settings, chess } = props;
 
   useEffect(() => {
-    ls.set(`${PERSIST_STATE_NAMESPACE}_settings`, settings, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_settings`, settings);
   }, [settings]);
 
   useEffect(() => {
