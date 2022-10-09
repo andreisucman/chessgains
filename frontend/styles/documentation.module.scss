@@ -1,0 +1,480 @@
+@import './mixins.scss';
+
+.documentation_page {  
+  display: flex;
+  justify-content: center;
+
+  &__title {
+    padding: 24px 0 0;
+    text-align: center;
+    font-size: 1.75rem;
+
+    @include tablet {
+      padding: 56px 24px 0 24px;
+    }
+  }
+
+  &__wrapper {
+    padding: 24px 24px 0 24px;
+    margin: 24px;
+    border-radius: 8px;
+    max-width: 1280px;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 300px 1fr;
+
+    @include tablet {
+      display: unset;
+      margin: unset;
+      padding: unset;
+    }
+  }
+
+  &__sidebar {
+    position: fixed;
+    width: 300px;
+
+    background: linear-gradient(#3c3934, #302E2A);
+    padding: 24px;
+    border-radius: 8px;
+    height: fit-content;
+    
+    @include tablet {
+      width: 320px;
+      padding: 24px 24px 24px 80px;
+      right: -10px;
+
+      background: unset;
+      background-image: url("../public/assets/documentation/documentationmenu.webp");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    &_closed {
+      transition: transform 0.5s;
+
+      @include tablet {
+        transform: translateX(258px);
+      }
+    }
+
+    &_cross {
+      cursor: pointer;
+      position: absolute;
+      left: 20px;
+      top: 16px;
+
+      width: 32px;
+      height: 32px;
+
+      background-image: url("../public/assets/burger.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 70%;
+
+      display: none;
+
+      @include tablet {
+        display: unset;
+      }
+    }
+
+    &_title {
+      padding-bottom: 8px;
+    }
+
+    &_item {
+      cursor: pointer;
+      color: unset;
+      padding: 8px 0;
+    }
+
+    &_link {
+      color: var(--font-color);
+      text-decoration: none;
+      padding-left: 16px;
+    }
+  }
+
+  &__main {
+    padding: 16px 16px 0 16px;
+    grid-column: 2/3;
+
+    @include tablet {
+      padding: 0;
+    }
+  }
+
+  &__block {
+    padding: 16px;
+
+    &_text_container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 24px;
+      column-gap: 16px;
+
+      @include mobile {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: unset;
+      }
+    }
+  }
+
+  &__section_title {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  &__section_subtitle {
+    padding-bottom: 16px;
+    text-align: left;
+    grid-column: 1/3;
+    font-size: 1.75rem;
+
+    &_token {
+      padding: 16px 0 0 0;
+    }
+
+    &_user_journey {
+      padding: 16px 0 0 0;
+    }
+  }
+
+  &__section_paragraph {
+    line-height: 160%;
+
+    &_first {
+      text-indent: 32px;
+      grid-column: 1/3;
+    }
+
+    &_full {
+      grid-column: 1/3;
+    }
+
+    &_center {
+      text-align: center;
+    }
+
+    &_disclaimer {
+      padding: 16px 0;
+    }
+
+    &_footnote {
+      grid-column: 1/3;
+      font-size: 0.8rem;
+    }
+
+    &_subtitle {
+      font-size: 1.15rem;
+    }
+  }
+
+  &__disclaimer {
+    padding: 16px;
+  }
+
+  &__about_title {
+    text-align: center;
+  }
+
+  &__about_table, &__base_score_table, &__piece_score_table, &__token_returns_table {
+    width: 100%;
+    padding: 16px 0;
+    border-spacing: 16px;
+    border-collapse: collapse;
+    grid-column: 1/3;
+    grid-row: 58/59;
+
+    @include mobile {
+      grid-row: 60/61;
+    }
+    
+    &_row {
+      border: 1px solid var(--light-grey-c);
+      transition: background-image 0.5s;
+      
+      &:hover {
+        background-image: linear-gradient(hsl(39, 7%, 22%), #302E2A);
+      }
+    }
+
+    &_heading {
+      padding: 8px;
+    }
+
+    &_data {
+      padding: 8px;
+      text-align: center;
+    }
+  }
+
+  &__base_score_table {
+    grid-column: 1/3; 
+    grid-row: 17/18;
+  }
+
+  &__piece_score_table {
+    grid-column: 1/3;
+    grid-row: 19/20;
+  }
+
+  &__token_returns_table {
+    grid-column: 1/3;
+    grid-row: 68/69 ;
+
+    @include mobile {
+      grid-row: 70/71;
+    }
+  }
+
+  &__formula_box {
+    padding: 24px;
+    text-align: center;
+    grid-column: 1/3;
+    background-image: linear-gradient(hsl(39, 7%, 22%), #302E2A);
+    border-radius: 8px;
+    font-size: 1.15rem;
+    font-weight: bold;
+  }
+
+  &__cta {
+    margin: 24px 0;
+    padding: 32px;
+    background: linear-gradient(hsl(39, 7%, 22%), #302E2A);
+    border-radius: 8px;
+
+    @include mobile {
+      padding: 32px 8px;
+      background: unset;
+    }
+
+    &_container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+
+      @include mobile {
+        flex-direction: column;
+      }
+    }
+
+    &_heading {
+      font-size: 1.5rem;
+
+      @include mobile {
+        text-align: center;
+      }
+    }
+
+    &_btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.75rem;
+      width: 100%;
+      max-width: 400px;
+      height: 25vh;
+      max-height: 100px;
+      color: var(--font-color);
+      font-weight: bold;
+      cursor: pointer;
+
+      border: none;
+      outline: none;
+      padding: 24px;
+      border-radius: 8px;
+
+      animation: pulse 1s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-fill-mode:both;
+      animation-direction:alternate;
+
+      background-color: #A64242;
+      box-shadow: 0 8px 0 0 rgba(166, 66, 66, 0.651);
+      transition: all 0.3s;
+
+      &:hover {
+        animation-play-state: paused;
+        background-color: var(--dark-red-c);
+        box-shadow: 0 8px 0 0 var(--dark-red-c), 0 0 32px 0 rgba(250, 23, 23, 0.651);
+      }
+    }
+
+    &_img {
+      width: 100%;
+      height: 100%;
+      max-width: 40px;
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  margin: auto;
+
+  &_desc {
+    line-height: 140%;
+    font-size: 0.8rem;
+    padding: 16px 0;
+
+    &_special {
+      text-align: left;
+      padding: 24px 0;
+    }
+  }
+
+  &_container {
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.8rem;
+    text-align: center;
+
+    &_participants1 {
+      grid-column: 1/2;
+      grid-row: 2/3;
+
+      @include mobile {
+        grid-column: 1/3;
+      }
+    }
+
+    &_participants2 {
+      grid-column: 2/3;
+      grid-row: 2/3;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 3/4;
+      }
+    }
+
+    &_holders1 {
+      grid-column: 1/2;
+      grid-row: 7/8;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 6/7;
+      }
+    }
+
+    &_holders2 {
+      grid-column: 2/3;
+      grid-row: 7/8;
+
+      @include mobile {
+        grid-column: 1/3;
+      }
+    }
+
+    &_allocation {
+      grid-column: 1/3;
+      grid-row: 3/4;
+    }
+
+    &_journey {
+      min-height: 493px;
+      grid-column: 1/3;
+      grid-row: 7/8;
+    }
+
+    &_transfermatic {
+      min-height: 493px;
+      grid-column: 1/3;
+      grid-row: 28/29;
+  
+      background-color: transparent;
+    }
+
+    &_getmatic {
+      min-height: 493px;
+      grid-column: 1/3;
+      grid-row: 32/33;
+  
+      background-color: transparent;
+    }
+
+    &_prizewithdraw {
+      grid-column: 1/2;
+      grid-row: 38/39;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 37/38;
+      }
+    }
+
+    &_rewardclaim {
+      grid-column: 2/3;
+      grid-row: 38/39;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 40/41;
+      }
+    }
+
+    &_winnerselection1 {
+      grid-column: 1/2;
+      grid-row: 52/53;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 50/51;
+      }
+    }
+
+    &_winnerselection2 {
+      grid-column: 2/3;
+      grid-row: 52/53;
+
+      @include mobile {
+        grid-column: 1/3;
+        grid-row: 53/54;
+      }
+    }
+
+    &_roadmap {
+      grid-column: 1/3;
+      grid-row: 5/6;
+      gap: 0;
+    }
+  }
+}
+
+.how_it_works {
+  &__inner_list{
+    position: relative;
+    padding: 0 0 0 16px;
+
+    &_item {
+      padding: 8px 0;
+      cursor: pointer;
+    }
+  }
+}
+
+.margin_auto {
+  margin: auto;
+}
+
+.ul_style {
+  grid-column: 1/3;
+  padding: 0 0 8px 16px;
+}
+
+.padding_bottom_8 {
+  padding-bottom: 8px;
+}

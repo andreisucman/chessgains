@@ -1,0 +1,23 @@
+{
+  "name": "chessgains-backend",
+  "version": "1.0.2",
+  "main": "dist/js-chess-engine.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "node index.mjs"
+  },
+  "homepage": "",
+  "license": "",
+  "dependencies": {
+    "@fastify/cors": "^8.1.0",
+    "@fastify/rate-limit": "^7.4.0",
+    "conventional-changelog-cli": "^2.0.34",
+    "es6-template-strings": "^2.0.1",
+    "ethers": "^5.7.0",
+    "fastify": "^4.5.2",
+    "moralis-v1": "^1.11.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^4.9.1",
+    "xhr2": "^0.2.1"
+  }
+}

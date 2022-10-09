@@ -1,0 +1,65 @@
+@import "./normalize.scss";
+
+html {
+  --header-height: 80px;
+  --bg-grey-c: rgb(48, 46, 42);
+  --dark-grey-c: #3c3934;
+  --light-grey-c: #57534c;
+  --bright-grey-c: #6d685f;
+  --light-yellow-c: #ffbb00;
+  --dark-yellow-c: #e2a600;
+  --shadow-yellow-c: rgba(255, 187, 0, 0.651);
+  --light-red-c: hsl(0, 43%, 45%);
+  --dark-red-c: hsl(0, 54%, 41%);
+  --shadow-red-c: rgba(250, 23, 23, 0.651);
+  --font-color: #F4F0E6;
+  --board-light-c:hsl(43, 39%, 93%);
+  --board-dark-c: #a64242;
+
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-size: 100%;
+  font-weight: 500;
+  scroll-behavior: smooth;
+  cursor: default;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// #region webkit scrollbar
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+ 
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: var(--light-grey-c);
+  outline: 1px solid var(--dark-grey-c);
+}
+
+// #endregion
+
+body {
+  scrollbar-width: none;
+  margin: 0 auto;
+  background-color: var(--bg-grey-c);
+  color: var(--font-color);
+  height: 100vh;
+}
+
+// remove black border from play button
+.yt-lite:hover > .lty-playbtn {
+  cursor: pointer;
+  opacity: 1;
+  background-color: #f00;
+  border: 1px solid #f00;
+}

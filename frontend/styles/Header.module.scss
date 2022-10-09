@@ -1,0 +1,57 @@
+@import './mixins.scss';
+
+.header {
+  height: var(--header-height);
+  background-color: rgba(60, 57, 52, 0.9);
+  box-shadow: 0 0 32px 4px rgba(0,0,0, 0.2);
+
+  &__wrapper {
+    height: 100%;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include tablet {
+      padding: 16px 24px;
+    }
+  }
+}
+
+.logo {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  
+  max-width: 96px;
+
+  a { 
+    display: block; 
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+  }
+
+  @include mobile {
+    max-width: 88px;
+  }
+}
+
+.burger {
+  cursor: pointer;
+  position: relative;
+  z-index: 3;
+  width: 24px;
+  height: 24px;
+  background-image: url('../public/assets/burger.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+  transition: transform 0.5s;
+
+  &_open {
+    transform: rotate(-90deg);
+  }
+}

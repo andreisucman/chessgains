@@ -1,0 +1,135 @@
+@import './mixins.scss';
+
+.contact_page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  &__title {
+    text-align: center;
+    padding: 48px 0 24px;
+
+    @include mobile {
+      padding: 32px 0 16px;
+    }
+  }
+}
+
+.contact {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  margin-bottom: 56px;
+
+  @include mobile {
+    flex-direction: column-reverse;
+    padding: 0 16px;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--font-color);
+    font-family: "Montserrat", "Verdana", "sans-serif";
+
+    max-width: 400px;
+    width: 100%;
+
+    @include mobile {
+      max-width: unset
+    }
+  }
+
+  &__info {
+    align-self: flex-start;
+
+    &_link {
+      color: var(--light-yellow-c);
+    }
+
+    &_item {
+      padding: 4px 0;
+
+      &_p_top_24 {
+        padding-top: 24px;
+      }
+
+      &_faster {
+        padding-bottom: 24px;
+        line-height: 160%;
+      }
+    }
+  }
+
+  &__input, &__message {
+    background-color: var(--dark-grey-c);
+    padding: 16px;
+    border: none;
+    resize: none;
+    color: inherit;
+    font-family: inherit;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: var(--bright-grey-c);
+    }
+  }
+
+  &__message {
+    height: 150px;
+  }
+
+  &__submit {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: var(--light-red-c);
+    width: 100%;
+    flex-basis: 30%;
+    margin-left: auto;
+    padding: 16px;
+    border-radius: 4px;
+    color: inherit;
+    font-weight: 500;
+    transition: all 0.5s;
+
+    &:hover {
+      background-color: var(--dark-red-c);
+      box-shadow: 0 0 8px 0 var(--shadow-red-c);
+    }
+
+    &_wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    &_ico {
+      width: 24px;
+      height: 24px;
+
+      background-image: url("../public/assets/tw.svg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  &__submission_message {
+    flex-basis: 70%;
+    text-align: center;
+
+    @include mobile {
+      padding: 0 8px;
+    }
+  }
+}

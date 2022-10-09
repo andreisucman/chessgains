@@ -1,0 +1,48 @@
+@import './mixins.scss';
+
+.participants_list {
+  display: flex;
+  border-radius: 8px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 32px 0; 
+  width: 100%;
+  height: fit-content;
+  max-height: 720px;
+
+  @include tablet {
+    display: unset;
+  }
+
+  &__list {
+    max-height: 90%;
+    overflow-y: auto;
+    
+    @include tablet {
+      max-height: 500px;
+    }
+  }
+  
+  &__data{
+    display: grid;
+    grid-template-columns: minmax(100px, 1fr) minmax(50px, 1fr) 1fr 1fr;
+    gap: 8px;
+    padding: 8px 0;
+    
+    transition: all 0.5s;
+
+    &:hover {
+      color: var(--light-yellow-c);
+    }
+  }
+
+  &__score_data, &__date_data, &__chance_data{
+    text-align: center;
+  }
+
+  &__address_data {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

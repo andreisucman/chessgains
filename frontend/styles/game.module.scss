@@ -1,0 +1,772 @@
+@import './mixins.scss';
+
+.gamepage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - var(--header-height));
+
+  @include tablet {
+    height: unset;
+    align-items: unset;
+    margin-top: 40px;
+  }
+
+  &__polygon_icon {
+    margin: 0 4px;
+    width: 20px;
+    height: 20px;
+
+    background-image: url('../public/assets/polygon.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+.interface {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+
+  @include tablet {
+    padding: 0;
+    border-radius: 0;
+    display: block;
+  }
+}
+
+.ai_status {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  background-color: var(--dark-grey-c);
+  padding: 12px 16px;
+  border-radius: 4px;
+  top: -56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 144px;
+  justify-content: center;
+
+  @include tablet {
+    top: -48px;
+  }
+
+  &__checkmark {
+    width: 14px;
+    height: 14px;
+    background-image: url("../public/assets/checkmark.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+.interface__wrapper {
+  display: grid;
+  grid-template-columns: 700px minmax(100px, 350px);
+  gap: 16px;
+  align-items: center;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, .05);
+  padding: 16px 16px 16px 40px;
+  border-radius: 4px;
+  height: fit-content;
+  
+  @include tablet {
+    display: block;
+    padding: 16px;
+  }
+}
+
+.board {
+  display: -ms-grid;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  -ms-grid-rows: auto;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 700px;
+  max-height: 700px;
+
+  @include tablet {
+    max-width: 520px;
+    margin-bottom: 16px;
+  }
+
+  &__wrapper {
+    position: relative;
+  }
+}
+
+
+.card {
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  background-color: rgba(255, 255, 255, .05);
+  border-radius: 8px;
+  padding: 0;
+
+  &__wrapper {
+    padding: 16px;
+  }
+
+  &__heading {
+    font-family: inherit;
+    margin: 8px 0;
+  }
+
+  &__level_scores {
+    text-align: right;
+  }
+
+  &__pool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    height: fit-content;
+    text-align: center;
+    color: var(--board-light-c);
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: hsl(39, 7%, 28%);
+    box-shadow: 0 0 32px 0 hsl(39, 7%, 22%);
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+
+  &__coins {
+    background-image: url('../public/assets/prizepool.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    margin: 8px 8px 8px 0;
+  }
+}
+
+.sound_and_move_div {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.column {
+  display: flex;
+  padding: 10px;
+}
+
+.column_left {
+  flex: 2;
+}
+
+.column_right {
+  flex: 1;
+}
+
+.lastMove {
+  -webkit-box-shadow:inset 0px 0px 8px 3px #ffbb00;
+  -moz-box-shadow:inset 0px 0px 8px 3px #ffbb00;
+  box-shadow:inset 0px 0px 8px 3px #ffbb00;
+}
+
+.moveFrom {
+  -webkit-background-color:#ffbb00 !important;
+  -moz-background-color:#ffbb00 !important;
+  background-color:#ffbb00 !important;
+}
+
+.moveTo {
+  -webkit-background: radial-gradient(circle, rgba(255, 187, 0, 0.5) 16%, transparent 20%);
+  -moz-background: radial-gradient(circle, rgba(255, 187, 0, 0.5) 16%, transparent 20%);
+  background: radial-gradient(circle, rgba(255, 187, 0, 0.5) 16%, transparent 20%);
+  
+  -webkit-background-position: center;
+  -moz-background-position: center;
+  background-position: center;
+
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+}
+
+.piece {
+  &P, &K, &Q, &R, &B, &N, &p, &k, &q, &r, &b, &n {
+    cursor: pointer;
+  }
+  &P {
+    background-image: url('../public/assets/pieces/pawn_white.webp');
+  }
+  &K {
+    background-image: url('../public/assets/pieces/king_white.webp');
+  }
+  &Q {
+    background-image: url('../public/assets/pieces/queen_white.webp');
+  }
+  &R {
+    background-image: url('../public/assets/pieces/rook_white.webp');
+  }
+  &B {
+    background-image: url('../public/assets/pieces/bishop_white.webp');
+  }
+  &N {
+    background-image: url('../public/assets/pieces/knight_white.webp');
+  }
+  &p {
+    background-image: url('../public/assets/pieces/pawn_black.webp');
+  }
+  &k {
+    background-image: url('../public/assets/pieces/king_black.webp');
+  }
+  &q {
+    background-image: url('../public/assets/pieces/queen_black.webp');
+  }
+  &r {
+    background-image: url('../public/assets/pieces/rook_black.webp');
+  }
+  &b {
+    background-image: url('../public/assets/pieces/bishop_black.webp');
+  }
+  &n {
+    background-image: url('../public/assets/pieces/knight_black.webp');
+  }
+}
+
+.field {
+  display: block;
+  padding-top: 100%;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background-color: var(--board-light-c);
+
+  &:nth-of-type(-2n+8), &:nth-of-type(8) ~ *:nth-of-type(-2n+15), &:nth-of-type(16) ~ *:nth-of-type(-2n+24), &:nth-of-type(24) ~ *:nth-of-type(-2n+31), &:nth-of-type(32) ~ *:nth-of-type(-2n+40), &:nth-of-type(40) ~ *:nth-of-type(-2n+47), &:nth-of-type(48) ~ *:nth-of-type(-2n+56), &:nth-of-type(56) ~ *:nth-of-type(-2n+63) {
+    background-color: var(--board-dark-c);
+  }
+  
+  &:nth-of-type(1), &:nth-of-type(3), &:nth-of-type(5), &:nth-of-type(7), &:nth-of-type(10), &:nth-of-type(12), &:nth-of-type(14), &:nth-of-type(16), &:nth-of-type(17), &:nth-of-type(19), &:nth-of-type(21), &:nth-of-type(23), &:nth-of-type(26), &:nth-of-type(28), &:nth-of-type(30), &:nth-of-type(32), &:nth-of-type(33), &:nth-of-type(35), &:nth-of-type(37), &:nth-of-type(39), &:nth-of-type(42), &:nth-of-type(44), &:nth-of-type(46), &:nth-of-type(48), &:nth-of-type(49), &:nth-of-type(51), &:nth-of-type(53), &:nth-of-type(55), &:nth-of-type(58), &:nth-of-type(60), &:nth-of-type(62), &:nth-of-type(64) {
+    background-color: var(--board-light-c);
+  }
+  
+  &:nth-of-type(1) {
+    position: relative;
+    border-radius: 4px 0 0 0;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "8";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+  
+  &:nth-of-type(8) {
+    border-radius: 0 4px 0 0;
+  }
+
+  &:nth-of-type(9) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "7";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(17) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "6";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+
+  &:nth-of-type(25) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "5";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(33) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "4";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+
+  &:nth-of-type(41) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "3";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(49) {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "2";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+  
+  &:nth-of-type(57) {
+    position: relative;
+    border-radius: 0 0 0 4px;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 3%;
+      content: "1";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+    
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "A";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(58) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "B";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+
+  &:nth-of-type(59) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "C";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(60) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "D";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+
+  &:nth-of-type(61) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "E";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+
+  &:nth-of-type(62) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "F";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+
+  &:nth-of-type(63) {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "G";
+      font-size: 0.6rem;
+      color: var(--board-light-c);
+    }
+  }
+  
+  &:nth-of-type(64) {
+    position: relative;
+    border-radius: 0 0 4px 0;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 3%;
+      content: "H";
+      font-size: 0.6rem;
+      color: var(--board-dark-c);
+    }
+  }
+}
+
+
+.btn {
+  font-family: inherit;
+  background-color: var(--dark-yellow-c);
+  border: none;
+  color: var(--dark-color);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.2rem;
+  width: 100%;
+  border-radius: 4px;
+  transition: all 0.5s;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--light-yellow-c);
+    box-shadow: 0 0 8px 0 var(--shadow-yellow-c);
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.new_game {
+  height: fit-content;
+  margin-bottom: 12px;
+
+  &__btn {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    background-color:rgb(218, 166, 26);
+
+    box-shadow: 0 4px 0 0 rgba(226, 166, 0, 0.671);
+
+    &:hover {
+      background-color:rgba(255, 187, 0, 0.95);
+      box-shadow: 0 4px 0 0 rgba(226, 166, 0, 0.871), 0 0 4px 0 rgba(255, 230, 1, 0.877);
+    }
+  }
+
+  &__img {
+    display: inline-block;
+    background-image: url('../public/assets/handpawn.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.history {
+  height: fit-content;
+
+  &__data {
+    background-color: var(--board-light-c);
+    height: 100px;
+    line-height: 18px;
+    overflow: hidden;
+    margin: 12px 0;
+    padding: 4px;
+    color: #666666;
+    border-radius: 4px;
+    overflow-y: auto;
+    font-size: 1.15rem;
+  }
+}
+
+.level {
+  background-color: var(--dark-grey-c);
+  font-size: 1.15rem;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+
+  height: fit-content;
+
+  /* Customize the label (the level__wrapper) */
+  &__wrapper {
+    font-family: inherit;
+    display: block;
+    position: relative;
+    padding-left: 32px;
+    margin-bottom: 12px;
+    font-size: 1.15rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  &__heading {
+    text-align: center;
+    padding: 8px;
+  }
+
+  &__ai_bio {
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 8px 0;
+  }
+
+  &__ai_name {
+    font-size: 1.5rem;
+  }
+
+  &__ai_bio_info {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  &__ai_score {
+    white-space: nowrap;
+  }
+
+
+  label:nth-of-type(1) {
+    grid-column: 1/2;
+    grid-row: 2/3;
+  }
+
+  label:nth-of-type(2) {
+    grid-column: 1/2;
+    grid-row: 3/4;
+  }
+
+  label:nth-of-type(3) {
+    grid-column: 1/2;
+    grid-row: 4/5;
+  }
+
+  label:nth-of-type(4) {
+    grid-column: 1/2;
+    grid-row: 5/6;
+  }
+
+  label:nth-of-type(5) {
+    grid-column: 1/2;
+    grid-row: 6/6;
+  }
+
+  /* Hide the browser's default radio button */
+  &__wrapper input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* On mouse-over, add a grey background color */
+  &__wrapper:hover input ~ .checkmark {
+    background-color: var(--board-light-c);
+  }
+
+  /* When the radio button is checked, add a blue background */
+  &__wrapper input:checked ~ .checkmark {
+    background-color: var(--light-yellow-c);
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  &__wrapper input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  &__wrapper .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+}
+
+.confirmation {
+  width: 100%;
+  &__row {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    max-width: 60%;
+    background-color: var(--dark-yellow-c);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      background-color: var(--light-yellow-c);
+    }
+  }
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: var(--board-light-c);
+  border-radius: 50%;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--light-yellow-c);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--light-yellow-c);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.loading {
+  cursor: wait;
+}
+
+.hidden {
+  display: none;
+}

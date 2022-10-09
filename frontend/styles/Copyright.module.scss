@@ -1,0 +1,31 @@
+@import './mixins.scss';
+
+.copyright {
+  max-width: 1240px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include mobile {
+    flex-direction: column-reverse;
+  }
+
+  &__paragraph {
+    text-align: center;
+    padding: 16px;
+  }
+
+  &__list {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__link {
+    transition: all 0.5s;
+
+    &:hover {
+      color: var(--light-yellow-c);
+    }
+  }
+}

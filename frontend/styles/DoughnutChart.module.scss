@@ -1,0 +1,29 @@
+@import './mixins.scss';
+
+.doughnut {
+  &__wrapper {
+    position: "relative";
+    width: "90%";
+    max-width: "300px";
+    margin: "auto";
+
+    @include mobile {
+      max-width: "240px";
+    }
+  }
+
+  &__percent {
+    position: absolute;
+    color: hsl(43, 39%, 93%);
+    font-size: 2rem;
+    font-weight: 700;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  
+    @include mobile {
+      font-size: 2.5rem;
+    }
+  }
+}

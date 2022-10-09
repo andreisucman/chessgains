@@ -1,0 +1,61 @@
+@import './mixins.scss';
+
+.cookies {
+  min-height: 100px;
+  background-color: rgba(60, 57, 52, 0.9);
+  box-shadow: 0 0 32px 4px rgba(0,0,0, 0.2);
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+
+  &__wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+
+    @include tablet {
+      padding: 16px 24px;
+      flex-direction: column;
+      align-items: unset;
+    }
+  }
+
+  &__body {
+    @include mobile {
+      padding-bottom: 16px;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+    padding-bottom: 4px;
+    font-size: 1.15rem;
+  }
+
+  &__link {
+    text-decoration: underline;
+  }
+
+  &__button {
+    font-size: 1.15rem;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.5s;
+    max-width: 125px;
+    margin-left: auto;
+    margin-bottom: 8px;
+
+    border: 2px solid var(--font-color);
+    color: var(--font-color);
+    background-color: transparent;
+
+    &:hover {
+      background-color: var(--font-color);
+      color: var(--dark-grey-c);
+    }
+  }
+}

@@ -1,0 +1,188 @@
+@import './mixins.scss';
+
+.step_one {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+
+  &__content {
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    max-width: 60%;
+    width: 100%;
+
+    background-color: var(--dark-grey-c);
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.5);
+
+    border-radius: 4px;
+    color: var(--dark-grey-c);
+
+    @include tablet {
+      margin-top: 10%;
+      max-width: 75%;
+
+      left: unset;
+      top: unset;
+      transform: unset;
+    }
+
+    @include mobile {
+      max-width: 95%;
+    }
+
+    &_wrapper {
+      width: 100%;
+      height: 100%;
+      padding: 12px 24px 32px 24px;
+
+      display: grid;
+      gap: 16px;
+      justify-items: center;
+
+      @include tablet {
+        padding: 24px 16px 40px;
+        gap: 16px;
+      }
+    }
+  }
+
+  &__score {
+    font-size: 1.5rem;
+  }
+
+  &__chart_div {
+    display: grid;
+    align-items: center;
+    width: 100%;
+    grid-template-columns: minmax(100px, 200px) minmax(200px, 400px) minmax(100px, 200px);
+    grid-gap: 8px;
+    gap: 8px;
+    padding: 8px 0;
+
+    @include tablet {
+      width: unset;
+    }
+
+    @include mobile {
+      grid: unset;
+      grid-gap: 16px;
+      padding: 8px;
+      width: 100%;
+    }
+  }
+
+  &__title_div {
+    width: 100%;
+    text-align: center;
+    color: var(--font-color);
+  }
+
+  &__title {
+    font-size: 2.4rem;
+    text-align: center;
+    font-weight: bold;
+    padding: 4px;
+  }
+
+  &__rank_text {
+    color: var(--font-color);
+    text-align: center;
+    font-size: 1.5rem;
+    justify-self: start;
+
+    @include mobile {
+      justify-self: end;
+    }
+    
+    &_left {
+      justify-self: end;
+
+      @include mobile {
+        justify-self: start;
+      }
+    }
+  }
+
+  &__cta {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    color: var(--font-color);
+    font-weight: bold;
+    font-family: inherit;
+    font-size: 1.5rem;
+    background-color: #A64242;
+    box-shadow: 0 4px 0 0 rgba(166, 66, 66, 0.651);
+    transition: all 0.3s;
+    gap: 8px;
+    padding: 24px;
+    height: 80px;
+
+    @include tablet {
+      font-size: 1.5rem;
+      padding: 24px 0;
+    }
+
+    &:hover {
+      background-color: var(--dark-red-c);
+      box-shadow: 0 4px 0 0 #c00d0da6, 0 0 4px 0 rgba(250, 23, 23, 0.651);
+    }
+
+    &_div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &_img {
+      max-width: 10%;
+      width: 100%;
+      height: 100px;
+      max-height: 24px;
+      margin: 8px 8px 8px 0;
+      background-image: url('../public/assets/coin.svg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      @include tablet {
+        margin: 0;
+      }
+    }
+  }
+
+  &__cross {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    border: none;
+    background-image: url('../public/assets/cross.svg');
+    background-size: contain;
+    background-position: top center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    @include tablet {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+h1, h2, h3, p, ul, ol, a, table, tr, th, td {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Montserrat", "Helvetica", "sans-serif";
+}
+
+a:focus,
+a:visited,
+a:active {
+  outline: none;
+}
