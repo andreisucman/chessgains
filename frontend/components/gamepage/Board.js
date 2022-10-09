@@ -17,7 +17,7 @@ export const COMPUTER_LEVELS = {
   Delta: 1,
   Beta: 2,
   Alpha: 3,
-  Omega: 3,
+  Omega: 4,
 };
 
 export const COMPUTER_DESCRIPTIONS = {
