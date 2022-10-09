@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import cors from "@fastify/cors";
+import * as cors from "@fastify/cors";
 // import { move, status, moves, fetchAiLevel, saveScore } from "./lib/js-chess-engine.mjs";
 import { pay, sendToTelegram } from "./moralis.mjs";
 
