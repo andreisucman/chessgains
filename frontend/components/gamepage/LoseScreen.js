@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "../../styles/LoseScreen.module.scss";
+import { COMPUTER_DESCRIPTIONS } from "./Board";
+import { SETTING } from "./Board";
 
 export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer }) {
   function handlePlayAgain() {
@@ -12,7 +14,7 @@ export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUs
       <div className={styles.lose_screen__content}>
         <div className={styles.lose_screen__content_wrapper}>
           <div className={styles.lose_screen__title_div}>
-            <h2 className={styles.lose_screen__main_title}>AI Won</h2>
+            <h2 className={styles.lose_screen__main_title}>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name} won</h2>
           </div>
           <div className={styles.lose_screen__banner}></div>
           <button className={styles.lose_screen__cta} onClick={handlePlayAgain} id="play_again_lose_screen">
