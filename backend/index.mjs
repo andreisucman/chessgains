@@ -15,7 +15,7 @@ const ROUTE_MAP = {
 const server = Fastify({ logger: true });
 
 server.register(cors, {
-  origin: ["https://www.chessgains.com", "https://chessgains.com", "http://localhost:3000"],
+  origin: ["https://www.chessgains.com", "https://chessgains.com"],
   allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST"],
 });
