@@ -7,11 +7,19 @@ export default function PersistState(props) {
   const { settings, chess } = props;
 
   useEffect(() => {
-    ls.set(`${PERSIST_STATE_NAMESPACE}_settings`, settings);
+    try {
+      ls.set(`${PERSIST_STATE_NAMESPACE}_settings`, settings, { encrypt: true });
+    } catch (err) {
+      console.log(error);
+    }
   }, [settings]);
 
   useEffect(() => {
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, chess, { encrypt: true });
+    try {
+      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, chess, { encrypt: true });
+    } catch (err) {
+      console.log(err);
+    }
   }, [chess && chess.turn]);
 
   return <div className={styles.hidden}></div>;

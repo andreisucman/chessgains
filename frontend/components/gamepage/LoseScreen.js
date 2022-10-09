@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "../../styles/LoseScreen.module.scss";
 import { COMPUTER_DESCRIPTIONS } from "./Board";
-import { SETTING } from "./Board";
 
-export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer }) {
+export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, settings }) {
   function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);

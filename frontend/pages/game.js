@@ -38,7 +38,7 @@ export default function Game() {
   const { Moralis, isInitialized } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
-  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`);
+  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
   const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
   const [showFinalScreen, setShowFinalScreen] = useState(null);
   const [showSelectAi, setShowSelectAi] = useState(false);
@@ -118,16 +118,14 @@ export default function Game() {
         <div className={styles.interface}>
           <div className={`${styles.interface__wrapper} ${loading ? `${styles.loading}` : ""}`}>
             <div className={styles.board__wrapper}>
-              {!showSelectAi && showFinalScreen !== 0 ? (
-                <div className={styles.ai_status}>
-                  <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
-                  {chess.turn === COLORS.BLACK ? (
-                    <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
-                  ) : (
-                    <div className={styles.ai_status__checkmark}></div>
-                  )}
-                </div>
-              ) : null}
+              {!showSelectAi && <div className={styles.ai_status}>
+                <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
+                {chess.turn === COLORS.BLACK ? (
+                  <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
+                ) : (
+                  <div className={styles.ai_status__checkmark}></div>
+                )}
+              </div>}
               <div className={styles.board} disabled={chess.isFinished || loading}>
                 {board}
               </div>
@@ -182,6 +180,7 @@ export default function Game() {
               setChess={setChess}
               timer={prizeTimer}
               showSelectAi={showSelectAi}
+              settings={settings}
             />
           )}
           {showSelectAi && (
