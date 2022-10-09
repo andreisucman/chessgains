@@ -5,6 +5,8 @@ export class Game {
   constructor(configuration) {
     this.board = new Board(configuration);
   }
+  //hello
+
 
   setAiLevel(level) {
     return this.board.setAiLevel(level);
