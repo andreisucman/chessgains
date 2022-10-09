@@ -118,7 +118,7 @@ export default function Game() {
         <div className={styles.interface}>
           <div className={`${styles.interface__wrapper} ${loading ? `${styles.loading}` : ""}`}>
             <div className={styles.board__wrapper}>
-              {(!showSelectAi && !showFinalScreen === 0) ? (<div className={styles.ai_status}>
+              {(!showSelectAi && showFinalScreen !== 0) ? (<div className={styles.ai_status}>
                 <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
                 {chess.turn === COLORS.BLACK ? (
                   <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
