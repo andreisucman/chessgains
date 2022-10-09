@@ -29,15 +29,15 @@ export const AI_DEPTH_BY_LEVEL = {
     2: 2,
     3: 3,
     4: 3,
-    5: 4,
+    5: 3,
   },
   EXTENDED: {
     0: 2,
     1: 2,
     2: 3,
     3: 3,
-    4: 4,
-    5: 4,
+    4: 3,
+    5: 3,
   },
 };
 // export const AI_DEPTH_BY_LEVEL = {
