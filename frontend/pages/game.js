@@ -118,14 +118,16 @@ export default function Game() {
         <div className={styles.interface}>
           <div className={`${styles.interface__wrapper} ${loading ? `${styles.loading}` : ""}`}>
             <div className={styles.board__wrapper}>
-              {!showSelectAi && <div className={styles.ai_status}>
-                <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
-                {chess.turn === COLORS.BLACK ? (
-                  <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
-                ) : (
-                  <div className={styles.ai_status__checkmark}></div>
-                )}
-              </div>}
+              {!showSelectAi && showFinalScreen !== 0 ? (
+                <div className={styles.ai_status}>
+                  <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
+                  {chess.turn === COLORS.BLACK ? (
+                    <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
+                  ) : (
+                    <div className={styles.ai_status__checkmark}></div>
+                  )}
+                </div>
+              ) : null}
               <div className={styles.board} disabled={chess.isFinished || loading}>
                 {board}
               </div>
