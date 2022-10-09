@@ -20,6 +20,8 @@ server.register(cors, {
   origin: ["https://www.chessgains.com", "https://chessgains.com"],
   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin", "Accept"],
   methods: ["GET", "POST", "OPTIONS"],
+  strictPreflight: false,
+  preflight: false,
 });
 
 server.register(import("@fastify/rate-limit"), {
