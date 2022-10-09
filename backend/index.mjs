@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import * as cors from "@fastify/cors";
+import cors from "@fastify/cors";
 import { move, status, moves, fetchAiLevel, saveScore } from "./lib/js-chess-engine.mjs";
 import { pay, sendToTelegram } from "./moralis.mjs";
 
@@ -16,9 +16,7 @@ const server = Fastify({ logger: true });
 server.register(cors, {
   origin: ["https://www.chessgains.com", "https://chessgains.com"],
   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin", "Accept"],
-  methods: ["GET", "POST", "OPTIONS"],
-  strictPreflight: false,
-  preflight: false,
+  methods: ["GET", "POST", "OPTIONS"]
 });
 
 server.register(import("@fastify/rate-limit"), {
