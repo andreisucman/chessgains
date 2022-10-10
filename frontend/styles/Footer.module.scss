@@ -19,7 +19,7 @@
     align-items: center;
     background: linear-gradient(hsl(39, 7%, 22%), #302E2A);
     border-radius: 8px;
-    padding: 24px 48px;
+    padding: 24px 5%;
     min-height: 220px;
 
     @include tablet {
@@ -91,6 +91,7 @@
 
     @include tablet {
       max-width: 450px;
+      margin-left: unset;
     }
 
     @include mobile {
