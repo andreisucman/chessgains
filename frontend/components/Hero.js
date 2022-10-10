@@ -1,9 +1,16 @@
 import winbanner from "../public/assets/winbanner.webp";
 import Image from "next/image";
 import styles from "../styles/Hero.module.scss";
-import LoginBtn from "./LoginBtn";
+import ReactLoading from "react-loading";
+import { useMoralis } from "react-moralis";
+import { useGetMethods } from "./ContextProvider";
+import { useRouter } from "next/router";
 
 export default function Hero({ howItWorksRef }) {
+  const { isWeb3EnableLoading, isAuthenticated } = useMoralis();
+  const methods = useGetMethods();
+  const router = useRouter();
+
   return (
     <div className={styles.hero}>
       <div className={styles.banner}>
@@ -21,7 +28,30 @@ export default function Hero({ howItWorksRef }) {
             <li className={styles.reasons_to_participate__item}>Get the prize sent to your wallet automatically</li>
           </ul>
         </div>
-        <LoginBtn />
+        <ul className={styles.nav_buttons__list}>
+          <li className={`${styles.nav_buttons__item} ${styles.nav_buttons__item_enter}`}>
+            {isWeb3EnableLoading ? (
+              <ReactLoading type="spin" color="#F4F0E6" width={65} height={65} />
+            ) : (
+              <>
+                <button
+                  id="play_now_btn"
+                  className={styles.nav_buttons__link}
+                  onClick={() => {
+                    if (isAuthenticated) {
+                      router.push("/wallet");
+                    } else {
+                      methods.handleLogin();
+                    }
+                  }}
+                >
+                  Play now
+                </button>
+                <div className={styles.nav_buttons__handwithpawn}></div>
+              </>
+            )}
+          </li>
+        </ul>
         <p
           id="how_does_it_work"
           className={styles.nav_buttons__how_does_it_work}

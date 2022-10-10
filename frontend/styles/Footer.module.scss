@@ -19,7 +19,7 @@
     align-items: center;
     background: linear-gradient(hsl(39, 7%, 22%), #302E2A);
     border-radius: 8px;
-    padding: 24px;
+    padding: 24px 48px;
     min-height: 220px;
 
     @include tablet {
@@ -29,45 +29,73 @@
     }
   }
 
-  &__list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    display: flex;
-    width: 100%;
-    max-width: 450px;
-    padding: 0 24px;
+  &__slogan {
+    font-size: 1.5rem;
+    width: 50%;
 
     @include tablet {
-      padding: 0 8px;
-      margin: unset;
+      width: unset;
+      padding: 64px 0 48px;
     }
+
+    @include tablet {
+      padding: 56px 8px 48px;
+    }
+  }
+}
+
+.nav_buttons {
+  width: 100%;
+  min-width: 560px;
+
+  @include tablet {
+    min-width: unset;
+    margin: 64px 0;
+
+  }
+
+  @include mobile {
+    margin: 24px 0 64px;
+  }
+
+  &__bottom-wrapper {
+    display: flex;
+    background-color: hsl(39, 7%, 22%);
+    border-radius: 8px;
+    margin: 32px 0;
+  }
+
+  &__list {
+    margin: auto;
+    width: 100%;
   }
 
   &__item {
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: auto;
     width: 100%;
+    max-width: 350px;
     border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 32px;
     height: 25vh;
     max-height: 100px;
 
-    animation: pulse 1.5s;
+    animation: pulse 1s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-fill-mode:both;
     animation-direction:alternate;
 
     @include tablet {
-      max-width: 580px;
+      max-width: 450px;
     }
 
     @include mobile {
-      max-width: 380px;
+      min-width: unset;
+      width: 100%;
     }
 
     &_enter {
@@ -85,17 +113,18 @@
 
   &__link {
     display: flex;
-    border-radius: 12px;
+    align-items: center;
     width: 100%;
     color: unset;
+    text-decoration: none;
     font-family: inherit;
     font-size: 1.75rem;
     padding: 32px 0 32px 32px;
     font-weight: bold;
-    border: none;
     background-color: transparent;
+    border: none;
+    outline: none;
     cursor: pointer;
-    max-width: 425px;
   }
 
   &__handwithpawn {
@@ -110,18 +139,19 @@
     background-position: right center;
   }
 
-  &__slogan {
-    font-size: 1.5rem;
+  &__how_does_it_work {
+    display: block;
+    color: unset;
     text-align: center;
-    width: 50%;
+    padding: 8px 0;
+    width: 100%;
+    font-size: 1.15rem;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.5s;
 
-    @include tablet {
-      width: unset;
-      padding: 64px 0 48px;
-    }
-
-    @include tablet {
-      padding: 56px 8px 48px;
+    &:hover {
+      color: var(--light-yellow-c);
     }
   }
 }

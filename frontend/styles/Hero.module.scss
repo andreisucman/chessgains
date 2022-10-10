@@ -39,11 +39,7 @@
   }
 
   &__list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin: auto;
-    display: flex;
     width: 100%;
   }
 
@@ -52,8 +48,8 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-    max-width: 400px;
     width: 100%;
+    max-width: 350px;
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 32px;
@@ -68,6 +64,11 @@
 
     @include tablet {
       max-width: 450px;
+    }
+
+    @include mobile {
+      min-width: unset;
+      width: 100%;
     }
 
     &_enter {

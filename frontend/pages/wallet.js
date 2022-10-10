@@ -338,6 +338,7 @@ export default function Wallet() {
                 )}
               </div>
             )}
+          {withdrawDisabled && <a className={styles.feedback} target="_blank" rel="noreferrer" href="https://forms.gle/ZRbYJ9i8DAsGC3DR9">Submit feedback</a>}
           </div>
           {showOnramper && <OnramperWidgetContainer setShowOnramper={setShowOnramper} address={currentState.userAddress} />}
         </div>
