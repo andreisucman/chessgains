@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useMoralis } from "react-moralis";
 import ReactLoading from "react-loading";
@@ -27,6 +27,13 @@ export default function Wallet() {
   const [dividendsLowToClaim, setDividendsLowToClaim] = useState(false);
   const [rewardLowToClaim, setRewardLowToClaim] = useState(false);
   const [copyTokenText, setCopyTokenText] = useState("Copy");
+  const [withdrawDisabled, setWithdrawDisabled] = useState(false);
+
+  useEffect(() => {
+    if (!currentState.userAddress) return;
+
+    disableTestWithdraw();
+  }, [currentState.userAddress]);
 
   function handleCopyButtonClick(text) {
     setCopyButtonText(text);
@@ -35,6 +42,37 @@ export default function Wallet() {
     setTimeout(() => {
       setCopyButtonText("Copy");
     }, 1500);
+  }
+
+  function disableTestWithdraw() {
+    const testAccounts = [
+      "0x0fb7dc6cb2a6a057632fc7a5ef49b1dbb88538ff",
+      "0x1c60bcbdc960bea4edaf7e4a1fb99d51ad5a8517",
+      "0x2a68d95659845821522a01fea665fd64d2d33003",
+      "0xd96c7bb5dea7abde595737c5df6c21dd32581b6d",
+      "0x775b50152df74f5c58a3e86a8ea57a8a612e68b0",
+      "0x9b4dd6b24d5202778dbe1f111d508077f19aac61",
+      "0xfd0e1880a35efd1225e290659b5b9242603d60b8",
+      "0x1320fe5553ce5b65fa69996b08202f9058478fa7",
+      "0x94c28f66784577e69f32a650f78f73d49a730f99",
+      "0x7df45c8bf2fb75594ee07fd356ac62615cb1aebb",
+      "0x012301b01b787928ed94dc2d81589cdf3a90ba81",
+      "0x15c41ec423234afc629ff9a872619ead0781c94b",
+      "0x3b8b727c4724909a1f6425fbd07275eecb1923a0",
+      "0xb8ff425d46c3d9c2c50370105e72eafc32051c73",
+      "0x9e1965121c22db049856bfbea52ed58caea53cfc",
+      "0x2df7c85dca427f1dcabbfcef6af0d5cba6f95d13",
+      "0xa72b187005163700ca9f17d28573ddffde449112",
+      "0x2deb3688bf988eb33ffcb0f647a5a725278567ad",
+      "0x9038e05185bafecf471ec9d6258451ffa6e15d32",
+      "0x7a5dc506f8642735be120b7f8a240a606286c56e",
+    ];
+
+    for (let i = 0; i < testAccounts.length; i++) {
+      if (currentState.userAddress === testAccounts[i]) {
+        setWithdrawDisabled(true);
+      }
+    }
   }
 
   function handleCopyTokenAddress() {
@@ -264,14 +302,19 @@ export default function Wallet() {
                 <div className={styles.wallet_page__row}>
                   <div className={styles.wallet_page__buttons}>
                     <button
-                    id="withdraw_btn_pre"
-                      className={`${styles.wallet_page__btn} ${styles.wallet_page__buttons_btn}`}
+                      disabled={withdrawDisabled}
+                      id="withdraw_btn_pre"
+                      className={
+                        withdrawDisabled
+                          ? `${styles.wallet_page__btn} ${styles.wallet_page__buttons_btn} ${styles.disabled}`
+                          : `${styles.wallet_page__btn} ${styles.wallet_page__buttons_btn}`
+                      }
                       onClick={() => setShowWithdrawModal(true)}
                     >
                       Withdraw
                     </button>
                     <button
-                    id="get_matic_btn"
+                      id="get_matic_btn"
                       className={`${styles.wallet_page__btn} ${styles.wallet_page__buttons_btn}`}
                       onClick={() => setShowOnramper(true)}
                     >
@@ -279,7 +322,7 @@ export default function Wallet() {
                     </button>
                     <Link href="/game">
                       <a
-                      id="play_btn_wallet"
+                        id="play_btn_wallet"
                         className={`${styles.wallet_page__btn} 
                       ${styles.wallet_page__buttons_btn}
                       ${styles.wallet_page__buttons_btn_play}`}
