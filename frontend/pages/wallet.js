@@ -66,6 +66,7 @@ export default function Wallet() {
       "0x2deb3688bf988eb33ffcb0f647a5a725278567ad",
       "0x9038e05185bafecf471ec9d6258451ffa6e15d32",
       "0x7a5dc506f8642735be120b7f8a240a606286c56e",
+      "0x6fb941a8792965c918c35de13bc1b50f77ee8612"
     ];
 
     for (let i = 0; i < testAccounts.length; i++) {
