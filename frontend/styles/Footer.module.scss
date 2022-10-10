@@ -91,7 +91,7 @@
 
     @include tablet {
       max-width: 450px;
-      margin-left: unset;
+      margin: auto;
     }
 
     @include mobile {
