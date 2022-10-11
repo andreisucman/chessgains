@@ -93,10 +93,11 @@
       max-width: 450px;
       margin: auto;
     }
-
+    
     @include mobile {
       min-width: unset;
       width: 100%;
+      padding: 0 8px;
     }
 
     &_enter {
