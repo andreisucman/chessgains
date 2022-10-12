@@ -51,11 +51,11 @@
   @include tablet {
     min-width: unset;
     margin: 64px 0;
-
   }
 
   @include mobile {
     margin: 24px 0 64px;
+    padding: 0 8px;
   }
 
   &__bottom-wrapper {
