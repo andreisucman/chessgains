@@ -25,6 +25,16 @@ export default function FormattedTime({ time }) {
       const days = Math.floor(timeDifference / 86400);
       setFormattedTime(`${days}d`);
     }
+
+    if (timeDifference > 604800) {
+      const weeks = Math.floor(timeDifference / 604800);
+      setFormattedTime(`${weeks}w`);
+    }
+
+    if (timeDifference > 2419200) {
+      const months = Math.floor(timeDifference / 2419200);
+      setFormattedTime(`${months}m`);
+    }
   }, [timeNow]);
 
   useEffect(() => {
