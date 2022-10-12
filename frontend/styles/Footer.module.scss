@@ -53,11 +53,6 @@
     margin: 64px 0;
   }
 
-  @include mobile {
-    margin: 24px 0 64px;
-    padding: 0 8px;
-  }
-
   &__bottom-wrapper {
     display: flex;
     background-color: hsl(39, 7%, 22%);
@@ -68,6 +63,10 @@
   &__list {
     margin: auto;
     width: 100%;
+
+    @include mobile {
+      padding: 0 8px;
+    }
   }
 
   &__item {
@@ -97,7 +96,6 @@
     @include mobile {
       min-width: unset;
       width: 100%;
-      padding: 0 8px;
     }
 
     &_enter {
