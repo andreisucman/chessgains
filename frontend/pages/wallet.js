@@ -47,7 +47,6 @@ export default function Wallet() {
   function disableTestWithdraw() {
     const testAccounts = [
       "0x0fb7dc6cb2a6a057632fc7a5ef49b1dbb88538ff",
-      "0x1c60bcbdc960bea4edaf7e4a1fb99d51ad5a8517",
       "0x2a68d95659845821522a01fea665fd64d2d33003",
       "0xd96c7bb5dea7abde595737c5df6c21dd32581b6d",
       "0x775b50152df74f5c58a3e86a8ea57a8a612e68b0",
