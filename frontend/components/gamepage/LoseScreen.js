@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "../../styles/LoseScreen.module.scss";
-import { COMPUTER_DESCRIPTIONS } from "./Board";
+import { COMPUTER_DESCRIPTIONS, NEW_GAME_BOARD_CONFIG } from "./Board";
 
 export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, settings, setChess }) {
   function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);
+    setChess(NEW_GAME_BOARD_CONFIG);
   }
 
   return (
