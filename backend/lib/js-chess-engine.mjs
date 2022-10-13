@@ -91,12 +91,7 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  let final = level;
-
-  if (final === 4) {
-    final = 3;
-  }
-  return aiMove(config, final);
+  return aiMove(config, level);
 }
 
 export function aiMove(config, level) {

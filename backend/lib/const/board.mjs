@@ -29,35 +29,17 @@ export const AI_DEPTH_BY_LEVEL = {
     2: 2,
     3: 3,
     4: 3,
-    5: 3,
+    5: 4,
   },
   EXTENDED: {
     0: 2,
     1: 2,
-    2: 3,
-    3: 3,
-    4: 3,
-    5: 3,
+    2: 4,
+    3: 4,
+    4: 5,
+    5: 5,
   },
 };
-// export const AI_DEPTH_BY_LEVEL = {
-//   BASE: {
-//     0: 1,
-//     1: 2,
-//     2: 2,
-//     3: 3,
-//     4: 3,
-//     5: 4,
-//   },
-//   EXTENDED: {
-//     0: 2,
-//     1: 2,
-//     2: 4,
-//     3: 4,
-//     4: 5,
-//     5: 5,
-//   },
-// };
 export const NEW_GAME_SETTINGS = {
   fullMove: 1,
   halfMove: 0,
