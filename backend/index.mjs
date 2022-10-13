@@ -19,7 +19,7 @@ server.register(cors, {
   methods: ["GET", "POST", "OPTIONS"],
 });
 
-server.register(import("@fastify/rate-limit"), {
+await server.register(import("@fastify/rate-limit"), {
   global: false,
   max: 1,
   timeWindow: 1000,
@@ -54,7 +54,7 @@ server.post(
     config: {
       rateLimit: {
         max: 1,
-        timeWindow: 20000,
+        timeWindow: "1 minute",
       },
     },
   },
@@ -75,7 +75,7 @@ server.post(
     config: {
       rateLimit: {
         max: 1,
-        timeWindow: 20000,
+        timeWindow: "1 minute",
       },
     },
   },
