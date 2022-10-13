@@ -6,7 +6,7 @@ export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUs
   function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);
-    setChess(NEW_GAME_BOARD_CONFIG);
+    setChess({ ...NEW_GAME_BOARD_CONFIG });
   }
 
   return (
