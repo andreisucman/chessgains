@@ -1,6 +1,6 @@
 import React from "react";
 import ls from "localstorage-slim";
-import { PERSIST_STATE_NAMESPACE } from "../gamepage/Board";
+import { PERSIST_STATE_NAMESPACE, NEW_GAME_BOARD_CONFIG } from "../gamepage/Board";
 import styles from "../../styles/SelectAi.module.scss";
 
 export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSave, chess, setChess }) {
@@ -8,7 +8,7 @@ export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSav
     selectThisAi(aiId);
     setShowSelectAi(false);
     triggerGameSave(aiId);
-    setChess(Object.assign({}, chess, { history: [] }));
+    setChess(NEW_GAME_BOARD_CONFIG);
     ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
       decrypt: true,
     });

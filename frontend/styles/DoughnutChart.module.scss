@@ -2,13 +2,14 @@
 
 .doughnut {
   &__wrapper {
-    position: "relative";
-    width: "90%";
-    max-width: "300px";
-    margin: "auto";
+    position: relative;
+    width: 90%;
+    max-width: 300px;
+    margin: auto;
 
     @include mobile {
-      max-width: "240px";
+      max-width: 240px;
+      margin: auto;
     }
   }
 
