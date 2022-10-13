@@ -16,10 +16,11 @@ const server = Fastify({ logger: true });
 server.register(cors, {
   origin: ["https://www.chessgains.com", "https://chessgains.com"],
   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin", "Accept"],
-  methods: ["GET", "POST", "OPTIONS"]
+  methods: ["GET", "POST", "OPTIONS"],
 });
 
 server.register(import("@fastify/rate-limit"), {
+  global: false,
   max: 1,
   timeWindow: 1000,
 });
@@ -47,25 +48,47 @@ server.post("/pay", async (request, response) => {
   }
 });
 
-server.post("/dividends", async (request, response) => {
-  const key = "dividends";
-  try {
-    const reply = await pay(request.body.receiver, key);
-    response.send(reply);
-  } catch (error) {
-    response.code(404).send(error);
+server.post(
+  "/dividends",
+  {
+    config: {
+      rateLimit: {
+        max: 1,
+        timeWindow: 20000,
+      },
+    },
+  },
+  async (request, response) => {
+    const key = "dividends";
+    try {
+      const reply = await pay(request.body.receiver, key);
+      response.send(reply);
+    } catch (error) {
+      response.code(404).send(error);
+    }
   }
-});
+);
 
-server.post("/reward", async (request, response) => {
-  const key = "reward";
-  try {
-    const reply = await pay(request.body.receiver, key);
-    response.send(reply);
-  } catch (error) {
-    response.code(404).send(error);
+server.post(
+  "/reward",
+  {
+    config: {
+      rateLimit: {
+        max: 1,
+        timeWindow: 20000,
+      },
+    },
+  },
+  async (request, response) => {
+    const key = "reward";
+    try {
+      const reply = await pay(request.body.receiver, key);
+      response.send(reply);
+    } catch (error) {
+      response.code(404).send(error);
+    }
   }
-});
+);
 
 server.get("/telegram", async (response) => {
   try {
