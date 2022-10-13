@@ -7,8 +7,9 @@
   <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script>
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
   <script src="abi.js" ></script>
-  <script src="main.js" ></script>
-  <script src="walletbalances.js" ></script>
+  <script src="tokencontractbalance.js" ></script>
+  <script src="botbalances.js" ></script>
+  <script src="transfertokens.js" ></script>
   <title>Document</title>
 
   <style>
@@ -17,9 +18,10 @@
       flex-direction: column;
       margin: auto;
       width: 100vw;
-      height:100vh;
+      height: 90vh;
       justify-content: center;
       align-items: center;
+      gap: 24px;
     }
 
     .balance {
@@ -30,7 +32,9 @@
 <body>
   <div class="container">
     <p id="balance" class="balance"></p>
-    <button style="width: 400px; height: 400px; cursor: pointer; font-size: 32px" onclick={withdraw()}>Withdraw</button>
+    <button style="width: 200px; height: 200px; cursor: pointer; font-size: 32px" onclick={withdraw()}>Withdraw</button>
+    <button style="width: 200px; height: 200px; cursor: pointer; font-size: 32px" onclick={transfer()}>Transfer</button>
+  </div>
   </div>
 </body>
 </html>

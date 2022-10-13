@@ -112,10 +112,9 @@ Moralis.Cloud.define("getReward", async (request) => {
   let totalEarned = 0;
 
   if (historyResult.length > 0) {
-    totalEarned =
-      historyResult
-        .map((entry) => Number(entry.attributes.earned))
-        .reduce((a, b) => a + b);
+    totalEarned = historyResult
+      .map((entry) => Number(entry.attributes.earned))
+      .reduce((a, b) => a + b);
   }
 
   const RewardsTable = Moralis.Object.extend("Rewards");
@@ -1246,9 +1245,13 @@ Moralis.Cloud.define("payIfTimeUp", async () => {
   historyQuery.descending("createdAt");
   historyQuery.notEqualTo("winAmount", 0);
   const historyQueryResult = await historyQuery.first();
-  
+
   // if a winner has already been chosen within the last 24h return
-  if (timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 < 86000) return;
+  if (
+    timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
+    86000
+  )
+    return;
 
   const difference = payoutTime - timeNow;
 
@@ -1258,5 +1261,68 @@ Moralis.Cloud.define("payIfTimeUp", async () => {
     await Moralis.Cloud.run("saveParticipantsToHistory");
     await Moralis.Cloud.run("deleteParticipants");
     await Moralis.Cloud.run("triggerPayout");
+  }
+});
+
+// update tokens in dividends table after they've been transferred
+Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
+  const confirmed = request.object.get("confirmed");
+
+  if (!confirmed) return;
+
+  const query = new Moralis.Query("PolygonTokenTransfers");
+  query.descending("createdAt");
+  const result = await query.first();
+
+  if (
+    result.attributes.token_address ===
+    "0xb07f84cab9f875cd9296df70c9863f023bbcfaa4"
+  ) {
+    const dividendsQuery = new Moralis.Query("Dividends");
+    dividendsQuery.equalTo("address", result.attributes.to_address);
+    const dividendsResult = await dividendsQuery.first();
+
+    if (dividendsResult) {
+      const currentTokenBalance = dividendsResult.attributes.tokens;
+      const newTokenBalance =
+        Number(currentTokenBalance) + Number(result.attributes.value);
+      dividendsResult.set("tokens", `${newTokenBalance}`);
+      dividendsResult.set("address", `${result.attributes.to_address}`);
+
+      await dividendsResult.save(null, { useMasterKey: true });
+
+      // deduct the balance of the sender
+      const newDividendsQuery = new Moralis.Query("Dividends");
+      newDividendsQuery.equalTo("address", result.attributes.from_address);
+      const newResult = await newDividendsQuery.first();
+
+      const senderCurrentTokenBalance = newResult.attributes.tokens;
+      const senderNewTokenBalance =
+        Number(senderCurrentTokenBalance) - Number(result.attributes.value);
+
+      await newResult.set("tokens", `${senderNewTokenBalance}`);
+      await newResult.save(null, { useMasterKey: true });
+
+    } else {
+
+      const DividendsTable = Moralis.Object.extend("Dividends");
+      const dividendsInstance = new DividendsTable();
+      dividendsInstance.set("tokens", `${result.attributes.value}`);
+      dividendsInstance.set("address", `${result.attributes.to_address}`);
+
+      await dividendsInstance.save(null, { useMasterKey: true });
+
+      // deduct the balance of the sender
+      const newDividendsQuery = new Moralis.Query("Dividends");
+      newDividendsQuery.equalTo("address", result.attributes.from_address);
+      const newResult = await newDividendsQuery.first();
+
+      const senderCurrentTokenBalance = newResult.attributes.tokens;
+      const senderNewTokenBalance =
+        Number(senderCurrentTokenBalance) - Number(result.attributes.value);
+
+      await newResult.set("tokens", `${senderNewTokenBalance}`);
+      await newResult.save(null, { useMasterKey: true });
+    }
   }
 });
