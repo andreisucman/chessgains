@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "../../styles/LoseScreen.module.scss";
 import { COMPUTER_DESCRIPTIONS, NEW_GAME_BOARD_CONFIG } from "./Board";
+import ls from "localstorage-slim";
 
 export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, settings, setChess }) {
   function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);
-    setChess({ ...NEW_GAME_BOARD_CONFIG });
+    setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
   }
 
   return (
