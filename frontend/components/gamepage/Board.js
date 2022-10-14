@@ -105,6 +105,7 @@ export const NEW_GAME_BOARD_CONFIG = {
   isStarted: false,
   playerWon: false,
   sessionId: null,
+  fiftyMovesRule: 0, // turn count
   checkMate: false,
   castling: {
     whiteShort: true,
@@ -113,10 +114,10 @@ export const NEW_GAME_BOARD_CONFIG = {
     blackLong: true,
   },
   score: 0,
+  aiDifficulty: 0, // same turn count
   fullMove: 1,
   halfMove: 0,
-  turnCount: 0,
-  sameTurnCount: 0,
+  gamesPlayed: 0, // same turn count / turn count
   prevConfig: {}
 };
 

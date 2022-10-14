@@ -20,8 +20,10 @@ import WinScreenStepOne from "../components/gamepage/winscreen/StepOne";
 import WinScreenStepTwo from "../components/gamepage/winscreen/StepTwo";
 import LoseScreen from "../components/gamepage/LoseScreen";
 import SelectAi from "../components/gamepage/SelectAi";
+import Cheater from "../components/gamepage/Cheater";
 import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetPrizeTimer } from "../components/ContextProvider";
+import { encrypt } from "../helpers/encryption";
 import ReactLoading from "react-loading";
 
 const API_URIS = {
@@ -35,6 +37,8 @@ const API_URIS = {
 const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base64,${MOVE_SOUND}`) : undefined;
 
 export default function Game() {
+  encrypt();
+
   const { Moralis, isInitialized } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
@@ -78,7 +82,11 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              setShowFinalScreen(1);
+              if (chess.gamesPlayed > 60) {
+                setShowFinalScreen(3)
+              } else {
+                setShowFinalScreen(1);
+              }
             }
           }, 1000);
         } else {
@@ -87,7 +95,7 @@ export default function Game() {
       } else if (!getMoves() && chess.turn === "white") {
         ls.set(
           `${PERSIST_STATE_NAMESPACE}_chess`,
-          Object.assign({}, chess, { isFinished: true, playerWon: false }, { encrypt: true })
+          Object.assign({}, chess, { isFinished: true, playerWon: false, prevConfig: chess }, { encrypt: true })
         );
       }
     };
@@ -185,6 +193,20 @@ export default function Game() {
               settings={settings}
             />
           )}
+          {showFinalScreen === 3 && (
+            <Cheater
+              prizeValueUsd={currentState.prizeValueUsd}
+              prizeValueMatic={currentState.prizeValueMatic}
+              payoutTime={currentState.payoutTime}
+              setShowFinalScreen={setShowFinalScreen}
+              retryGame={handleNewGameClick}
+              chess={chess}
+              setChess={setChess}
+              timer={prizeTimer}
+              showSelectAi={showSelectAi}
+              settings={settings}
+            />
+          )}
           {showSelectAi && (
             <SelectAi
               selectThisAi={handleChangeComputerLevelClick}
@@ -208,9 +230,7 @@ export default function Game() {
         aiLevel: aiId,
       });
       setChess(Object.assign({}, chess, { sessionId }));
-      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), {
-        encrypt: true,
-      });
+      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), { encrypt: true });
     }
   }
 
@@ -244,15 +264,15 @@ export default function Game() {
 
     if (chess.move.from && chess.moves[chess.move.from].includes(field)) {
       chess.move.to = field;
-      setChess({ ...chess });
+      setChess(Object.assign({}, chess, { prevConfig: chess }));
       if (settings.confirmation) {
       } else {
         return performMove(chess.move.from, chess.move.to);
       }
     } else if (chess.moves[field]) {
-      setChess(Object.assign({}, chess, { move: { from: field } }));
+      setChess(Object.assign({}, chess, { move: { from: field }, prevConfig: chess }));
     } else {
-      setChess(Object.assign({}, chess, { move: { from: null } }));
+      setChess(Object.assign({}, chess, { move: { from: null }, prevConfig: chess }));
     }
   }
 
@@ -264,20 +284,9 @@ export default function Game() {
     chess.move.to = to;
     chess.isStarted = true;
 
-    // const pieceToMove = document.querySelector('div[className^="one"]');
-    // const fromSquareEl = chess.move.from;
-    // const toSquareEl = chess.move.to;
-
-    // pieceToMove.style.transition = "transform .5s ease-in-out";
-    // const bcrOld = fromSquareEl.getBoundingClientRect();
-    // const bcrNew = toSquareEl.getBoundingClientRect();
-    // const xpos = bcrNew.left - bcrOld.left;
-    // const ypos = bcrNew.top - bcrOld.top;
-    // pieceToMove.style.transform =
-    // "translate3d(" + xpos + "px, " + ypos + "px, 0px)";
-    // pieceToMove.style.zIndex = "1";
-
-    setChess(Object.assign({}, chess, { move: {} }, await sendRequest(`${API_URIS.MOVE}?from=${from}&to=${to}`)));
+    setChess(
+      Object.assign({}, chess, { move: {} }, await sendRequest(`${API_URIS.MOVE}?from=${from}&to=${to}`), { prevConfig: chess })
+    );
 
     if (settings.sound) {
       moveSound.play();
@@ -304,7 +313,7 @@ export default function Game() {
 
   async function getMoves() {
     const moves = await sendRequest(API_URIS.MOVES);
-    setChess(Object.assign({}, chess, { moves }));
+    setChess(Object.assign({}, chess, { moves, prevConfig: chess }));
     return moves;
   }
 
@@ -323,7 +332,9 @@ export default function Game() {
 
   async function handleNewGameClick() {
     setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }, NEW_GAME_BOARD_CONFIG), {
+      encrypt: true,
+    });
     await getMoves();
   }
 

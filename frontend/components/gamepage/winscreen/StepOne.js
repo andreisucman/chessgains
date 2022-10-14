@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 import ReactLoading from "react-loading";
 import ls from "localstorage-slim";
@@ -34,6 +34,15 @@ export default function WinScreenStepOne({
     setIsLoading(true);
     const normalizedRatio = maticRatio / 10 ** 8;
     const enterFee = Moralis.Units.Token(1 / normalizedRatio, "18");
+
+    // prevent cheaters from getting in
+    const gameQuery = new Moralis.Query("Game");
+    gameQuery.descending("createdAt");
+    gameQuery.equalTo("sessionId", chess.sessionId);
+    const gameResult = await gameQuery.first();
+    const cheatingRatio = gameResult.attributes.cheatingRatio;
+
+    if (cheatingRatio > 60) return;
 
     // save enter fee to use it in the insufficient funds modal
     setEnterFee(enterFee);

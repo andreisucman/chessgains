@@ -84,7 +84,6 @@ export async function move(config, from, to) {
 
   if (config.turn === "white") {
     newConfig = await analyze(config, from, to);
-    console.log("line 86", newConfig);
   } else {
     newConfig = config;
   }
@@ -156,6 +155,7 @@ export async function saveScore(config, sessionId) {
   game.board.configuration.score = score;
   session.set("playerWon", true);
   session.set("score", score);
+  session.set("cheatingRatio", config.gamesPlayed);
 
   await session.save(null, { useMasterKey: true });
   return score;

@@ -14,8 +14,7 @@ const ROUTE_MAP = {
 const server = Fastify({ logger: true });
 
 server.register(cors, {
-  // origin: ["https://www.chessgains.com", "https://chessgains.com"],
-  origin: "*",
+  origin: ["https://www.chessgains.com", "https://chessgains.com"],
   allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Origin", "Accept"],
   methods: ["GET", "POST", "OPTIONS"],
 });
@@ -32,7 +31,6 @@ for (const route in ROUTE_MAP) {
   server.post(route, async (request, response) => {
     try {
       const result = await ROUTE_MAP[route](request.body, ...Object.values(request.query));
-      console.log("line 35 result", await result);
       response.send(await result);
     } catch (error) {
       response.code(404).send(error);

@@ -1215,7 +1215,7 @@ Moralis.Cloud.define("addParticipantWrapper", async () => {
 Moralis.Cloud.define("triggerPayout", async () => {
   Moralis.Cloud.httpRequest({
     method: "POST",
-    url: `https://mighty-tor-18364.herokuapp.com/pay`,
+    url: `https://clownfish-app-ebsko.ondigitalocean.app/pay`,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
