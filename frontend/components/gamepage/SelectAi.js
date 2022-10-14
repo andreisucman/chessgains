@@ -4,14 +4,22 @@ import { PERSIST_STATE_NAMESPACE, NEW_GAME_BOARD_CONFIG } from "../gamepage/Boar
 import styles from "../../styles/SelectAi.module.scss";
 
 export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSave, chess, setChess }) {
-  function handleSelect(aiId) {
+  
+  async function handleSelect(aiId) {
     selectThisAi(aiId);
     setShowSelectAi(false);
     triggerGameSave(aiId);
     setChess(NEW_GAME_BOARD_CONFIG);
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
-      decrypt: true,
+
+    await fetch("https://chessgains.com/api/encrypt", {
+      data: chess,
+      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
+      customParams: { history: [] },
     });
+
+    // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
+    //   encrypt: true,
+    // });
   }
 
   return (

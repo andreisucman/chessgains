@@ -3,12 +3,19 @@ import styles from "../../styles/LoseScreen.module.scss";
 import { COMPUTER_DESCRIPTIONS, NEW_GAME_BOARD_CONFIG } from "./Board";
 import ls from "localstorage-slim";
 
-export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, settings, setChess }) {
-  function handlePlayAgain() {
+export default function LoseScreen({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, settings, chess, setChess }) {
+  async function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);
     setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+
+    await fetch("https://chessgains.com/api/encrypt", {
+      data: chess,
+      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
+      customParams: NEW_GAME_BOARD_CONFIG,
+    });
+
+    // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
   }
 
   return (
