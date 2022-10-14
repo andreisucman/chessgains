@@ -11,7 +11,7 @@ export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSav
     triggerGameSave(aiId);
     setChess(NEW_GAME_BOARD_CONFIG);
 
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }, { prevConfig: chess }), {
       encrypt: true,
     });
   }

@@ -115,6 +115,9 @@ export const NEW_GAME_BOARD_CONFIG = {
   score: 0,
   fullMove: 1,
   halfMove: 0,
+  turnCount: 0,
+  sameTurnCount: 0,
+  prevConfig: {}
 };
 
 export const MOVE_SOUND =
