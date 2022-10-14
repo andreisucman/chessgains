@@ -3,7 +3,7 @@ import encUTF8 from 'crypto-js/enc-utf8';
 import AES from 'crypto-js/aes';
 import ls from "localstorage-slim";
 
-export default async function encrypt(req, res) {
+export async function encrypt(req, res) {
   const data = req.data;
   const namespace = req.namespace;
   const customParams = req.customParams;
@@ -22,7 +22,7 @@ export default async function encrypt(req, res) {
   }
 }
 
-export default async function decrypt(req, res) {
+export async function decrypt(req, res) {
   const namespace = req.namespace;
   const secret = "hello";
 
