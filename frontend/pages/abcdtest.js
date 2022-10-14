@@ -34,7 +34,7 @@ const API_URIS = {
 
 const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base64,${MOVE_SOUND}`) : undefined;
 
-export default function TestGame() {
+export default function Game() {
   const { Moralis, isInitialized } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
@@ -323,7 +323,7 @@ export default function TestGame() {
 
   async function handleNewGameClick() {
     setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [], prevConfig: chess }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, NEW_GAME_BOARD_CONFIG, { history: [], prevConfig: chess }), { encrypt: true });
     await getMoves();
   }
 
