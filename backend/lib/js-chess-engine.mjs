@@ -1,5 +1,8 @@
 import Board from "./Board.mjs";
 import Moralis from "moralis-v1/node.js";
+import { chessAnalysisApi, PROVIDERS } from "chess-analysis-api";
+import { NEW_GAME_BOARD_CONFIG } from "./const/board.mjs";
+import { getFEN } from "./utils.mjs";
 
 export class Game {
   constructor(configuration) {
@@ -51,6 +54,10 @@ export class Game {
   exportJson() {
     return this.board.exportJson();
   }
+
+  exportFEN() {
+    return getFEN(this.board.configuration);
+  }
 }
 
 export function moves(config) {
@@ -75,6 +82,11 @@ export function move(config, from, to) {
   }
   const game = new Game(config);
   game.move(from, to);
+
+  if (config.turn === "white") {
+    analyze(config, from, to);
+  }
+  
   if (typeof config === "object") {
     return game.exportJson();
   } else {
@@ -109,6 +121,14 @@ export function aiMove(config, level) {
   }
 }
 
+export function getFen(config) {
+  if (!config) {
+    throw new Error("Configuration param required.");
+  }
+  const game = new Game(config);
+  return game.exportFEN();
+}
+
 export async function saveScore(config, sessionId) {
   await Moralis.start({
     serverUrl: "https://rfoqdnxrqo9v.usemoralis.com:2053/server",
@@ -134,4 +154,33 @@ export async function saveScore(config, sessionId) {
 
   await session.save(null, { useMasterKey: true });
   return score;
+}
+
+function analyze(config, from, to) {
+  console.log(config);
+  console.log(from+to);
+
+  const data = NEW_GAME_BOARD_CONFIG;
+  const fen = getFen(data);
+
+  chessAnalysisApi
+    .getAnalysis({
+      fen,
+      depth: 15,
+      multipv: 2,
+      excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
+    })
+    .then((result) => {
+      const c = from + to;
+      const allmoves = result.moves
+        .map((entry) => entry.uci)
+        .flat(1);
+      // console.log(result.moves);
+      // console.log(allmoves);
+      // console.log(allmoves.includes(c[0]));
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error(error.message);
+    });
 }
