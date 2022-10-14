@@ -27,7 +27,7 @@ export default function WinScreenStepOne({
   async function handleEntry() {
     await enterLottery();
     setChess(Object.assign(chess, { isFinished: false }));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, chess, { prevConfig: chess }, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: chess }), { encrypt: true });
   }
 
   async function enterLottery() {
