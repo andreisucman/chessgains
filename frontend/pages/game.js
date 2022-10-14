@@ -323,7 +323,7 @@ export default function Game() {
 
   async function handleNewGameClick() {
     setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [], prevConfig: chess }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, NEW_GAME_BOARD_CONFIG, { history: [], prevConfig: chess }), { encrypt: true });
     await getMoves();
   }
 
