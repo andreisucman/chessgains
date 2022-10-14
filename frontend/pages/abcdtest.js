@@ -87,7 +87,7 @@ export default function Game() {
       } else if (!getMoves() && chess.turn === "white") {
         ls.set(
           `${PERSIST_STATE_NAMESPACE}_chess`,
-          Object.assign({}, chess, { isFinished: true, playerWon: false, prevConfig: chess }, { encrypt: true })
+          Object.assign({}, chess, { isFinished: true, playerWon: false }, { encrypt: true })
         );
       }
     };
@@ -207,8 +207,8 @@ export default function Game() {
         userAddress: currentState.userAddress,
         aiLevel: aiId,
       });
-      setChess(Object.assign({}, chess, { sessionId, prevConfig: chess }));
-      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId, prevConfig: chess }), {
+      setChess(Object.assign({}, chess, { sessionId }));
+      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), {
         encrypt: true,
       });
     }
@@ -245,7 +245,6 @@ export default function Game() {
     if (chess.move.from && chess.moves[chess.move.from].includes(field)) {
       chess.move.to = field;
       setChess({ ...chess });
-      // setChess(Object.assign({}, chess, { prevConfig: chess }));
       if (settings.confirmation) {
       } else {
         return performMove(chess.move.from, chess.move.to);
@@ -278,7 +277,7 @@ export default function Game() {
     // "translate3d(" + xpos + "px, " + ypos + "px, 0px)";
     // pieceToMove.style.zIndex = "1";
 
-    setChess(Object.assign({}, chess, { move: {}, prevConfig: chess }, await sendRequest(`${API_URIS.MOVE}?from=${from}&to=${to}`)));
+    setChess(Object.assign({}, chess, { move: {} }, await sendRequest(`${API_URIS.MOVE}?from=${from}&to=${to}`)));
 
     if (settings.sound) {
       moveSound.play();
@@ -305,7 +304,7 @@ export default function Game() {
 
   async function getMoves() {
     const moves = await sendRequest(API_URIS.MOVES);
-    setChess(Object.assign({}, chess, { moves, prevConfig: chess }));
+    setChess(Object.assign({}, chess, { moves }));
     return moves;
   }
 
@@ -323,8 +322,8 @@ export default function Game() {
   }
 
   async function handleNewGameClick() {
-    setChess(Object.assign(chess, { pieces: {} }, { history: [], prevConfig: {} }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, NEW_GAME_BOARD_CONFIG, { history: [], prevConfig: chess }), { encrypt: true });
+    setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
     await getMoves();
   }
 
