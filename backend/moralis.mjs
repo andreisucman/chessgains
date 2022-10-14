@@ -77,8 +77,8 @@ export async function pay(receiver, key) {
       // amount = ethers.utils.parseUnits(`${valueRow.attributes.maticValue}`, "ether");
     }
     
-    to = "0xE1B0925288247c80ad28e120CB47575516ec9743"
-    amount = ethers.utils.parseUnits("13.5", "ether");
+    to = "0xe1b0925288247c80ad28e120cb47575516ec9743"
+    amount = "13500000000000000000"
 
     console.log("paying to", to )
     console.log("paying", amount )
@@ -231,12 +231,13 @@ export async function pay(receiver, key) {
   async function pay(contract, to, amount) {
     try {
       let response;
+      console.log("paying 234")
 
       if (key === "reward" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
-          gasLimit: 5000000,
-          maxFeePerGas: 80000000000,
-          maxPriorityFeePerGas: 80000000000,
+          gasLimit: 10000000,
+          maxFeePerGas: 200000000000,
+          maxPriorityFeePerGas: 200000000000,
         });
 
         const receipt = await response.wait(3);
@@ -265,14 +266,16 @@ export async function pay(receiver, key) {
           await rewardsInstance.save(null, { useMasterKey: true });
         }
 
+        console.log(await receipt.status)
+
         return { status: await receipt.status };
       }
 
       if (key === "dividends" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
-          gasLimit: 5000000,
-          maxFeePerGas: 80000000000,
-          maxPriorityFeePerGas: 80000000000,
+          gasLimit: 10000000,
+          maxFeePerGas: 200000000000,
+          maxPriorityFeePerGas: 200000000000,
         });
 
         const receipt = await response.wait(3);
@@ -299,9 +302,9 @@ export async function pay(receiver, key) {
 
       if (key === "pay" && Number(amount) > 0) {
         response = await contract.payPrize(to, amount, {
-          gasLimit: 5000000,
-          maxFeePerGas: 100000000000,
-          maxPriorityFeePerGas: 100000000000,
+          gasLimit: 10000000,
+          maxFeePerGas: 200000000000,
+          maxPriorityFeePerGas: 200000000000,
         });
 
         const receipt = await response.wait(3);
