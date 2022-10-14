@@ -17,7 +17,7 @@ export default function LoseScreen({
     retryGame();
     setShowFinalScreen(null);
     setChess(Object.assign(chess, { pieces: {} }, { history: [], prevConfig: {} }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [], prevConfig: {} }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, { history: [], prevConfig: {} }, NEW_GAME_BOARD_CONFIG), { encrypt: true });
   }
 
   return (
