@@ -51,6 +51,7 @@ export const NEW_GAME_SETTINGS = {
   check: false,
   currentAiLevel: null,
   turn: COLORS.WHITE,
+  prevConfig: {}
 };
 
 export const NEW_GAME_BOARD_CONFIG = Object.assign(

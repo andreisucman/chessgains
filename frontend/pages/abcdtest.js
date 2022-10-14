@@ -244,8 +244,8 @@ export default function Game() {
 
     if (chess.move.from && chess.moves[chess.move.from].includes(field)) {
       chess.move.to = field;
-      // setChess({ ...chess });
-      setChess(Object.assign({}, chess, { prevConfig: chess }));
+      setChess({ ...chess });
+      // setChess(Object.assign({}, chess, { prevConfig: chess }));
       if (settings.confirmation) {
       } else {
         return performMove(chess.move.from, chess.move.to);

@@ -850,6 +850,8 @@ export default class Board {
       enPassant: this.configuration.enPassant,
       halfMove: this.configuration.halfMove,
       fullMove: this.configuration.fullMove,
+      turnCount: this.configuration.turnCount,
+      sameTurnCount: this.configuration.sameTurnCount,
     };
   }
 

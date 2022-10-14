@@ -80,17 +80,22 @@ export function move(config, from, to) {
   if (!config) {
     throw new Error("Configuration param required.");
   }
-  const game = new Game(config);
-  game.move(from, to);
+
+  let newConfig;
 
   if (config.turn === "white") {
-    analyze(config, from, to);
-  }
-  
-  if (typeof config === "object") {
-    return game.exportJson();
+    newConfig = analyze(config, from, to);
   } else {
-    return game.exportFEN();
+    newConfig = config;
+
+    const game = new Game(newConfig);
+    game.move(from, to);
+
+    if (typeof newConfig === "object") {
+      return game.exportJson();
+    } else {
+      return game.exportFEN();
+    }
   }
 }
 
@@ -157,27 +162,49 @@ export async function saveScore(config, sessionId) {
 }
 
 function analyze(config, from, to) {
-  console.log(config);
-  console.log(from+to);
-
-  const data = NEW_GAME_BOARD_CONFIG;
+  let currentConfig = config;
+  const data = currentConfig.prevConfig;
   const fen = getFen(data);
+  let newConfig = {};
 
   chessAnalysisApi
     .getAnalysis({
       fen,
       depth: 15,
-      multipv: 2,
+      multipv: 1,
       excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
     })
     .then((result) => {
-      const c = from + to;
-      const allmoves = result.moves
-        .map((entry) => entry.uci)
-        .flat(1);
-      // console.log(result.moves);
-      // console.log(allmoves);
-      // console.log(allmoves.includes(c[0]));
+      const c = from.toLowerCase() + to.toLowerCase();
+      const allmoves = result.moves.map((entry) => entry.uci).flat(1);
+      const playerMoves = [];
+      allmoves.forEach((entry) => {
+        if (allmoves.indexOf(entry) % 2 === 0) {
+          playerMoves.push(entry);
+        }
+      });
+
+      if (playerMoves.includes(c)) {
+        newConfig = Object.assign({}, currentConfig, {
+          turnCount: currentConfig.turnCount + 1,
+          sameTurnCount: currentConfig.sameTurnCount + 1,
+        });
+      } else {
+        newConfig = Object.assign({}, currentConfig, { turnCount: currentConfig.turnCount + 1 });
+      }
+
+      console.log("line 196, new config", newConfig)
+      const game = new Game(newConfig);
+      game.move(from, to);
+
+      if (typeof newConfig === "object") {
+        const result = game.exportJson();
+
+        console.log("result at 203", result);
+        return game.exportJson();
+      } else {
+        return game.exportFEN();
+      }
     })
     .catch((error) => {
       console.error(error);
