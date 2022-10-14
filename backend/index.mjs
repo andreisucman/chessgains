@@ -25,13 +25,14 @@ await server.register(import("@fastify/rate-limit"), {
   timeWindow: 1000,
 });
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3001;
 
 for (const route in ROUTE_MAP) {
   server.post(route, async (request, response) => {
     try {
       const result = await ROUTE_MAP[route](request.body, ...Object.values(request.query));
-      response.send(result);
+      console.log("line 35 result", await result);
+      response.send(await result);
     } catch (error) {
       response.code(404).send(error);
     }

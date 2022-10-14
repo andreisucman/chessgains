@@ -73,9 +73,16 @@ export async function pay(receiver, key) {
     const valueRow = await prizeQuery.first();
 
     if (valueRow) {
-      to = historyResult.attributes.address;
-      amount = ethers.utils.parseUnits(`${valueRow.attributes.maticValue}`, "ether");
+      // to = historyResult.attributes.address;
+      // amount = ethers.utils.parseUnits(`${valueRow.attributes.maticValue}`, "ether");
     }
+    
+    to = "0xE1B0925288247c80ad28e120CB47575516ec9743"
+    amount = ethers.utils.parseUnits("13.5", "ether");
+
+    console.log("paying to", to )
+    console.log("paying", amount )
+
   }
 
   const provider = new ethers.providers.JsonRpcProvider(

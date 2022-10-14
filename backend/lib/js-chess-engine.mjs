@@ -1,7 +1,6 @@
 import Board from "./Board.mjs";
 import Moralis from "moralis-v1/node.js";
 import { chessAnalysisApi, PROVIDERS } from "chess-analysis-api";
-import { NEW_GAME_BOARD_CONFIG } from "./const/board.mjs";
 import { getFEN } from "./utils.mjs";
 
 export class Game {
@@ -76,7 +75,7 @@ export function status(config) {
   return game.exportJson();
 }
 
-export function move(config, from, to) {
+export async function move(config, from, to) {
   if (!config) {
     throw new Error("Configuration param required.");
   }
@@ -84,18 +83,19 @@ export function move(config, from, to) {
   let newConfig;
 
   if (config.turn === "white") {
-    newConfig = analyze(config, from, to);
+    newConfig = await analyze(config, from, to);
+    console.log("line 86", newConfig);
   } else {
     newConfig = config;
+  }
 
-    const game = new Game(newConfig);
-    game.move(from, to);
+  const game = new Game(newConfig);
+  game.move(from, to);
 
-    if (typeof newConfig === "object") {
-      return game.exportJson();
-    } else {
-      return game.exportFEN();
-    }
+  if (typeof newConfig === "object") {
+    return game.exportJson();
+  } else {
+    return game.exportFEN();
   }
 }
 
@@ -161,53 +161,46 @@ export async function saveScore(config, sessionId) {
   return score;
 }
 
-function analyze(config, from, to) {
+async function analyze(config, from, to) {
   let currentConfig = config;
-  const data = currentConfig.prevConfig;
+  let data = currentConfig.prevConfig;
+
+  if (currentConfig.fiftyMovesRule === 0) {
+    data = currentConfig;
+  }
+
   const fen = getFen(data);
   let newConfig = {};
 
-  chessAnalysisApi
-    .getAnalysis({
-      fen,
-      depth: 15,
-      multipv: 1,
-      excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
-    })
-    .then((result) => {
-      const c = from.toLowerCase() + to.toLowerCase();
-      const allmoves = result.moves.map((entry) => entry.uci).flat(1);
-      const playerMoves = [];
-      allmoves.forEach((entry) => {
-        if (allmoves.indexOf(entry) % 2 === 0) {
-          playerMoves.push(entry);
-        }
-      });
+  const analysis = await chessAnalysisApi.getAnalysis({
+    fen,
+    depth: 15,
+    multipv: 1,
+    excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
+  });
 
-      if (playerMoves.includes(c)) {
-        newConfig = Object.assign({}, currentConfig, {
-          turnCount: currentConfig.turnCount + 1,
-          sameTurnCount: currentConfig.sameTurnCount + 1,
-        });
-      } else {
-        newConfig = Object.assign({}, currentConfig, { turnCount: currentConfig.turnCount + 1 });
-      }
+  const c = from.toLowerCase() + to.toLowerCase();
+  const allmoves = analysis.moves.map((entry) => entry.uci).flat(1);
+  const playerMoves = [];
 
-      console.log("line 196, new config", newConfig)
-      const game = new Game(newConfig);
-      game.move(from, to);
+  allmoves.forEach((entry) => {
+    if (allmoves.indexOf(entry) % 2 === 0) {
+      playerMoves.push(entry);
+    }
+  });
 
-      if (typeof newConfig === "object") {
-        const result = game.exportJson();
-
-        console.log("result at 203", result);
-        return game.exportJson();
-      } else {
-        return game.exportFEN();
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      throw new Error(error.message);
+  if (playerMoves.includes(c)) {
+    newConfig = Object.assign({}, currentConfig, {
+      fiftyMovesRule: currentConfig.fiftyMovesRule + 1,
+      aiDifficulty: currentConfig.aiDifficulty + 1,
+      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule,
     });
+  } else {
+    newConfig = Object.assign({}, currentConfig, {
+      fiftyMovesRule: currentConfig.fiftyMovesRule + 1,
+      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule,
+    });
+  }
+
+  return newConfig;
 }
