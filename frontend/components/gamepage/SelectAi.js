@@ -11,15 +11,9 @@ export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSav
     triggerGameSave(aiId);
     setChess(NEW_GAME_BOARD_CONFIG);
 
-    await fetch("https://chessgains.com/api/encrypt", {
-      data: chess,
-      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-      customParams: { history: [] },
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
+      encrypt: true,
     });
-
-    // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }), {
-    //   encrypt: true,
-    // });
   }
 
   return (

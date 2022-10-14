@@ -27,14 +27,7 @@ export default function WinScreenStepOne({
   async function handleEntry() {
     await enterLottery();
     setChess(Object.assign(chess, { isFinished: false }));
-
-    await fetch("https://chessgains.com/api/encrypt", {
-      data: chess,
-      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-      customParams: {},
-    });
-
-    // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, chess, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, chess, { encrypt: true });
   }
 
   async function enterLottery() {

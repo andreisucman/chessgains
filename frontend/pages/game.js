@@ -12,6 +12,7 @@ import {
   MOVE_SOUND,
 } from "../components/gamepage/Board";
 import styles from "../styles/game.module.scss";
+import ls from "localstorage-slim";
 import Field from "../components/gamepage/Field";
 import PersistState from "../components/gamepage/PersistState";
 import RightColumn from "../components/gamepage/RightColumn";
@@ -22,7 +23,6 @@ import SelectAi from "../components/gamepage/SelectAi";
 import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetPrizeTimer } from "../components/ContextProvider";
 import ReactLoading from "react-loading";
-import ls from "localstorage-slim";
 
 const API_URIS = {
   MOVES: "moves",
@@ -38,20 +38,8 @@ export default function Game() {
   const { Moralis, isInitialized } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
-
-  const savedSettings = async () =>
-    await fetch("https://chessgains.com/api/decrypt", {
-      namespace: `${PERSIST_STATE_NAMESPACE}_settings`,
-    });
-
-  const savedChess = async () =>
-    await fetch("https://chessgains.com/api/decrypt", {
-      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-    });
-
-  // const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
-  // const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
-
+  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
+  const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
   const [showFinalScreen, setShowFinalScreen] = useState(null);
   const [showSelectAi, setShowSelectAi] = useState(false);
   const [score, setScore] = useState(null);
@@ -97,15 +85,10 @@ export default function Game() {
           setShowFinalScreen(0);
         }
       } else if (!getMoves() && chess.turn === "white") {
-        await fetch("https://chessgains.com/api/encrypt", {
-          data: chess,
-          namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-          customParams: { isFinished: true, playerWon: false },
-        });
-        // ls.set(
-        //   `${PERSIST_STATE_NAMESPACE}_chess`,
-        //   Object.assign({}, chess, { isFinished: true, playerWon: false }, { encrypt: true })
-        // );
+        ls.set(
+          `${PERSIST_STATE_NAMESPACE}_chess`,
+          Object.assign({}, chess, { isFinished: true, playerWon: false }, { encrypt: true })
+        );
       }
     };
     handleScore();
@@ -225,14 +208,9 @@ export default function Game() {
         aiLevel: aiId,
       });
       setChess(Object.assign({}, chess, { sessionId }));
-      await fetch("https://chessgains.com/api/encrypt", {
-        data: chess,
-        namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-        customParams: { sessionId },
+      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), {
+        encrypt: true,
       });
-      // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), {
-      //   encrypt: true,
-      // });
     }
   }
 
@@ -345,12 +323,7 @@ export default function Game() {
 
   async function handleNewGameClick() {
     setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    await fetch("https://chessgains.com/api/encrypt", {
-      data: chess,
-      namespace: `${PERSIST_STATE_NAMESPACE}_chess`,
-      customParams: NEW_GAME_BOARD_CONFIG,
-    });
-    // ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, { history: [] }, NEW_GAME_BOARD_CONFIG, { encrypt: true });
     await getMoves();
   }
 
@@ -359,12 +332,7 @@ export default function Game() {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}${url}`, {
         method: "POST",
-        body: JSON.stringify(
-          await fetch("https://chessgains.com/api/encrypt", {
-            data: chess,
-            justEncrypt: true,
-          })
-        ),
+        body: JSON.stringify(chess),
         headers: { "Content-Type": "application/json" },
       });
       if (res.status !== 200) {
