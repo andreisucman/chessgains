@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../styles/LoseScreen.module.scss";
-import { COMPUTER_DESCRIPTIONS, NEW_GAME_BOARD_CONFIG } from "./Board";
+import { PERSIST_STATE_NAMESPACE, COMPUTER_DESCRIPTIONS, NEW_GAME_BOARD_CONFIG } from "./Board";
 import ls from "localstorage-slim";
 
 export default function LoseScreen({
