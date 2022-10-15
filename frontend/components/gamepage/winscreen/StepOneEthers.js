@@ -46,7 +46,6 @@ export default function WinScreenStepOneEthers({
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
     const gas = await getGasPrice.json();
-    console.log(gas);
 
     const fastPriceInGwei = Moralis.Units.Token(`${gas}`, "9") || 400000000000;
     const ethers = Moralis.web3Library; // get ethers.js library
@@ -101,8 +100,8 @@ export default function WinScreenStepOneEthers({
       async function finalizeRound() {
         await Moralis.Cloud.run("saveParticipantToDB", params);
         await Moralis.Cloud.run("updatePrizeTable", { maticRatio });
-        setChess(Object.assign(chess, { isFinished: false }));
-        ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {} }), { encrypt: true });
+        setChess(Object.assign(chess, { isFinished: false, turn: "white" }));
+        ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {}, turn: "white" }), { encrypt: true });
         setShowFinalScreen(2);
         setIsLoading(false);
       }
