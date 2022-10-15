@@ -19,15 +19,11 @@ export default function WinScreenStepOneEthers({
   engineAbi,
 }) {
   const { Moralis } = useMoralis();
-  const [enterFee, setEnterFee] = useState(0);
+  const [enterFee, setEnterFee] = useState( 1 / (maticRatio / 10 ** 8));
   const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleEntry() {
-    await signWithEthers();
-    setChess(Object.assign(chess, { isFinished: false }));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {} }), { encrypt: true });
-  }
+  console.log(maticBalance)
 
   async function signWithEthers() {
     setIsLoading(true);
@@ -49,14 +45,11 @@ export default function WinScreenStepOneEthers({
 
     if (cheatingRatio > 0.6) return;
 
-    // save enter fee to use it in the insufficient funds modal
-    setEnterFee(enterFee);
-
     // get gas price
-    const getGasPrice = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`
-    );
+    const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
     const gas = await getGasPrice.json();
+    console.log(gas);
+
     const fastPriceInGwei = Moralis.Units.Token(`${gas}`, "9") || 400000000000;
     const ethers = Moralis.web3Library; // get ethers.js library
 
@@ -110,12 +103,17 @@ export default function WinScreenStepOneEthers({
       async function finalizeRound() {
         await Moralis.Cloud.run("saveParticipantToDB", params);
         await Moralis.Cloud.run("updatePrizeTable", { maticRatio });
+        setChess(Object.assign(chess, { isFinished: false }));
+        ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {} }), { encrypt: true });
         setShowFinalScreen(2);
         setIsLoading(false);
       }
+
       finalizeRound();
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
+      setChess(Object.assign(chess, { isFinished: true }));
     }
   }
 
@@ -132,7 +130,7 @@ export default function WinScreenStepOneEthers({
             <DoughnutChart score={score} />
             <h3 className={styles.step_one__rank_text}>of players</h3>
           </div>
-          <button className={styles.step_one__cta} onClick={handleEntry} id="enter_lottery">
+          <button className={styles.step_one__cta} onClick={signWithEthers} id="enter_lottery">
             {!isLoading ? (
               <div className={styles.step_one__cta_div} id="enter_lottery">
                 <div className={styles.step_one__cta_img}></div>

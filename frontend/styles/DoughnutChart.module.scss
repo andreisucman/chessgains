@@ -22,9 +22,5 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-  
-    @include mobile {
-      font-size: 2.5rem;
-    }
   }
 }
