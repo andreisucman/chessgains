@@ -1,7 +1,9 @@
 import Board from "./Board.mjs";
 import Moralis from "moralis-v1/node.js";
-import { chessAnalysisApi, PROVIDERS } from "chess-analysis-api";
+import * as ChessAnalysisApi from "chess-analysis-api";
 import { getFEN } from "./utils.mjs";
+
+const { chessAnalysisApi, PROVIDERS } = ChessAnalysisApi;
 
 export class Game {
   constructor(configuration) {
