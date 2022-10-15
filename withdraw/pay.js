@@ -26,7 +26,8 @@ async function test() {
   const getGasPrice = await fetch(`https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=EHNGM8NFC93N6IBF548SI12D67UTTET4YS`);
   const jsonResult = await getGasPrice.json();
   const fastPrice = jsonResult.result.FastGasPrice;
-  const fastPriceInGwei = ethers.utils.parseUnits(fastPrice, "gwei");
+  const uppedFastPrice = Number(fastPrice) * 1.15;
+  const fastPriceInGwei = ethers.utils.parseUnits(uppedFastPrice, "gwei");
 }
 
 test();
