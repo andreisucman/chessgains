@@ -226,21 +226,21 @@ export async function pay(receiver, key) {
 
   async function pay(contract, to, amount) {
     const getGasPrice = await fetch(
-      `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${POLYGONSCAN_API_KEY}`
+      `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
     );
     const jsonResult = await getGasPrice.json();
     const fastPrice = jsonResult.result.FastGasPrice;
-    const uppedFastPrice = Number(fastPrice) * 1.15;
-    const fastPriceInGwei = ethers.utils.parseUnits(`${uppedFastPrice}`, "gwei");
+    const uppedPrice = Math.trunc(fastPrice * 1.1);
+    const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
 
     try {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
-          gasLimit: 3000000,
-          maxFeePerGas: 1100000000000,
-          maxPriorityFeePerGas: 1100000000000,
+          gasLimit: 10000000,
+          maxFeePerGas: fastPriceInGwei || 490000000000,
+          maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
         });
 
         const receipt = await response.wait(3);
@@ -274,9 +274,9 @@ export async function pay(receiver, key) {
 
       if (key === "dividends" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
-          gasLimit: 3000000,
-          maxFeePerGas: 1100000000000,
-          maxPriorityFeePerGas: 1100000000000,
+          gasLimit: 10000000,
+          maxFeePerGas: fastPriceInGwei || 490000000000,
+          maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
         });
 
         const receipt = await response.wait(3);
@@ -302,73 +302,98 @@ export async function pay(receiver, key) {
       }
 
       if (key === "pay" && Number(amount) > 0) {
-        response = await contract.payPrize(to, amount, {
-          gasLimit: 3000000,
-          maxFeePerGas: 1100000000000,
-          maxPriorityFeePerGas: 1100000000000,
-        });
+        try {
+          response = await contract.payPrize(to, amount, {
+            gasLimit: 10000000,
+            maxFeePerGas: fastPriceInGwei || 490000000000,
+            maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
+          });
+        } catch (err) {
+          console.log(err);
+          throw new Error(err)
+        }
 
-        const receipt = await response.wait(3);
-        sendToTelegram((Number(ethers.utils.formatEther(amount)) * 0.5).toFixed(0));
+        try {
+          const receipt = await response.wait(3);
+          sendToTelegram((Number(ethers.utils.formatEther(amount)) * 0.5).toFixed(0));
 
-        // add payment link and payout time to the winner in the history
-        const historyTable = Moralis.Object.extend("History");
-        const historyQuery = new Moralis.Query(historyTable);
+          // add payment link and payout time to the winner in the history
+          const historyTable = Moralis.Object.extend("History");
+          const historyQuery = new Moralis.Query(historyTable);
 
-        historyQuery.equalTo("address", to);
-        historyQuery.descending("createdAt");
+          historyQuery.equalTo("address", to);
+          historyQuery.descending("createdAt");
 
-        const historyResult = await historyQuery.first();
+          const historyResult = await historyQuery.first();
 
-        historyResult.set("prizeTxLink", await receipt.transactionHash);
-        historyResult.set("payoutTime", Math.trunc(new Date() / 1000));
+          historyResult.set("prizeTxLink", await receipt.transactionHash);
+          historyResult.set("payoutTime", Math.trunc(new Date() / 1000));
 
-        await historyResult.save(null, { useMasterKey: true });
+          await historyResult.save(null, { useMasterKey: true });
+        } catch (err) {
+          console.log(err);
+          throw new Error(err)
+        }
 
         // set prize status to finalized
-        const prizeQuery = new Moralis.Query("Prize");
-        prizeQuery.equalTo("finalized", false);
-        const prizeResult = await prizeQuery.first();
+        try {
+          const prizeQuery = new Moralis.Query("Prize");
+          prizeQuery.equalTo("finalized", false);
+          const prizeResult = await prizeQuery.first();
 
-        if (prizeResult) {
-          prizeResult.set("finalized", true);
-          await prizeResult.save(null, { useMasterKey: true });
+          if (prizeResult) {
+            prizeResult.set("finalized", true);
+            await prizeResult.save(null, { useMasterKey: true });
+          }
+        } catch (err) {
+          console.log(err);
+          throw new Error(err)
         }
 
         // create new prize instance
-        const PrizeTable = Moralis.Object.extend("Prize");
-        const prizeTableInstance = new PrizeTable();
+        try {
+          const PrizeTable = Moralis.Object.extend("Prize");
+          const prizeTableInstance = new PrizeTable();
 
-        prizeTableInstance.set("finalized", false);
-        prizeTableInstance.set("maticValue", 0);
-        prizeTableInstance.set("usdValue", 0);
-        prizeTableInstance.set("unixTime", Math.round(new Date() / 1000 + 86400));
+          prizeTableInstance.set("finalized", false);
+          prizeTableInstance.set("maticValue", 0);
+          prizeTableInstance.set("usdValue", 0);
+          prizeTableInstance.set("unixTime", Math.round(new Date() / 1000 + 86400));
 
-        await prizeTableInstance.save(null, { useMasterKey: true });
-
-        // calculate dividends for all token holders
-        const DividendsTable = Moralis.Object.extend("Dividends");
-        const dividendsQuery = new Moralis.Query(DividendsTable);
-        dividendsQuery.limit(100000);
-
-        const dividendsResult = await dividendsQuery.find();
-
-        if (dividendsResult.length > 0) {
-          const length = dividendsResult.length;
-
-          for (let i = 0; i < length; i++) {
-            const totalDividends = dividendsResult[i].attributes.dividends;
-            const totalTokens = dividendsResult[i].attributes.tokens;
-            const number =
-              Number(totalDividends) +
-              Number(totalTokens / 1000000) * (Number(ethers.utils.formatEther(amount)) * 0.22);
-
-            dividendsResult[i].set("dividends", number);
-            await dividendsResult[i].save(null, { useMasterKey: true });
-          }
+          await prizeTableInstance.save(null, { useMasterKey: true });
+        } catch (err) {
+          console.log(err);
+          throw new Error(err)
         }
 
-        return { status: await receipt.status };
+        // calculate dividends for all token holders
+        try {
+          const DividendsTable = Moralis.Object.extend("Dividends");
+          const dividendsQuery = new Moralis.Query(DividendsTable);
+          dividendsQuery.limit(100000);
+
+          const dividendsResult = await dividendsQuery.find();
+
+          if (dividendsResult.length > 0) {
+            const length = dividendsResult.length;
+
+            for (let i = 0; i < length; i++) {
+              const totalDividends = dividendsResult[i].attributes.dividends;
+              const totalTokens = dividendsResult[i].attributes.tokens;
+              const number =
+                Number(totalDividends) +
+                Number(totalTokens / 1000000) * (Number(ethers.utils.formatEther(amount)) * 0.22);
+
+              dividendsResult[i].set("dividends", number);
+              await dividendsResult[i].save(null, { useMasterKey: true });
+            }
+          }
+
+          return { status: await receipt.status };
+        } catch (err) {
+          console.log(err);
+          throw new Error(err)
+        }
       }
     } catch (error) {
       return JSON.stringify(error);

@@ -85,10 +85,16 @@ export async function move(config, from, to) {
   let newConfig;
 
   if (config.turn === "white") {
+
     newConfig = await analyze(config, from, to);
+
   } else {
+
     newConfig = config;
+
   }
+
+  console.log(newConfig);
 
   const game = new Game(newConfig);
   game.move(from, to);
