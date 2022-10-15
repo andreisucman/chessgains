@@ -19,12 +19,6 @@ module.exports = {
   node: {
     child_process: "empty",
     fs: "empty",
+    readline: "empty"
   },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: "javascript/auto",
-    }),
-  ],
 };
