@@ -3,6 +3,8 @@ import Stats from "../components/Stats";
 import Footer from "../components/Footer";
 
 export default function Winner() {
+
+  
   return (
     <>
       <Head>
