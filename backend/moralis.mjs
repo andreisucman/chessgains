@@ -32,8 +32,6 @@ export async function pay(receiver, key) {
     rewardsQuery.equalTo("address", to);
 
     const rewardsResult = await rewardsQuery.first();
-    rewardsResult.set("pendingTx", true);
-    await rewardsResult.save(null, { useMasterKey: true });
 
     let rewardsWithdrawn = 0;
 
@@ -50,8 +48,6 @@ export async function pay(receiver, key) {
 
     dividendsQuery.equalTo("address", to);
     const dividendsResult = await dividendsQuery.first();
-    dividendsResult.set("pendingTx", true);
-    await dividendsResult.save(null, { useMasterKey: true });
 
     let totalDividends = 0;
     let dividendsWithdrawn = 0;
@@ -233,16 +229,24 @@ export async function pay(receiver, key) {
     const gasPrice = await getGasPrice();
     const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
 
+    console.log("reached 236 gas price", fastPriceInGwei);
     try {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
+        console.log("reached 241 gas price", amount);
         // check if the payout has already been initiated
         const rewardQuery = new Moralis.Query("Rewards");
         rewardQuery.equalTo("address", to);
         const rewardsQueryResult = await rewardsQuery.first();
 
         if (rewardsQueryResult.attributes.pendingTx) return;
+        rewardsQueryResult.set("pendingTx", true);
+        rewardsQueryResult.save(null, { useMasterKey: true });
+
+        console.log("to", to);
+        console.log("amount", amount);
+        console.log("gas", fastPriceInGwei.toString());
 
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
@@ -250,7 +254,10 @@ export async function pay(receiver, key) {
           maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
         });
 
+        console.log("response", response);
+
         const receipt = await response.wait(3);
+        console.log("receipt", receipt);
 
         const RewardsTable = Moralis.Object.extend("Rewards");
         const rewardsQuery = new Moralis.Query(RewardsTable);
@@ -288,6 +295,8 @@ export async function pay(receiver, key) {
         const dividendsQueryCheckResult = await dividendsQueryCheck.first();
 
         if (dividendsQueryCheckResult.attributes.pendingTx) return;
+        dividendsQueryCheckResult.set("pendingTx", true);
+        await dividendsQueryCheckResult.save(null, { useMasterKey: true });
 
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
