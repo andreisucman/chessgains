@@ -1,5 +1,4 @@
 async function pay() {
-
   // await Moralis.start({
   //   serverUrl: "https://rfoqdnxrqo9v.usemoralis.com:2053/server",
   //   appId: "631L5XogDOAuSaMnc8DQjoDTy8sSm0gHVH9ikeEh",
@@ -22,3 +21,12 @@ async function pay() {
     throw new Error(error);
   }
 }
+
+async function test() {
+  const getGasPrice = await fetch(`https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=EHNGM8NFC93N6IBF548SI12D67UTTET4YS`);
+  const jsonResult = await getGasPrice.json();
+  const fastPrice = jsonResult.result.FastGasPrice;
+  const fastPriceInGwei = ethers.utils.parseUnits(fastPrice, "gwei");
+}
+
+test();

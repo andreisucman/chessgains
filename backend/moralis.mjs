@@ -56,7 +56,10 @@ export async function pay(receiver, key) {
       dividendsWithdrawn = dividendsResult.attributes.withdrawn;
     }
 
-    amount = ethers.utils.parseUnits(`${Number(totalDividends) - Number(dividendsWithdrawn)}`, "ether");
+    amount = ethers.utils.parseUnits(
+      `${Number(totalDividends) - Number(dividendsWithdrawn)}`,
+      "ether"
+    );
   }
 
   if (key === "pay") {
@@ -73,16 +76,9 @@ export async function pay(receiver, key) {
     const valueRow = await prizeQuery.first();
 
     if (valueRow) {
-      // to = historyResult.attributes.address;
-      // amount = ethers.utils.parseUnits(`${valueRow.attributes.maticValue}`, "ether");
+      to = historyResult.attributes.address;
+      amount = ethers.utils.parseUnits(`${valueRow.attributes.maticValue}`, "ether");
     }
-    
-    to = "0xe1b0925288247c80ad28e120cb47575516ec9743"
-    amount = "13500000000000000000"
-
-    console.log("paying to", to )
-    console.log("paying", amount )
-
   }
 
   const provider = new ethers.providers.JsonRpcProvider(
@@ -229,15 +225,21 @@ export async function pay(receiver, key) {
   const readableBalance = ethers.utils.formatEther(contractBalance);
 
   async function pay(contract, to, amount) {
+    const getGasPrice = await fetch(
+      `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${POLYGONSCAN_API_KEY}`
+    );
+    const jsonResult = await getGasPrice.json();
+    const fastPrice = jsonResult.result.FastGasPrice;
+    const fastPriceInGwei = ethers.utils.parseUnits(fastPrice, "gwei") || 400000000000;
+
     try {
       let response;
-      console.log("paying 234")
 
       if (key === "reward" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 200000000000,
-          maxPriorityFeePerGas: 200000000000,
+          maxFeePerGas: fastPriceInGwei,
+          maxPriorityFeePerGas: fastPriceInGwei,
         });
 
         const receipt = await response.wait(3);
@@ -266,16 +268,14 @@ export async function pay(receiver, key) {
           await rewardsInstance.save(null, { useMasterKey: true });
         }
 
-        console.log(await receipt.status)
-
         return { status: await receipt.status };
       }
 
       if (key === "dividends" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 200000000000,
-          maxPriorityFeePerGas: 200000000000,
+          maxFeePerGas: fastPriceInGwei,
+          maxPriorityFeePerGas: fastPriceInGwei,
         });
 
         const receipt = await response.wait(3);
@@ -303,8 +303,8 @@ export async function pay(receiver, key) {
       if (key === "pay" && Number(amount) > 0) {
         response = await contract.payPrize(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 200000000000,
-          maxPriorityFeePerGas: 200000000000,
+          maxFeePerGas: fastPriceInGwei,
+          maxPriorityFeePerGas: fastPriceInGwei,
         });
 
         const receipt = await response.wait(3);
