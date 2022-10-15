@@ -156,7 +156,7 @@ export async function saveScore(config, sessionId) {
   game.board.configuration.score = score;
   session.set("playerWon", true);
   session.set("score", score);
-  session.set("cheatingRatio", config.gamesPlayed);
+  session.set("objectAssign", config.gamesPlayed);
 
   await session.save(null, { useMasterKey: true });
   return score;
@@ -166,6 +166,7 @@ async function analyze(config, from, to) {
   let currentConfig = config;
   let data = currentConfig.prevConfig;
 
+  // if total moves is 0
   if (currentConfig.fiftyMovesRule === 0) {
     data = currentConfig;
   }
@@ -192,9 +193,9 @@ async function analyze(config, from, to) {
 
   if (playerMoves.includes(c)) {
     newConfig = Object.assign({}, currentConfig, {
-      fiftyMovesRule: currentConfig.fiftyMovesRule + 1,
-      aiDifficulty: currentConfig.aiDifficulty + 1,
-      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule,
+      fiftyMovesRule: currentConfig.fiftyMovesRule + 1, // represents total moves
+      aiDifficulty: currentConfig.aiDifficulty + 1, // represents concidences
+      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule, // represents cheating ratio
     });
   } else {
     newConfig = Object.assign({}, currentConfig, {

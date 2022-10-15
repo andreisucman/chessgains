@@ -25,9 +25,9 @@ export default function TestEntry() {
     gameQuery.descending("createdAt");
     gameQuery.equalTo("sessionId", chess.sessionId);
     const gameResult = await gameQuery.first();
-    const cheatingRatio = gameResult.attributes.cheatingRatio;
+    const objectAssign = gameResult.attributes.objectAssign;
 
-    if (cheatingRatio > 0.6) return;
+    if (objectAssign > process.env.NEXT_PUBLIC_THRESHOLD) return;
 
     // save enter fee to use it in the insufficient funds modal
     setEnterFee(enterFee);
