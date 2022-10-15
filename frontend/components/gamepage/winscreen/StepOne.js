@@ -42,7 +42,7 @@ export default function WinScreenStepOne({
     const gameResult = await gameQuery.first();
     const cheatingRatio = gameResult.attributes.cheatingRatio;
 
-    if (cheatingRatio > 60) return;
+    if (cheatingRatio > 0.6) return;
 
     // save enter fee to use it in the insufficient funds modal
     setEnterFee(enterFee);
