@@ -83,7 +83,14 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed > 0.60) {
+              // check the level of ai
+              const aiLevelQuery = new Moralis.Query("Game");
+              aiLevelQuery.descending("createdAt")
+              aiLevelQuery.equalTo("sessionId", chess.sessionId);
+              const aiLevelQueryResult = await aiLevelQuery.first();
+              const validNumber = aiLevelQueryResult.attributes.aiLevel;
+
+              if (chess.gamesPlayed >= process.env.NEXT_PUBLIC_THRESHOLD && validNumber > 2) {
                 setShowFinalScreen(3)
               } else {
                 setShowFinalScreen(1);

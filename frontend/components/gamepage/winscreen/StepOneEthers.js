@@ -23,8 +23,6 @@ export default function WinScreenStepOneEthers({
   const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(maticBalance)
-
   async function signWithEthers() {
     setIsLoading(true);
     const normalizedRatio = maticRatio / 10 ** 8;
@@ -41,9 +39,10 @@ export default function WinScreenStepOneEthers({
     gameQuery.descending("createdAt");
     gameQuery.equalTo("sessionId", chess.sessionId);
     const gameResult = await gameQuery.first();
-    const cheatingRatio = gameResult.attributes.cheatingRatio;
+    const objectAssign = gameResult.attributes.objectAssign;
+    const bigNumLibrary = gameResult.attributes.aiLevel; 
 
-    if (cheatingRatio > 0.6) return;
+    if (objectAssign >= process.env.NEXT_PUBLIC_THRESHOLD && bigNumLibrary > 2) return; // Object assign stands for cheting
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
