@@ -98,7 +98,7 @@ export default function Wallet() {
 
     // check if the payout has already been initiated
     const rewardsQuery = new Moralis.Query("Rewards");
-    rewardsQuery.equalsTo("address", currentState.userAddress);
+    rewardsQuery.equalTo("address", currentState.userAddress);
     const rewardsQueryResult = await rewardsQuery.first();
 
     if (rewardsQueryResult.attributes.pendingTx) {
@@ -132,7 +132,7 @@ export default function Wallet() {
 
     // check if the payout has already been initiated
     const dividendsQuery = new Moralis.Query("Dividends");
-    dividendsQuery.equalsTo("address", currentState.userAddress);
+    dividendsQuery.equalTo("address", currentState.userAddress);
     const dividendsQueryResult = await dividendsQuery.first();
 
     if (dividendsQueryResult.attributes.pendingTx) {
