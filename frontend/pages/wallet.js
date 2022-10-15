@@ -257,7 +257,7 @@ export default function Wallet() {
                     }
                     disabled={claimRewardLoading}
                   >
-                    {claimRewardLoading ? <ReactLoading type="spin" color="#F4F0E6" width={30} height={30} /> : "Claim"}
+                    {claimRewardLoading ? <ReactLoading type="spin" color="#F4F0E6" width={26} height={26} /> : "Claim"}
                   </button>
                 </div>
                 <div className={styles.wallet_page__row}>
@@ -295,7 +295,7 @@ export default function Wallet() {
                     }
                     disabled={claimDividendsLoading}
                   >
-                    {claimDividendsLoading ? <ReactLoading type="spin" color="#F4F0E6" width={30} height={30} /> : "Claim"}
+                    {claimDividendsLoading ? <ReactLoading type="spin" color="#F4F0E6" width={26} height={26} /> : "Claim"}
                   </button>
                 </div>
                 <div className={styles.wallet_page__row}>
