@@ -157,7 +157,7 @@ export default function Game() {
               <PersistState settings={settings} chess={chess} />
             </div>
           </div>
-          {showFinalScreen === 1 && (
+          {/* {showFinalScreen === 1 && (
             <WinScreenStepOneEthers
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
@@ -169,8 +169,8 @@ export default function Game() {
               maticRatio={currentState.maticRatio}
               engineAbi={currentState.engineAbi}
             />
-          )}
-          {/* {showFinalScreen === 1 && (
+          )} */}
+          {showFinalScreen === 1 && (
             <WinScreenStepOne
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
@@ -182,7 +182,7 @@ export default function Game() {
               maticRatio={currentState.maticRatio}
               engineAbi={currentState.engineAbi}
             />
-          )} */}
+          )}
           {showFinalScreen === 2 && (
             <WinScreenStepTwo
               prizeValueUsd={currentState.prizeValueUsd}
