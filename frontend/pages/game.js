@@ -83,7 +83,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed >= process.env.NEXT_PUBLIC_THRESHOLD) {
+              if (chess.gamesPlayed >= process.env.NEXT_PUBLIC_TRESHOLD) {
                 setShowFinalScreen(3)
               } else {
                 setShowFinalScreen(1);
