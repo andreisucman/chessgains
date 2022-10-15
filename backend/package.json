@@ -2,6 +2,7 @@
   "name": "chessgains-backend",
   "version": "1.0.2",
   "main": "dist/js-chess-engine.js",
+  "module": "lib/js-chess-engine.mjs",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "node index.mjs",

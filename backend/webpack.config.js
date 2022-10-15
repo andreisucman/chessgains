@@ -19,11 +19,4 @@ module.exports = {
     child_process: "empty",
     fs: "empty",
   },
-  rules: [
-    {
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: "javascript/auto",
-    },
-  ],
 };
