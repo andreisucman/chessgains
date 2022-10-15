@@ -104,6 +104,7 @@ export default function Wallet() {
     if (rewardsQueryResult.attributes.pendingTx) {
       setRewardAlreadyClaimed(true);
       setClaimRewardLoading(false);
+      return;
     }
 
     const response = await methods.allocateReward({ receiver, endpoint });
@@ -138,6 +139,7 @@ export default function Wallet() {
     if (dividendsQueryResult.attributes.pendingTx) {
       setDividendsAlreadyClaimed(true);
       setClaimDividendsLoading(false);
+      return;
     }
 
     const response = await methods.allocateReward({ receiver, endpoint });
@@ -264,7 +266,7 @@ export default function Wallet() {
                       <span className={styles.wallet_page__too_low_to_claim}>Must be at least 0.001 to claim</span>
                     )}
                     {rewardAlreadyClaimed && (
-                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing</span>
+                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing and can take up to 1h</span>
                     )}
                   </p>
                   <button
@@ -305,7 +307,7 @@ export default function Wallet() {
                       <span className={styles.wallet_page__too_low_to_claim}>Must be at least 0.001 to claim</span>
                     )}
                     {dividendsAlreadyClaimed && (
-                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing</span>
+                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing and can take up to 1h</span>
                     )}
                   </p>
                   <button

@@ -230,13 +230,8 @@ export async function pay(receiver, key) {
   const readableBalance = ethers.utils.formatEther(contractBalance);
 
   async function pay(contract, to, amount) {
-    const getGasPrice = await fetch(
-      `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
-    );
-    const jsonResult = await getGasPrice.json();
-    const fastPrice = jsonResult.result.FastGasPrice;
-    const uppedPrice = Math.round(Number(fastPrice) * 1.1);
-    const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
+    const gasPrice = await getGasPrice();
+    const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
 
     try {
       let response;
@@ -287,7 +282,6 @@ export async function pay(receiver, key) {
       }
 
       if (key === "dividends" && Number(amount) > 0) {
-
         // check if the payout has already been initiated
         const dividendsQueryCheck = new Moralis.Query("Dividends");
         dividendsQueryCheck.equalTo("address", to);
