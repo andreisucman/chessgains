@@ -19,11 +19,15 @@ module.exports = {
     child_process: "empty",
     fs: "empty",
   },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto",
+        },
+      ],
+    },
+  },
 };
-
-config.module.rules.push({
-  /*test: /\.extension$/,*/
-  test: /\.mjs$/,
-  include: /node_modules/,
-  type: 'javascript/auto'
-});
