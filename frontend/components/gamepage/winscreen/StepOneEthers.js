@@ -40,9 +40,8 @@ export default function WinScreenStepOneEthers({
     gameQuery.equalTo("sessionId", chess.sessionId);
     const gameResult = await gameQuery.first();
     const objectAssign = gameResult.attributes.objectAssign;
-    const bigNumLibrary = gameResult.attributes.aiLevel; 
 
-    if (objectAssign >= process.env.NEXT_PUBLIC_THRESHOLD && bigNumLibrary > 2) return; // Object assign stands for cheting
+    if (objectAssign >= process.env.NEXT_PUBLIC_THRESHOLD) return; // Object assign stands for cheting
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
