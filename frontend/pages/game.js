@@ -17,6 +17,7 @@ import Field from "../components/gamepage/Field";
 import PersistState from "../components/gamepage/PersistState";
 import RightColumn from "../components/gamepage/RightColumn";
 import WinScreenStepOne from "../components/gamepage/winscreen/StepOne";
+import WinScreenStepOneEthers from "../components/gamepage/winscreen/StepOneEthers";
 import WinScreenStepTwo from "../components/gamepage/winscreen/StepTwo";
 import LoseScreen from "../components/gamepage/LoseScreen";
 import SelectAi from "../components/gamepage/SelectAi";
@@ -157,7 +158,7 @@ export default function Game() {
             </div>
           </div>
           {showFinalScreen === 1 && (
-            <WinScreenStepOne
+            <WinScreenStepOneEthers
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
               score={score}
@@ -169,6 +170,19 @@ export default function Game() {
               engineAbi={currentState.engineAbi}
             />
           )}
+          {/* {showFinalScreen === 1 && (
+            <WinScreenStepOne
+              setShowFinalScreen={setShowFinalScreen}
+              userAddress={currentState.userAddress}
+              score={score}
+              chess={chess}
+              setChess={setChess}
+              PERSIST_STATE_NAMESPACE={PERSIST_STATE_NAMESPACE}
+              maticBalance={currentState.maticBalance}
+              maticRatio={currentState.maticRatio}
+              engineAbi={currentState.engineAbi}
+            />
+          )} */}
           {showFinalScreen === 2 && (
             <WinScreenStepTwo
               prizeValueUsd={currentState.prizeValueUsd}

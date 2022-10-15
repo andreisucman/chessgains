@@ -235,7 +235,7 @@ export async function pay(receiver, key) {
     );
     const jsonResult = await getGasPrice.json();
     const fastPrice = jsonResult.result.FastGasPrice;
-    const uppedPrice = Math.trunc(fastPrice * 1.1);
+    const uppedPrice = Math.round(Number(fastPrice) * 1.1);
     const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
 
     try {
@@ -455,4 +455,14 @@ export async function sendToTelegram(amount = 0) {
   );
 
   return 1;
+}
+
+export async function getGasPrice() {
+  const getGasPrice = await fetch(
+    `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
+  );
+  const jsonResult = await getGasPrice.json();
+  const fastPrice = jsonResult.result.FastGasPrice;
+  const uppedPrice = Math.round(Number(fastPrice) * 1.1);
+  return uppedPrice;
 }

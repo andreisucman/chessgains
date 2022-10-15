@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { move, status, moves, fetchAiLevel, saveScore } from "./lib/js-chess-engine.mjs";
-import { pay, sendToTelegram } from "./moralis.mjs";
+import { pay, sendToTelegram, getGasPrice } from "./moralis.mjs";
 
 const ROUTE_MAP = {
   "/moves": moves,
@@ -98,5 +98,25 @@ server.get("/telegram", async (response) => {
     response.code(404).send(error);
   }
 });
+
+server.get(
+  "/gas",
+  {
+    config: {
+      rateLimit: {
+        max: 10,
+        timeWindow: "1 minute",
+      },
+    },
+  },
+  async (response) => {
+    try {
+      const reply = await getGasPrice();
+      response.send(reply);
+    } catch (error) {
+      response.code(404).send(error);
+    }
+  }
+);
 
 server.listen({ port: PORT, host: "0.0.0.0" });

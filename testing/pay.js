@@ -23,13 +23,11 @@ async function pay() {
 }
 
 async function test() {
-  const getGasPrice = await fetch(`https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=EHNGM8NFC93N6IBF548SI12D67UTTET4YS`);
-  const jsonResult = await getGasPrice.json();
-  const fastPrice = jsonResult.result.FastGasPrice;
-  const uppedPrice = Math.trunc(fastPrice * 4);
-  const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
-
-  console.log((fastPriceInGwei).toString());
+  const getGasPrice = await fetch(
+    `http://localhost:3001/gas`
+  );
+  const gas = await getGasPrice.json();
+  const fastPriceInGwei = ethers.utils.parseUnits(`${gas}`, "gwei");
 }
 
-test();
+// test();
