@@ -28,6 +28,8 @@ export default function Wallet() {
   const [rewardLowToClaim, setRewardLowToClaim] = useState(false);
   const [copyTokenText, setCopyTokenText] = useState("Copy");
   const [withdrawDisabled, setWithdrawDisabled] = useState(false);
+  const [rewardAlreadyClaimed, setRewardAlreadyClaimed] = useState(false);
+  const [dividendsAlreadyClaimed, setDividendsAlreadyClaimed] = useState(false);
 
   useEffect(() => {
     if (!currentState.userAddress) return;
@@ -64,7 +66,7 @@ export default function Wallet() {
       "0xa72b187005163700ca9f17d28573ddffde449112",
       "0x2deb3688bf988eb33ffcb0f647a5a725278567ad",
       "0x9038e05185bafecf471ec9d6258451ffa6e15d32",
-      "0x7a5dc506f8642735be120b7f8a240a606286c56e"
+      "0x7a5dc506f8642735be120b7f8a240a606286c56e",
     ];
 
     for (let i = 0; i < testAccounts.length; i++) {
@@ -94,6 +96,16 @@ export default function Wallet() {
     }
     setClaimRewardLoading(true);
 
+    // check if the payout has already been initiated
+    const rewardsQuery = new Moralis.Query("Rewards");
+    rewardsQuery.equalsTo("address", currentState.userAddress);
+    const rewardsQueryResult = await rewardsQuery.first();
+
+    if (rewardsQueryResult.attributes.pendingTx) {
+      setRewardAlreadyClaimed(true);
+      setClaimRewardLoading(false);
+    }
+
     const response = await methods.allocateReward({ receiver, endpoint });
 
     if ((await response.status) === 200 || (await response.status) === 204) {
@@ -117,6 +129,16 @@ export default function Wallet() {
       return;
     }
     setClaimDividendsLoading(true);
+
+    // check if the payout has already been initiated
+    const dividendsQuery = new Moralis.Query("Dividends");
+    dividendsQuery.equalsTo("address", currentState.userAddress);
+    const dividendsQueryResult = await dividendsQuery.first();
+
+    if (dividendsQueryResult.attributes.pendingTx) {
+      setDividendsAlreadyClaimed(true);
+      setClaimDividendsLoading(false);
+    }
 
     const response = await methods.allocateReward({ receiver, endpoint });
 
@@ -241,6 +263,9 @@ export default function Wallet() {
                     {rewardLowToClaim && (
                       <span className={styles.wallet_page__too_low_to_claim}>Must be at least 0.001 to claim</span>
                     )}
+                    {rewardAlreadyClaimed && (
+                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing</span>
+                    )}
                   </p>
                   <button
                     id="claim_reward_btn"
@@ -278,6 +303,9 @@ export default function Wallet() {
                     <span>{formatNumber(currentState.dividends)} MATIC</span>{" "}
                     {dividendsLowToClaim && (
                       <span className={styles.wallet_page__too_low_to_claim}>Must be at least 0.001 to claim</span>
+                    )}
+                    {dividendsAlreadyClaimed && (
+                      <span className={styles.wallet_page__claim_already_processing}>Your claim is already processing</span>
                     )}
                   </p>
                   <button
@@ -337,7 +365,11 @@ export default function Wallet() {
                 )}
               </div>
             )}
-          {withdrawDisabled && <a className={styles.feedback} target="_blank" rel="noreferrer" href="https://forms.gle/ZRbYJ9i8DAsGC3DR9">Submit feedback</a>}
+            {withdrawDisabled && (
+              <a className={styles.feedback} target="_blank" rel="noreferrer" href="https://forms.gle/ZRbYJ9i8DAsGC3DR9">
+                Submit feedback
+              </a>
+            )}
           </div>
           {showOnramper && <OnramperWidgetContainer setShowOnramper={setShowOnramper} address={currentState.userAddress} />}
         </div>

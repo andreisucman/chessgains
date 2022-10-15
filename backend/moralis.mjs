@@ -32,6 +32,9 @@ export async function pay(receiver, key) {
     rewardsQuery.equalTo("address", to);
 
     const rewardsResult = await rewardsQuery.first();
+    rewardsResult.set("pendingTx", true);
+    await rewardsResult.save(null, { useMasterKey: true });
+
     let rewardsWithdrawn = 0;
 
     if (rewardsResult) {
@@ -47,6 +50,8 @@ export async function pay(receiver, key) {
 
     dividendsQuery.equalTo("address", to);
     const dividendsResult = await dividendsQuery.first();
+    dividendsResult.set("pendingTx", true);
+    await dividendsResult.save(null, { useMasterKey: true });
 
     let totalDividends = 0;
     let dividendsWithdrawn = 0;
@@ -237,6 +242,13 @@ export async function pay(receiver, key) {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
+        // check if the payout has already been initiated
+        const rewardQuery = new Moralis.Query("Rewards");
+        rewardQuery.equalTo("address", to);
+        const rewardsQueryResult = await rewardsQuery.first();
+
+        if (rewardsQueryResult.attributes.pendingTx) return;
+
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
           maxFeePerGas: fastPriceInGwei || 490000000000,
@@ -258,6 +270,7 @@ export async function pay(receiver, key) {
             "withdrawn",
             Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
           );
+          rewardsResult.set("pendingTx", false);
           await rewardsResult.save(null, { useMasterKey: true });
         } else {
           const rewardsInstance = new RewardsTable();
@@ -266,6 +279,7 @@ export async function pay(receiver, key) {
             "withdrawn",
             Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
           );
+          rewardsInstance.set("pendingTx", false);
           await rewardsInstance.save(null, { useMasterKey: true });
         }
 
@@ -273,6 +287,14 @@ export async function pay(receiver, key) {
       }
 
       if (key === "dividends" && Number(amount) > 0) {
+
+        // check if the payout has already been initiated
+        const dividendsQueryCheck = new Moralis.Query("Dividends");
+        dividendsQueryCheck.equalTo("address", to);
+        const dividendsQueryCheckResult = await dividendsQueryCheck.first();
+
+        if (dividendsQueryCheckResult.attributes.pendingTx) return;
+
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
           maxFeePerGas: fastPriceInGwei || 490000000000,
@@ -296,6 +318,7 @@ export async function pay(receiver, key) {
           "withdrawn",
           Number(dividendsWithdrawn) + Number(ethers.utils.formatEther(amount))
         );
+        dividendsResult.set("pendingTx", false);
         await dividendsResult.save(null, { useMasterKey: true });
 
         return { status: await receipt.status };
@@ -310,7 +333,7 @@ export async function pay(receiver, key) {
           });
         } catch (err) {
           console.log(err);
-          throw new Error(err)
+          throw new Error(err);
         }
 
         try {
@@ -332,7 +355,7 @@ export async function pay(receiver, key) {
           await historyResult.save(null, { useMasterKey: true });
         } catch (err) {
           console.log(err);
-          throw new Error(err)
+          throw new Error(err);
         }
 
         // set prize status to finalized
@@ -347,7 +370,7 @@ export async function pay(receiver, key) {
           }
         } catch (err) {
           console.log(err);
-          throw new Error(err)
+          throw new Error(err);
         }
 
         // create new prize instance
@@ -363,7 +386,7 @@ export async function pay(receiver, key) {
           await prizeTableInstance.save(null, { useMasterKey: true });
         } catch (err) {
           console.log(err);
-          throw new Error(err)
+          throw new Error(err);
         }
 
         // calculate dividends for all token holders
@@ -392,7 +415,7 @@ export async function pay(receiver, key) {
           return { status: await receipt.status };
         } catch (err) {
           console.log(err);
-          throw new Error(err)
+          throw new Error(err);
         }
       }
     } catch (error) {
