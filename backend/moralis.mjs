@@ -239,10 +239,8 @@ export async function pay(receiver, key) {
       if (key === "reward" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 4 * 10**11,
-          // maxFeePerGas: fastPriceInGwei || 4 * 10**11,
-          // maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
-          maxPriorityFeePerGas: 4 * 10**11,
+          maxFeePerGas: fastPriceInGwei || 4 * 10**11,
+          maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
         });
 
         const receipt = await response.wait(3);
@@ -277,10 +275,8 @@ export async function pay(receiver, key) {
       if (key === "dividends" && Number(amount) > 0) {
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 4 * 10**11,
-          maxPriorityFeePerGas: 4 * 10**11,
-          // maxFeePerGas: fastPriceInGwei || 4 * 10**11,
-          // maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
+          maxFeePerGas: fastPriceInGwei || 4 * 10**11,
+          maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
         });
 
         const receipt = await response.wait(3);
@@ -308,10 +304,8 @@ export async function pay(receiver, key) {
       if (key === "pay" && Number(amount) > 0) {
         response = await contract.payPrize(to, amount, {
           gasLimit: 10000000,
-          maxFeePerGas: 4 * 10**11,
-          maxPriorityFeePerGas: 4 * 10**11,
-          // maxFeePerGas: fastPriceInGwei || 4 * 10**11,
-          // maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
+          maxFeePerGas: fastPriceInGwei || 4 * 10**11,
+          maxPriorityFeePerGas: fastPriceInGwei || 4 * 10**11,
         });
 
         const receipt = await response.wait(3);
