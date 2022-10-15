@@ -955,7 +955,7 @@ Moralis.Cloud.define("addParticipant", async () => {
     "0xee0831b8e5a2f5d1aa98ef93e96829deceb6c9a1", // A19
     "0xae52ccde29568852663fc576bc4b1eb94edd9067", // A20
     "0x92628567718062ef49e1afb8423bc96882a0ea3e", // A21
-    "0x0E3C02C73De89AE6F0487222d79EC98b4D7e23c7", // A22
+    "0x0e3c02c73de89ae6f0487222d79ec98b4d7e23c7", // A22
     "0x49ebbfe9b1622e4744d14406ed2505e75305f787", // A23
     "0xa8f2b1f01e0f75fe0ae8f620e5a4afc85a6adbba", // A24
     "0x70caa2d9d77f88fa50bdc59af5c0ebf803773ee5", // A25

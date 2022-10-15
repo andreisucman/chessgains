@@ -15,7 +15,7 @@ const OnramperWidgetContainer = dynamic(() => import("../components/OnramperWidg
 });
 
 export default function Wallet() {
-  const { isAuthenticated, isAuthUndefined, isWeb3EnableLoading } = useMoralis();
+  const { isAuthenticated, isAuthUndefined, isWeb3EnableLoading, Moralis } = useMoralis();
   const currentState = useGetCurrentState();
   const methods = useGetMethods();
   const [copyButtonText, setCopyButtonText] = useState("Copy");
