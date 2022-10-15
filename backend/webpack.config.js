@@ -1,14 +1,14 @@
 const path = require("path");
 
 module.exports = {
-  module: {
-    rules: [
-      {
+  build: {
+    extend(config) {
+      config.module.rules.push({
         test: /\.mjs$/,
         include: /node_modules/,
-        type: "javascript/auto"
-      }
-    ] 
+        type: "javascript/auto",
+      });
+    },
   },
   mode: "production",
   entry: "./lib/js-chess-engine.mjs",
