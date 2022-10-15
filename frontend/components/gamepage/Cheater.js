@@ -37,7 +37,7 @@ export default function Cheater({
           <div className={styles.cheater__title_div}>
             <h2 className={styles.cheater__main_title}>We can't let you in this time.</h2>
             <p className={styles.cheater__description}>
-              Your moves coincide with our engines by <b>%{gamesPlayed}</b> Try again using your own judgement.
+              Your moves coincide with our engines by <b>%{Math.trunc(Number(gamesPlayed)) * 100}</b> Try again using your own judgement.
             </p>
           </div>
           <div className={styles.cheater__banner}></div>
