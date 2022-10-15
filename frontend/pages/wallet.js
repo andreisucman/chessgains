@@ -101,7 +101,7 @@ export default function Wallet() {
     rewardsQuery.equalTo("address", currentState.userAddress);
     const rewardsQueryResult = await rewardsQuery.first();
 
-    if (rewardsQueryResult.attributes.pendingTx) {
+    if (rewardsQueryResult && rewardsQueryResult.attributes.pendingTx) {
       setRewardAlreadyClaimed(true);
       setClaimRewardLoading(false);
 
@@ -140,13 +140,13 @@ export default function Wallet() {
     dividendsQuery.equalTo("address", currentState.userAddress);
     const dividendsQueryResult = await dividendsQuery.first();
 
-    if (dividendsQueryResult.attributes.pendingTx) {
+    if (dividendsQueryResult&& dividendsQueryResult.attributes.pendingTx) {
       setDividendsAlreadyClaimed(true);
       setClaimDividendsLoading(false);
 
       setTimeout(() => {
         setDividendsAlreadyClaimed(false);
-      },4000)
+      }, 4000)
       return;
     }
 

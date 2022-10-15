@@ -235,13 +235,21 @@ export async function pay(receiver, key) {
       if (key === "reward" && Number(amount) > 0) {
 
         // check if the payout has already been initiated
-        const rewardQuery = new Moralis.Query("Rewards");
+        const RewardTable = Moralis.Object.extend("Rewaeds");
+        const rewardQuery = new Moralis.Query(RewardTable);
         rewardQuery.equalTo("address", to);
         const rewardQueryResult = await rewardQuery.first();
-        
-        if (rewardQueryResult.attributes.pendingTx) return;
-        rewardQueryResult.set("pendingTx", true);
-        rewardQueryResult.save(null, { useMasterKey: true });
+
+        if (rewardQueryResult && rewardQueryResult.attributes.pendingTx) return;
+
+        if (rewardQueryResult) {
+          rewardQueryResult.set("pendingTx", true);
+          rewardQueryResult.save(null, { useMasterKey: true });
+        } else {
+          const rewardInstance = new RewardTable();
+          rewardInstance.set("pendingTx", true);
+          rewardInstance.set(null, { useMasterKey: true });
+        }
 
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
@@ -282,20 +290,28 @@ export async function pay(receiver, key) {
 
       if (key === "dividends" && Number(amount) > 0) {
         // check if the payout has already been initiated
-        const dividendsQueryCheck = new Moralis.Query("Dividends");
+        const DividendsQueryCheckTable = Moralis.Object.extend("Dividends");
+        const dividendsQueryCheck = new Moralis.Query(DividendsQueryCheckTable);
         dividendsQueryCheck.equalTo("address", to);
         const dividendsQueryCheckResult = await dividendsQueryCheck.first();
-
-        if (dividendsQueryCheckResult.attributes.pendingTx) return;
-        dividendsQueryCheckResult.set("pendingTx", true);
-        await dividendsQueryCheckResult.save(null, { useMasterKey: true });
-
+        
+        if (dividendsQueryCheckResult && dividendsQueryCheckResult.attributes.pendingTx) return;
+        
+        if (dividendsQueryCheckResult) {
+          dividendsQueryCheckResult.set("pendingTx", true);
+          await dividendsQueryCheckResult.save(null, { useMasterKey: true });
+        } else {
+          const dividendsInstance = new DividendsQueryCheckTable();
+          dividendsInstance.set("pendingTx", true);
+          dividendsInstance.save(null, { useMasterKey: true });
+        }
+        
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
           maxFeePerGas: fastPriceInGwei || 490000000000,
           maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
         });
-
+        
         const receipt = await response.wait(3);
 
         const DividendsTable = Moralis.Object.extend("Dividends");
