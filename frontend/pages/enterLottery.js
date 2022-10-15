@@ -7,6 +7,8 @@ export default function TestEntry() {
   const contractProcessor = useWeb3ExecuteFunction();
 
   async function signWithEthers() {
+    const normalizedRatio = currentState.maticRatio / 10 ** 8;
+    const enterFee = Moralis.Units.Token(1 / normalizedRatio, "18");
     // get gas price
     const getGasPrice = await fetch(
       `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
@@ -14,8 +16,7 @@ export default function TestEntry() {
     const jsonResult = await getGasPrice.json();
     const fastPrice = jsonResult.result.FastGasPrice;
     const uppedPrice = Math.trunc(fastPrice * 1.1);
-    const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
-
+    const fastPriceInGwei = Moralis.Units.Token(`${uppedPrice}`, "9");
 
     const ethers = Moralis.web3Library; // get ethers.js library
     const web3Provider = await Moralis.enableWeb3(); // Get ethers.js web3Provider
@@ -23,19 +24,28 @@ export default function TestEntry() {
 
     const signer = web3Provider.getSigner();
 
-    // wMATIC token on Mumbai
     const contract = new ethers.Contract(
       process.env.NEXT_PUBLIC_ENGINE_ADDRESS,
       currentState.engineAbi.abi,
       signer
     );
 
-    const transaction = await contract.deposit({
+    const transaction = await contract.enter({
       value: enterFee,
       gasLimit: 10000000,
       gasPrice: fastPriceInGwei,
     });
-    await transaction.wait();
+
+    try {
+      await transaction.wait();
+
+    } catch (err) {
+      if (err.code === -32603) {
+        setIsLoading(false);
+        setShowInsufficientBalance(true);
+      }
+      console.log(err);
+    }
   }
 
   async function enterLottery() {
