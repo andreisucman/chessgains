@@ -17,7 +17,7 @@ import Field from "../components/gamepage/Field";
 import PersistState from "../components/gamepage/PersistState";
 import RightColumn from "../components/gamepage/RightColumn";
 import WinScreenStepOne from "../components/gamepage/winscreen/StepOne";
-import WinScreenStepOneEthers from "../components/gamepage/winscreen/StepOneEthers";
+import WinScreenStepOneEthers from "../components/gamepage/winscreen/StepOne";
 import WinScreenStepTwo from "../components/gamepage/winscreen/StepTwo";
 import LoseScreen from "../components/gamepage/LoseScreen";
 import SelectAi from "../components/gamepage/SelectAi";
@@ -83,7 +83,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed >= 0.75) {
+              if (chess.gamesPlayed >= Number(process.env.NEXT_PUBLIC_TRESHOLD)) {
                 setShowFinalScreen(3)
               } else {
                 setShowFinalScreen(1);
@@ -157,7 +157,7 @@ export default function Game() {
               <PersistState settings={settings} chess={chess} />
             </div>
           </div>
-          {/* {showFinalScreen === 1 && (
+          {showFinalScreen === 1 && (
             <WinScreenStepOneEthers
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
@@ -169,8 +169,8 @@ export default function Game() {
               maticRatio={currentState.maticRatio}
               engineAbi={currentState.engineAbi}
             />
-          )} */}
-          {showFinalScreen === 1 && (
+          )}
+          {/* {showFinalScreen === 1 && (
             <WinScreenStepOne
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
@@ -182,7 +182,7 @@ export default function Game() {
               maticRatio={currentState.maticRatio}
               engineAbi={currentState.engineAbi}
             />
-          )}
+          )} */}
           {showFinalScreen === 2 && (
             <WinScreenStepTwo
               prizeValueUsd={currentState.prizeValueUsd}
