@@ -27,7 +27,8 @@ async function test() {
   const jsonResult = await getGasPrice.json();
   const fastPrice = jsonResult.result.FastGasPrice;
   const uppedFastPrice = Number(fastPrice) * 1.15;
-  const fastPriceInGwei = ethers.utils.parseUnits(uppedFastPrice, "gwei");
+  const fastPriceInGwei = ethers.utils.parseUnits(`${uppedFastPrice}`, "gwei");
+  console.log(fastPriceInGwei)
 }
 
 test();
