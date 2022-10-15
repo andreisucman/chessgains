@@ -104,6 +104,10 @@ export default function Wallet() {
     if (rewardsQueryResult.attributes.pendingTx) {
       setRewardAlreadyClaimed(true);
       setClaimRewardLoading(false);
+
+      setTimeout(() => {
+        setRewardAlreadyClaimed(false);
+      },4000)
       return;
     }
 
@@ -139,6 +143,10 @@ export default function Wallet() {
     if (dividendsQueryResult.attributes.pendingTx) {
       setDividendsAlreadyClaimed(true);
       setClaimDividendsLoading(false);
+
+      setTimeout(() => {
+        setDividendsAlreadyClaimed(false);
+      },4000)
       return;
     }
 
