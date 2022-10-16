@@ -340,10 +340,10 @@ export default function Game() {
   }
 
   async function handleNewGameClick() {
-    setChess(Object.assign(chess, { pieces: {}, turn: "white", history: [] }, NEW_GAME_BOARD_CONFIG));
+    setChess(Object.assign(chess, { pieces: {}, turn: "white" }, NEW_GAME_BOARD_CONFIG, { history: [] }));
     ls.set(
       `${PERSIST_STATE_NAMESPACE}_chess`,
-      Object.assign({}, chess, { pieces: {}, turn: "white", history: [] }, NEW_GAME_BOARD_CONFIG),
+      Object.assign({}, chess, { pieces: {}, turn: "white" }, NEW_GAME_BOARD_CONFIG, { history: [] }),
       {
         encrypt: true,
       }
