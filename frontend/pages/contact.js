@@ -53,7 +53,7 @@ export default function Contact() {
             <ul className={styles.contact__info_list}>
               <li className={styles.contact__info_item_faster}>
                 For faster replies ask your questions in our{" "}
-                <a className={styles.contact__info_link} href="https://t.me/+2ZBq14Vm3FA2OGIx" target="_blank" rel="noreferrer">
+                <a className={styles.contact__info_link} href="https://telegram.me/+2ZBq14Vm3FA2OGIx" target="_blank" rel="noreferrer">
                   Telegram group
                 </a>
               </li>

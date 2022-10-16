@@ -529,12 +529,9 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    Buying Matic with a credit card is a service offered by{" "}
-                    <Link href="https://www.onramper.com" target="_blank">
-                      onramper.com
-                    </Link>{" "}
-                    - a web3 payment processor aggregator. This means that the credit card information flows directly to the
-                    payment processor without being stored in our database.
+                    Buying Matic with a credit card is a service offered by onramper.com - a web3 payment processor aggregator.
+                    This means that the credit card information flows directly to the payment processor without being stored in
+                    our database.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
 import styles from "../styles/legal.module.scss";
+import Link from "next/link";
 
 export default function Privacy() {
   return (
@@ -23,7 +24,9 @@ export default function Privacy() {
               would like to make a complaint, please contact us by e-mail at <b>info@chessgains.com</b> or by mail at the address
               provided below:
             </p>
-            <p className={`${styles.legal__paragraph} ${styles.legal__paragraph_address}`}>SUNCHAIN LTD, 128 City Road, London, EC1V 2NX</p>
+            <p className={`${styles.legal__paragraph} ${styles.legal__paragraph_address}`}>
+              SUNCHAIN LTD, 128 City Road, London, EC1V 2NX
+            </p>
             <p className={styles.legal__sub_title}>Collecting Information</p>
             <p className={styles.legal__paragraph_less_bottom}>
               When you visit the Site, we collect certain information about your device, your interaction with the Site, and
@@ -309,7 +312,7 @@ export default function Privacy() {
               controls, often found in your browser's "Tools" or "Preferences" menu. For more information on how to modify your
               browser settings or how to block, manage or filter cookies can be found in your browser's help file or through the
               sites like{" "}
-              <a href="www.allaboutcookies.org" target="_blank" rel="noreferrer" className={styles.legal__link}>
+              <a href="https://www.allaboutcookies.org" target="_blank" rel="noreferrer" className={styles.legal__link}>
                 this.
               </a>
             </p>

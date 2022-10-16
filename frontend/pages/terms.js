@@ -46,7 +46,7 @@ export default function Terms() {
             </p>
             <ul className={styles.legal__list}>
               <li className={styles.legal__item}>
-                Heroku.com (a.k.a. Salesforce Inc.) – provides us with the architecture for running our game-related server
+                Digital Ocean LLC – provides us with the architecture for running our game-related server
                 processes.
               </li>
               <li className={styles.legal__item}>
