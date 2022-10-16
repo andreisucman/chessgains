@@ -25,7 +25,7 @@ export default function Menu({ openMenu, toggleMenu, menuRef }) {
             </Link>
           </li>
           <li className={`${styles.dropdownmenu__item}`}>
-            <Link href="/faq">
+            <Link href="/faq/#question1">
               <div className={`${styles.dropdownmenu__link}`} onClick={() => toggleMenu(false)}>
                 <div className={`${styles.dropdownmenu__faq_ico}`}></div>F.A.Q
               </div>

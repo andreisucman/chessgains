@@ -2,6 +2,7 @@ import Link from "next/link";
 import Head from "next/head";
 import styles from "../styles/FAQ.module.scss";
 import Footer from "../components/Footer";
+import YoutubeEmbed from "../components/YoutubeIEmbed";
 
 export default function FAQPage() {
   return (
@@ -33,10 +34,11 @@ export default function FAQPage() {
                   <p className={styles.accordion__paragraph}>
                     Lastly, we placed limitations that reject the scores obtained under unrealistic circumstances.
                   </p>
-                  <p className={styles.accordion__paragraph}>
+                  <p className={`${styles.accordion__paragraph} ${styles.accordion__paragraph_bottom_16}`}>
                     We can't disclose these limitations due to obvious reasons, but if we suspect a participant of cheating we
                     deny his access to the lottery immediately.
                   </p>
+                  <YoutubeEmbed videoId={"te8tAxay-M8"} title={"Can you cheat at chessgains.com?"} />
                 </div>
               </div>
               <div className={styles.accordion__item} id="question2">
