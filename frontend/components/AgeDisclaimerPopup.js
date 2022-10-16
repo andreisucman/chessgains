@@ -5,10 +5,11 @@ import styles from "../styles/AgeDisclaimerPopup.module.scss";
 export default function AgeDisclaimerPopup() {
   const savedConsent = ls.get("chessgains_age_disclaimer");
   const [showModal, setShowModal] = useState(false);
+  const [underEighteen, setUnderEighteen] = useState(false);
 
   useEffect(() => {
     setShowModal(savedConsent ? false : true);
-  }, [])
+  }, []);
 
   function handleConsent() {
     ls.set("chessgains_age_disclaimer", true);
@@ -23,18 +24,26 @@ export default function AgeDisclaimerPopup() {
             <div className={styles.age_disclaimer_popup__body}>
               <p className={styles.age_disclaimer_popup__title}>Warning</p>
               <p className={styles.age_disclaimer_popup__text}>
-                This website is intended for users over 18 years old. If your age is under 18 you must leave this site
-                immediately.{" "}
+                {!underEighteen ? (
+                  <span>
+                    This website is intended for users over 18 years old. If your age is under 18 you must leave this site
+                    immediately.
+                  </span>
+                ) : (
+                  <span>
+                    Sorry, you can't access this website at the moment. Come when you're 18.
+                  </span>
+                )}
               </p>
             </div>
-            <div className={styles.age_disclaimer_popup__buttons}>
+            {!underEighteen && <div className={styles.age_disclaimer_popup__buttons}>
               <button className={styles.age_disclaimer_popup__button} onClick={handleConsent}>
                 I&apos;m over 18
               </button>
-              <a className={styles.age_disclaimer_popup__button} href="https://google.com" rel="noreferrer">
+              <button className={styles.age_disclaimer_popup__button} onClick={() => setUnderEighteen(true)}>
                 I&apos;m under 18
-              </a>
-            </div>
+              </button>
+            </div>}
           </div>
         </section>
       )}

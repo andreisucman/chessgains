@@ -7,11 +7,7 @@ export default function AgeDisclaimer() {
         <div className={styles.age_disclaimer__body}>
           <div className={styles.age_disclaimer__ico}></div>
           <p className={styles.age_disclaimer__text}>
-            This website is intended for users over 18 years old. If your age is under 18 you must{" "}
-            <a className={styles.age_disclaimer__leave} href="https://google.com" rel="noreferrer">
-              leave immediately
-            </a>
-            .{" "}
+            This website is intended for users over 18 years old. If your age is under 18 you must leave immediately .{" "}
           </p>
         </div>
       </div>
