@@ -55,7 +55,7 @@ export default function Game() {
     if (!isAuthenticated && !isAuthUndefined) {
       router.push("/");
     }
-  }, [isAuthenticated, isAuthUndefined])
+  }, [isAuthenticated, isAuthUndefined]);
 
   const [chess, setChess] = useState(
     savedChess && typeof savedChess === "object"
@@ -91,7 +91,7 @@ export default function Game() {
             setScore(await serverScore);
             if (serverScore) {
               if (chess.gamesPlayed >= 0.75) {
-                setShowFinalScreen(3)
+                setShowFinalScreen(3);
               } else {
                 setShowFinalScreen(1);
               }
@@ -339,10 +339,14 @@ export default function Game() {
   }
 
   async function handleNewGameClick() {
-    setChess(Object.assign(chess, { pieces: {} }, { history: [] }, NEW_GAME_BOARD_CONFIG));
-    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { history: [] }, NEW_GAME_BOARD_CONFIG), {
-      encrypt: true,
-    });
+    setChess(Object.assign(chess, { pieces: {}, turn: "white", history: [] }, NEW_GAME_BOARD_CONFIG));
+    ls.set(
+      `${PERSIST_STATE_NAMESPACE}_chess`,
+      Object.assign({}, chess, { pieces: {}, turn: "white", history: [] }, NEW_GAME_BOARD_CONFIG),
+      {
+        encrypt: true,
+      }
+    );
     await getMoves();
   }
 
