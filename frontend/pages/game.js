@@ -16,7 +16,6 @@ import ls from "localstorage-slim";
 import Field from "../components/gamepage/Field";
 import PersistState from "../components/gamepage/PersistState";
 import RightColumn from "../components/gamepage/RightColumn";
-import WinScreenStepOne from "../components/gamepage/winscreen/StepOne";
 import WinScreenStepOneEthers from "../components/gamepage/winscreen/StepOne";
 import WinScreenStepTwo from "../components/gamepage/winscreen/StepTwo";
 import LoseScreen from "../components/gamepage/LoseScreen";
@@ -26,6 +25,7 @@ import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetPrizeTimer } from "../components/ContextProvider";
 import { encrypt } from "../helpers/encryption";
 import ReactLoading from "react-loading";
+import { useRouter } from "next/router";
 
 const API_URIS = {
   MOVES: "moves",
@@ -40,7 +40,7 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 export default function Game() {
   encrypt();
 
-  const { Moralis, isInitialized } = useMoralis();
+  const { Moralis, isInitialized, isAuthenticated } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
   const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
@@ -49,6 +49,13 @@ export default function Game() {
   const [showSelectAi, setShowSelectAi] = useState(false);
   const [score, setScore] = useState(null);
   const [refreshValue, setRefreshValue] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated])
 
   const [chess, setChess] = useState(
     savedChess && typeof savedChess === "object"
@@ -170,19 +177,6 @@ export default function Game() {
               engineAbi={currentState.engineAbi}
             />
           )}
-          {/* {showFinalScreen === 1 && (
-            <WinScreenStepOne
-              setShowFinalScreen={setShowFinalScreen}
-              userAddress={currentState.userAddress}
-              score={score}
-              chess={chess}
-              setChess={setChess}
-              PERSIST_STATE_NAMESPACE={PERSIST_STATE_NAMESPACE}
-              maticBalance={currentState.maticBalance}
-              maticRatio={currentState.maticRatio}
-              engineAbi={currentState.engineAbi}
-            />
-          )} */}
           {showFinalScreen === 2 && (
             <WinScreenStepTwo
               prizeValueUsd={currentState.prizeValueUsd}
