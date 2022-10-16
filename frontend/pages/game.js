@@ -40,7 +40,7 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 export default function Game() {
   encrypt();
 
-  const { Moralis, isInitialized, isAuthenticated } = useMoralis();
+  const { Moralis, isInitialized, isAuthenticated, isAuthUndefined } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
   const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
@@ -52,10 +52,10 @@ export default function Game() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !isAuthUndefined) {
       router.push("/");
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, isAuthUndefined])
 
   const [chess, setChess] = useState(
     savedChess && typeof savedChess === "object"
