@@ -474,6 +474,11 @@ Moralis.Cloud.job("addParticipantJob", () => {
   return run();
 });
 
+Moralis.Cloud.job("finalizeSession", () => {
+  const run = async () => await Moralis.Cloud.run("payIfTimeUp");
+  return run();
+});
+
 Moralis.Cloud.define("addParticipant", async () => {
   const shouldRun = Math.random() < 0.4;
 
@@ -934,12 +939,12 @@ Moralis.Cloud.define("addParticipant", async () => {
   // #region select a participant address and private key
 
   const addresses = [
-    // "0xbec04a84a8a5c160e8378e1e42e4eec168450949", // A1
-    // "0x0cd8422663c1895d4fe22f34d4eef413e58f1e89", // A2
-    // "0x533f5256b67ed9305843187f9cde6708a3072f30", // A3
-    // "0xdf3de5613c85ec2f12e2e8bbbdb73a22c28ce71c", // A4
-    // "0x448a9216e03efd10e923829a7618f83df6421cf9", // A5
-    // "0x6ad2f1232066ed2519a40574d57ce885720e9f58", // A6
+    "0xbec04a84a8a5c160e8378e1e42e4eec168450949", // A1
+    "0x0cd8422663c1895d4fe22f34d4eef413e58f1e89", // A2
+    "0x533f5256b67ed9305843187f9cde6708a3072f30", // A3
+    "0xdf3de5613c85ec2f12e2e8bbbdb73a22c28ce71c", // A4
+    "0x448a9216e03efd10e923829a7618f83df6421cf9", // A5
+    "0x6ad2f1232066ed2519a40574d57ce885720e9f58", // A6
     "0xabe356e8746a92235de3e96d5559c5ee8d499d90", // A7
     "0x9b7195167fc54e0ee02dd46dd7784ef9be74ca2c", // A8
     "0x172be842c193f1a84ed837a13f983fef6bdb5425", // A9
@@ -967,12 +972,12 @@ Moralis.Cloud.define("addParticipant", async () => {
   ];
 
   const privateKeys = [
-    // "7f55b486f136b4d84f783432ee038be8298dfcb6ba9bd3a3390d39cbc0242767",
-    // "e55bd1d841d398007dd401877fe838d1561305fc2df4ce5a5d36da6547328576",
-    // "a7e15faba1c94f76a22f28de26f8065e64d0de3293c6d089dcaeab08adaec146",
-    // "13402972eb65258565ef758dae6f5bfb90ae5056439d424353276e127dfbc1f7",
-    // "f0f7eb6bf9abd6f27d9a38bf1ae6b71081874b010dea40057c54cd0171e3536a",
-    // "20524f916eb0736f0684cebd93a1161cfee02fd018c06b35fe8d40c313e87ba8",
+    "7f55b486f136b4d84f783432ee038be8298dfcb6ba9bd3a3390d39cbc0242767",
+    "e55bd1d841d398007dd401877fe838d1561305fc2df4ce5a5d36da6547328576",
+    "a7e15faba1c94f76a22f28de26f8065e64d0de3293c6d089dcaeab08adaec146",
+    "13402972eb65258565ef758dae6f5bfb90ae5056439d424353276e127dfbc1f7",
+    "f0f7eb6bf9abd6f27d9a38bf1ae6b71081874b010dea40057c54cd0171e3536a",
+    "20524f916eb0736f0684cebd93a1161cfee02fd018c06b35fe8d40c313e87ba8",
     "94fbc4462c78b57632cf48e9d19b0f260080c25c0152ce9f9941e918a31efd98",
     "79907c30bdbe49ce1b4a1a0e672fe39835ae2383b5ca0cdd2e95a367348ae9bc",
     "cce62c02bc19362836aecf982fcbfd8252adf4d03f8bab5343a972a5e12ebbe3",
