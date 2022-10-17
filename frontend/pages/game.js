@@ -91,7 +91,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed >= 0.75) {
+              if (chess.gamesPlayed >= 0.8) {
                 setShowFinalScreen(3);
               } else {
                 setShowFinalScreen(1);
