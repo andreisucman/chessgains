@@ -1,6 +1,12 @@
+@import './mixins.scss';
+
 .trustpilot {
   padding: 48px;
   transition: all 1s;
+
+  @include tablet {
+    padding: 0 0 72px;
+  }
 
   &:hover {
     transform: scale(1.1);
