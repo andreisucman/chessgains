@@ -1,0 +1,28 @@
+.trustpilot {
+  padding: 48px;
+  transition: all 1s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &_link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  &_logo {
+    width: 40px;
+    height: 40px;
+    background-image: url("../public/assets/trustpilot.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &_text {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+}

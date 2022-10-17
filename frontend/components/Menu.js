@@ -39,6 +39,18 @@ export default function Menu({ openMenu, toggleMenu, menuRef }) {
               </div>
             </Link>
           </li>
+          <li className={`${styles.dropdownmenu__item}`}>
+            <a
+              className={`${styles.dropdownmenu__link}`}
+              onClick={() => toggleMenu(false)}
+              href="https://uk.trustpilot.com/review/chessgains.com"
+              target="_blank"
+              rel="noopener"
+            >
+              <div className={`${styles.dropdownmenu__trustpilot_ico}`}></div>
+              Trustpilot
+            </a>
+          </li>
         </ul>
       </div>
     </section>

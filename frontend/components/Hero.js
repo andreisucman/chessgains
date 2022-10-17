@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import { useMoralis } from "react-moralis";
 import { useGetMethods } from "./ContextProvider";
 import { useRouter } from "next/router";
+import Trustpilot from "./Trustpilot";
 
 export default function Hero({ howItWorksRef }) {
   const { isWeb3EnableLoading, isAuthenticated } = useMoralis();

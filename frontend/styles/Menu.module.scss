@@ -62,7 +62,7 @@
     align-items: center;
   }
 
-  &__wallet_ico, &__docs_ico, &__faq_ico, &__contact_ico {
+  &__wallet_ico, &__docs_ico, &__faq_ico, &__contact_ico, &__trustpilot_ico {
     width: 100%;
     height: 96px;
     max-height: 40px;
@@ -83,6 +83,10 @@
 
   &__contact_ico {
     background-image: url("../public/assets/menu_icons/contact.svg");
+  }
+
+  &__trustpilot_ico {
+    background-image: url("../public/assets/trustpilot.svg");
   }
 
   &_hidden {

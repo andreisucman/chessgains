@@ -8,6 +8,7 @@ import HowItWorks from "../components/HowItWorks";
 import Stats from "../components/Stats";
 import Explanation from "../components/Explanation";
 import StayNotified from "../components/StayNotified";
+import Trustpilot from "../components/Trustpilot";
 import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetMethods } from "../components/ContextProvider";
 import { useGetPrizeTimer } from "../components/ContextProvider";
@@ -36,6 +37,7 @@ export default function Home() {
         gRefresh={currentState.gRefresh}
       />
       <HowItWorks howItWorksRef={howItWorksRef} />
+      <Trustpilot />
       <Stats gRefresh={currentState.gRefresh} />
       <Explanation />
       <StayNotified />
