@@ -108,8 +108,8 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  // return aiMove(config, level);
-  return getStockFishMove(config, level);
+  return aiMove(config, level);
+  // return getStockFishMove(config, level);
 }
 
 export function aiMove(config, level) {
