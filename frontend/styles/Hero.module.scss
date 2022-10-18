@@ -24,11 +24,10 @@
   @include tablet {
     min-width: unset;
     margin: 64px 0;
-
   }
 
   @include mobile {
-    margin: 32px 0 64px;
+    margin: 48px 0 64px;
   }
 
   &__bottom-wrapper {
