@@ -108,17 +108,17 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  return aiMove(config, level);
-  // return getStockFishMove(config, level);
+  // return aiMove(config, level);
+  return getStockFishMove(config, level);
 }
 
 export function aiMove(config, level) {
   if (!config) {
     throw new Error("Configuration param required.");
   }
-  const game = new Game(config);
 
-  const move = game.board.calculateAiMove(config, level);
+  const game = new Game(config);
+  const move = game.board.calculateAiMove(level);
 
   if (move) {
     return { [move.from]: move.to };
