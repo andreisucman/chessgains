@@ -108,7 +108,8 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  return aiMove(config, level);
+  // return aiMove(config, level);
+  return getStockFishMove(config, level);
 }
 
 export function aiMove(config, level) {
@@ -117,7 +118,7 @@ export function aiMove(config, level) {
   }
   const game = new Game(config);
 
-  const move = game.board.calculateAiMove(level);
+  const move = game.board.calculateAiMove(config, level);
 
   if (move) {
     return { [move.from]: move.to };
@@ -125,6 +126,54 @@ export function aiMove(config, level) {
     return {};
   }
 }
+
+export async function getStockFishMove(config, level) {
+  const game = new Game(config);
+  const fen = getFen(config);
+  let stockFishLevel = 1;
+
+  switch (Number(level)) {
+    case 1:
+      stockFishLevel = 2;
+      break;
+    case 2:
+      stockFishLevel = 3;
+      break;
+    case 3:
+      stockFishLevel = 5;
+      break;
+    case 4:
+      stockFishLevel = 8;
+      break;
+    default:
+      stockFishLevel = 1;
+  }
+
+  const analysis = await chessAnalysisApi.getAnalysis({
+    fen,
+    depth: stockFishLevel,
+    multipv: 1,
+    excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
+  });
+
+  const allMoves = analysis.moves.map((entry) => entry.uci).flat(1);
+  const aiMoves = [];
+
+  allMoves.forEach((entry) => {
+    if (allMoves.indexOf(entry) % 2 === 0) {
+      aiMoves.push(entry);
+    }
+  });
+
+  const from = aiMoves[0].slice(0, 2);
+  const to = aiMoves[0].slice(2, 4);
+
+  if (from && to) {
+    return { [from]: to };
+  } else {
+    return {};
+  }
+};
 
 export function getFen(config) {
   if (!config) {
@@ -177,7 +226,7 @@ async function analyze(config, from, to) {
   const analysis = await chessAnalysisApi.getAnalysis({
     fen,
     depth: 15,
-    multipv: 2,
+    multipv: 1,
     excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
   });
 

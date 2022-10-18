@@ -25,31 +25,36 @@ export const COMPUTER_DESCRIPTIONS = {
     name: "Gamma",
     desc: "Knows how to move the pieces, but confuses their importance.",
     score: "50",
-    image: gamma_img
+    image: gamma_img,
+    elo: "~800",
   },
   1: {
     name: "Delta",
     desc: "Considers the importance of the pieces but doesn't have a strategy.",
     score: "75",
-    image: delta_img
+    image: delta_img,
+    elo: "~1000",
   },
   2: {
     name: "Beta",
     desc: "Has a basic strategy, but doesn't think about the future.",
     score: "110",
-    image: beta_img
+    image: beta_img,
+    elo: "~1400",
   },
   3: {
     name: "Alpha",
     desc: "Plays like a well trained chess player.",
     score: "160",
-    image: alpha_img
+    image: alpha_img,
+    elo: "~1700",
   },
   4: {
     name: "Omega",
     desc: "Rumors go that he taught Magnus Carlsen chess.",
     score: "225",
-    image: omega_img
+    image: omega_img,
+    elo: "~2200",
   },
 }
 

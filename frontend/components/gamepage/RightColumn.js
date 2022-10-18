@@ -70,7 +70,7 @@ export default function RightColumn(props) {
         <b className={styles.card__heading}>History</b>
         <div className={styles.history__data}>
           {chess.history.map((record) => {
-            return ` ${record.from}-${record.to} `;
+            return ` ${(record.from).toUpperCase()}-${(record.to).toUpperCase()} `;
           })}
         </div>
       </div>
@@ -84,6 +84,7 @@ export default function RightColumn(props) {
               <strong>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</strong>
             </div>
             <div className={styles.level__ai_desc}>{COMPUTER_DESCRIPTIONS[settings.computerLevel].desc}</div>
+            <div className={styles.level__ai_score}>ELO: {COMPUTER_DESCRIPTIONS[settings.computerLevel].elo}</div>
             <div className={styles.level__ai_score}>Base score: {COMPUTER_DESCRIPTIONS[settings.computerLevel].score}</div>
           </div>
           <Image src={COMPUTER_DESCRIPTIONS[settings.computerLevel].image} objectFit="contain" />

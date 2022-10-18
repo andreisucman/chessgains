@@ -22,7 +22,7 @@ server.register(cors, {
 await server.register(import("@fastify/rate-limit"), {
   global: false,
   max: 1,
-  timeWindow: 1000,
+  timeWindow: 1250,
 });
 
 const PORT = process.env.PORT || 3001;
