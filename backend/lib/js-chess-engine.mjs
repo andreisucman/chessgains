@@ -108,8 +108,11 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  return aiMove(config, level);
-  // return getStockFishMove(config, level);
+  if (level < 3) {
+    return aiMove(config, level);
+  } else {
+    return getStockFishMove(config, level);
+  }
 }
 
 export function aiMove(config, level) {
@@ -128,22 +131,15 @@ export function aiMove(config, level) {
 }
 
 export async function getStockFishMove(config, level) {
-  const game = new Game(config);
   const fen = getFen(config);
   let stockFishLevel = 1;
 
   switch (Number(level)) {
-    case 1:
+    case 3:
       stockFishLevel = 1;
       break;
-    case 2:
-      stockFishLevel = 2;
-      break;
-    case 3:
-      stockFishLevel = 3;
-      break;
     case 4:
-      stockFishLevel = 4;
+      stockFishLevel = 2;
       break;
     default:
       stockFishLevel = 1;
@@ -169,7 +165,7 @@ export async function getStockFishMove(config, level) {
   const to = aiMoves[0].slice(2, 4);
 
   if (from && to) {
-    return { [from]: to };
+    return { [from.toUpperCase()]: to.toUpperCase() };
   } else {
     return {};
   }
