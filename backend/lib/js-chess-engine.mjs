@@ -140,10 +140,10 @@ export async function getStockFishMove(config, level) {
       stockFishLevel = 3;
       break;
     case 3:
-      stockFishLevel = 5;
+      stockFishLevel = 4;
       break;
     case 4:
-      stockFishLevel = 8;
+      stockFishLevel = 7;
       break;
     default:
       stockFishLevel = 1;
