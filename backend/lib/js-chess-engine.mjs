@@ -177,7 +177,7 @@ async function analyze(config, from, to) {
   const analysis = await chessAnalysisApi.getAnalysis({
     fen,
     depth: 15,
-    multipv: 2,
+    multipv: 1,
     excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
   });
 
