@@ -846,7 +846,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    Our next major milestone is to reach 10000 monthly lottery players.{" "}
+                    Our next major milestone is to reach 1000 monthly lottery players.{" "}
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
