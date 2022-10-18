@@ -321,27 +321,27 @@ export default function ContextProvider({ children }) {
   }
   // #endregion
 
-  // #region trigger payout and reward/dividend allocation - DISABLED
-  // useEffect(() => {
-  //   if (isInitialized && seconds < 0) {
-  //     Moralis.Cloud.run("payIfTimeUp");
-  //   }
-  // }, [seconds, isInitialized]);
+  // #region trigger payout and reward/dividend allocation
+  useEffect(() => {
+    if (isInitialized && seconds < 0) {
+      Moralis.Cloud.run("payIfTimeUp");
+    }
+  }, [seconds, isInitialized]);
 
-  // async function allocateReward({ receiver, endpoint }) {
-  //   try {
-  //     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}${endpoint}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json;charset=utf-8",
-  //       },
-  //       body: JSON.stringify({ receiver }),
-  //     });
-  //     return response;
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // }
+  async function allocateReward({ receiver, endpoint }) {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({ receiver }),
+      });
+      return response;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   // #endregion
 
   // #region save data to context
