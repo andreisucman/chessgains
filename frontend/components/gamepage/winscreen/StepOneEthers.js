@@ -41,7 +41,7 @@ export default function WinScreenStepOneEthers({
     const gameResult = await gameQuery.first();
     const objectAssign = gameResult.attributes.objectAssign;
 
-    if (objectAssign >= 0.8) return; // Object assign stands for cheting
+    if (objectAssign >= 0.85) return; // Object assign stands for cheting
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);

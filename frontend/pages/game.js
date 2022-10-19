@@ -39,13 +39,13 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 
 export default function Game() {
   encrypt();
-  // console.clear();
+  console.clear();
 
   const { Moralis, isInitialized, isAuthenticated, isAuthUndefined } = useMoralis();
   const currentState = useGetCurrentState();
   const prizeTimer = useGetPrizeTimer();
-  // const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
-  // const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
+  const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
+  const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
   const [showFinalScreen, setShowFinalScreen] = useState(null);
   const [showSelectAi, setShowSelectAi] = useState(false);
   const [score, setScore] = useState(null);
@@ -58,18 +58,15 @@ export default function Game() {
     }
   }, [isAuthenticated, isAuthUndefined]);
 
-  const [chess, setChess] = useState({ ...NEW_GAME_BOARD_CONFIG });
+  const [chess, setChess] = useState(
+    savedChess && typeof savedChess === "object"
+      ? Object.assign({}, NEW_GAME_BOARD_CONFIG, savedChess)
+      : { ...NEW_GAME_BOARD_CONFIG }
+  );
 
-  // const [chess, setChess] = useState(
-  //   savedChess && typeof savedChess === "object"
-  //     ? Object.assign({}, NEW_GAME_BOARD_CONFIG, savedChess)
-  //     : { ...NEW_GAME_BOARD_CONFIG }
-  // );
-
-  const [settings, setSettings] = useState({ ...SETTINGS });
-  // const [settings, setSettings] = useState(
-  //   savedSettings && typeof savedSettings === "object" ? Object.assign({}, SETTINGS, savedSettings) : { ...SETTINGS }
-  // );
+  const [settings, setSettings] = useState(
+    savedSettings && typeof savedSettings === "object" ? Object.assign({}, SETTINGS, savedSettings) : { ...SETTINGS }
+  );
 
   const [loading, setLoading] = useState(false);
   const board = getBoard();
@@ -94,7 +91,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed >= 0.8) {
+              if (chess.gamesPlayed >= 0.85) {
                 setShowFinalScreen(3);
               } else {
                 setShowFinalScreen(1);
