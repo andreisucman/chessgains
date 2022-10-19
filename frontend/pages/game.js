@@ -140,7 +140,7 @@ export default function Game() {
               {!showSelectAi && showFinalScreen !== 0 ? (
                 <div className={styles.ai_status}>
                   <span>{COMPUTER_DESCRIPTIONS[settings.computerLevel].name}</span>
-                  {chess.turn === COLORS.BLACK && !showFinalScreen ? (
+                  {chess.turn === COLORS.BLACK && !showFinalScreen && !chess.isFinished ? (
                     <ReactLoading type="spin" color="#F4F0E6" width={20} height={20} />
                   ) : (
                     <div className={styles.ai_status__checkmark}></div>
