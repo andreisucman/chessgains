@@ -1331,3 +1331,33 @@ Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
     }
   }
 });
+
+// this functon checks for cheating
+Moralis.Cloud.define("enableSound", async (request) => {
+  const data = request.params.data;
+
+  const GameTable = Moralis.Object.extend("Game");
+  const gameQuery = new Moralis.Query(GameTable);
+  gameQuery.descending("createdAt");
+  gameQuery.equalTo("sessionId", data.sessionId);
+  const gameResult = await gameQuery.first();
+
+  const conincidenceRatio = gameResult.attributes.objectAssign;
+  const avgToAvgFlag = data.avgToAvgFlag;
+  const medianToMedianFlag = data.medianToMedianFlag;
+  const avgToMedianFlag = data.avgToMedianFlag;
+
+  let block = false;
+
+  if (conincidenceRatio > 0.65 && avgToAvgFlag && avgToMedianFlag && medianToMedianFlag) {
+    block = true;
+  }
+  if (conincidenceRatio > 0.75 && medianToMedianFlag && (avgToMedianFlag || avgToAvgFlag)) {
+    block = true;
+  }
+  if (conincidenceRatio > 0.85 && medianToMedianFlag || (avgToMedianFlag && avgToAvgFlag)) {
+    block = true;
+  }
+
+  return block;
+});

@@ -169,7 +169,7 @@ export async function getStockFishMove(config, level) {
   } else {
     return {};
   }
-};
+}
 
 export function getFen(config) {
   if (!config) {
@@ -208,13 +208,127 @@ export async function saveScore(config, sessionId) {
 }
 
 async function analyze(config, from, to) {
-  let currentConfig = config;
+  const currentConfig = config;
   let data = currentConfig.prevConfig;
 
   // if total moves is 0
   if (currentConfig.fiftyMovesRule === 0) {
     data = currentConfig;
   }
+
+  //#region flag checking
+
+  // determine the boundaries
+  const thirtyPercentBoundary = Math.floor((currentConfig.moveTimes.length - 1) * 0.3);
+  const sixtyPercentBoundary = Math.floor((currentConfig.moveTimes.length - 1) * 0.6);
+  const ninetyPercentBoundary = currentConfig.moveTimes.length - 1;
+
+  const thirtyDifferences = [];
+  const sixtyDifferences = [];
+  const ninetyDifferences = [];
+
+  let thirtyAverage;
+  let sixtyAverage;
+  let ninetyAverage;
+
+  let thirtyMedian;
+  let sixtyMedian;
+  let ninetyMedian;
+
+  // calculate the differences in times between the moves
+  for (let i = ninetyPercentBoundary; i > sixtyPercentBoundary; i--) {
+    const difference = currentConfig.moveTimes[i] - currentConfig.moveTimes[i - 1];
+    ninetyDifferences.push(difference);
+  }
+
+  for (let i = sixtyPercentBoundary; i > thirtyPercentBoundary; i--) {
+    const difference = currentConfig.moveTimes[i] - currentConfig.moveTimes[i - 1];
+    sixtyDifferences.push(difference);
+  }
+
+  for (let i = thirtyPercentBoundary; i > 0; i--) {
+    const difference = currentConfig.moveTimes[i] - currentConfig.moveTimes[i - 1];
+    thirtyDifferences.push(difference);
+  }
+
+  // sort time differences ascending
+  thirtyDifferences.sort((a, b) => a - b);
+  sixtyDifferences.sort((a, b) => a - b);
+  ninetyDifferences.sort((a, b) => a - b);
+
+  // calculate the average thinking times
+  if (thirtyDifferences.length > 0) {
+    thirtyAverage = thirtyDifferences.reduce((a, b) => a + b) / thirtyDifferences.length;
+  }
+
+  if (sixtyDifferences.length > 0) {
+    sixtyAverage = sixtyDifferences.reduce((a, b) => a + b) / sixtyDifferences.length;
+  }
+
+  if (ninetyDifferences.length > 0) {
+    ninetyAverage = ninetyDifferences.reduce((a, b) => a + b) / ninetyDifferences.length;
+  }
+
+  // calculate the median thinking times
+  if (thirtyDifferences.length % 2 !== 0) {
+    thirtyMedian = thirtyDifferences[(thirtyDifferences.length + 1) / 2];
+  } else {
+    thirtyMedian =
+      (thirtyDifferences[thirtyDifferences.length / 2] +
+        thirtyDifferences[thirtyDifferences.length / 2 + 1]) /
+      2;
+  }
+
+  if (sixtyDifferences.length % 2 !== 0) {
+    sixtyMedian = sixtyDifferences[(sixtyDifferences.length + 1) / 2];
+  } else {
+    sixtyMedian =
+      (sixtyDifferences[sixtyDifferences.length / 2] +
+        sixtyDifferences[sixtyDifferences.length / 2 + 1]) /
+      2;
+  }
+
+  if (ninetyDifferences.length % 2 !== 0) {
+    ninetyMedian = ninetyDifferences[(ninetyDifferences.length + 1) / 2];
+  } else {
+    ninetyMedian =
+      (ninetyDifferences[ninetyDifferences.length / 2] +
+        ninetyDifferences[ninetyDifferences.length / 2 + 1]) /
+      2;
+  }
+
+  // calculate cheating flags
+  let avgToAvgFlag = false;
+  let medianToMedianFlag = false;
+  let avgToMedianFlag = false;
+
+  // check if the average thinking time during the first, second, and third quarters varies enough
+  let caseOne =
+    Math.abs(thirtyAverage - sixtyAverage) <= ((thirtyAverage + sixtyAverage) / 2) * 0.15;
+  let caseTwo =
+    Math.abs(thirtyAverage - ninetyAverage) <= ((thirtyAverage + ninetyAverage) / 2) * 0.15;
+  let caseThree =
+    Math.abs(sixtyAverage - ninetyAverage) <= ((sixtyAverage + ninetyAverage) / 2) * 0.15;
+
+  if ((caseOne && caseTwo) || (caseOne && caseThree) || (caseTwo && caseThree)) avgToAvgFlag = true;
+
+  // check if the median thinking time during the first, second, and third quarters varies enough
+  caseOne = Math.abs(thirtyMedian - sixtyMedian) <= ((thirtyMedian + sixtyMedian) / 2) * 0.15;
+  caseTwo = Math.abs(thirtyMedian - ninetyMedian) <= ((thirtyMedian + ninetyMedian) / 2) * 0.15;
+  caseThree = Math.abs(thirtyMedian - ninetyMedian) <= ((thirtyMedian + ninetyMedian) / 2) * 0.15;
+
+  if ((caseOne && caseTwo) || (caseOne && caseThree) || (caseTwo && caseThree))
+    medianToMedianFlag = true;
+
+  // check if the difference between average and median thinking time during varies enough
+  caseOne = Math.abs(thirtyAverage - thirtyMedian) <= ((thirtyAverage + thirtyMedian) / 2) * 0.15;
+  caseTwo = Math.abs(sixtyAverage - sixtyMedian) <= ((sixtyAverage + sixtyMedian) / 2) * 0.15;
+  caseThree = Math.abs(ninetyAverage - ninetyMedian) <= ((ninetyAverage + ninetyMedian) / 2) * 0.15;
+
+  if ((caseOne && caseTwo) || (caseOne && caseThree) || (caseTwo && caseThree))
+    avgToMedianFlag = true;
+
+  //#endregion
 
   const fen = getFen(data);
   let newConfig = {};
@@ -241,11 +355,19 @@ async function analyze(config, from, to) {
       fiftyMovesRule: currentConfig.fiftyMovesRule + 1, // represents total moves
       aiDifficulty: currentConfig.aiDifficulty + 1, // represents concidences
       gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule, // represents cheating ratio
+      moveTimes: [...currentConfig.moveTimes, Math.floor(new Date() / 1000)],
+      avgToAvgFlag,
+      medianToMedianFlag,
+      avgToMedianFlag,
     });
   } else {
     newConfig = Object.assign({}, currentConfig, {
       fiftyMovesRule: currentConfig.fiftyMovesRule + 1,
       gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule,
+      moveTimes: [...currentConfig.moveTimes, Math.floor(new Date() / 1000)],
+      avgToAvgFlag,
+      medianToMedianFlag,
+      avgToMedianFlag,
     });
   }
 

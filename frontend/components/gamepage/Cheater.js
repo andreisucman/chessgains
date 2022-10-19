@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../../styles/Cheater.module.scss";
-import { NEW_GAME_BOARD_CONFIG } from "./Board";
+import { NEW_GAME_BOARD_CONFIG, PERSIST_STATE_NAMESPACE } from "./Board";
 import ls from "localstorage-slim";
 
 export default function Cheater({
@@ -15,7 +15,7 @@ export default function Cheater({
 
   const [gamesPlayed, setGamesPlayed] = useState(0);
 
-  const data = ls.get("chessgains_chess", { decrypt: true, secret: "data:audio/wav;base64" });
+  const data = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true, secret: "data:audio/wav;base64" });
 
   useEffect(() => {
     setGamesPlayed(data.gamesPlayed);
@@ -37,7 +37,7 @@ export default function Cheater({
           <div className={styles.cheater__title_div}>
             <h2 className={styles.cheater__main_title}>We can't let you in this time.</h2>
             <p className={styles.cheater__description}>
-              Your moves coincide with our engines by <b>%{(gamesPlayed * 100).toFixed(0)}</b>. Try again using your own judgement.
+              Our anti-cheat system flagged this game by several parameters. Try again using your own judgement.
             </p>
           </div>
           <div className={styles.cheater__banner}></div>

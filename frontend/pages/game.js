@@ -39,7 +39,7 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 
 export default function Game() {
   encrypt();
-  console.clear();
+  // console.clear();
 
   const { Moralis, isInitialized, isAuthenticated, isAuthUndefined } = useMoralis();
   const currentState = useGetCurrentState();
@@ -58,12 +58,14 @@ export default function Game() {
     }
   }, [isAuthenticated, isAuthUndefined]);
 
+  // const [chess, setChess] = useState({ ...NEW_GAME_BOARD_CONFIG });
   const [chess, setChess] = useState(
     savedChess && typeof savedChess === "object"
       ? Object.assign({}, NEW_GAME_BOARD_CONFIG, savedChess)
       : { ...NEW_GAME_BOARD_CONFIG }
   );
 
+  // const [settings, setSettings] = useState({ ...SETTINGS });
   const [settings, setSettings] = useState(
     savedSettings && typeof savedSettings === "object" ? Object.assign({}, SETTINGS, savedSettings) : { ...SETTINGS }
   );
@@ -91,7 +93,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (chess.gamesPlayed >= 0.85) {
+              if (await Moralis.Cloud.run("enableSound", { data: chess})) {
                 setShowFinalScreen(3);
               } else {
                 setShowFinalScreen(1);
@@ -231,16 +233,14 @@ export default function Game() {
   );
 
   async function triggerGameSave(aiId) {
-    if (!chess.sessionId) {
-      const sessionId = generateRandomId();
-      await Moralis.Cloud.run("saveNewGame", {
-        sessionId,
-        userAddress: currentState.userAddress,
-        aiLevel: aiId,
-      });
-      setChess(Object.assign({}, chess, { sessionId }));
-      ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), { encrypt: true });
-    }
+    const sessionId = generateRandomId();
+    await Moralis.Cloud.run("saveNewGame", {
+      sessionId,
+      userAddress: currentState.userAddress,
+      aiLevel: aiId,
+    });
+    setChess(Object.assign({}, chess, { sessionId }));
+    ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { sessionId }), { encrypt: true });
   }
 
   function getBoard() {
@@ -364,6 +364,7 @@ export default function Game() {
       }
       setLoading(false);
       return res.json().then((res) => {
+        console.log(res);
         return res;
       });
     } catch (error) {

@@ -123,7 +123,11 @@ export const NEW_GAME_BOARD_CONFIG = {
   fullMove: 1,
   halfMove: 0,
   gamesPlayed: 0, // same turn count / turn count
-  prevConfig: {}
+  prevConfig: {},
+  moveTimes: [],
+  avgToAvgFlag: false,
+  medianToMedianFlag: false,
+  avgToMedianFlag: false,
 };
 
 export const MOVE_SOUND =

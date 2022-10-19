@@ -853,6 +853,10 @@ export default class Board {
       fiftyMovesRule: this.configuration.fiftyMovesRule,
       aiDifficulty: this.configuration.aiDifficulty,
       gamesPlayed: this.configuration.gamesPlayed,
+      moveTimes: this.configuration.moveTimes,
+      avgToAvgFlag: this.configuration.avgToAvgFlag,
+      medianToMedianFlag: this.configuration.medianToMedianFlag,
+      avgToMedianFlag: this.configuration.avgToMedianFlag,
     };
   }
 
