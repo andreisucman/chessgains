@@ -233,7 +233,6 @@ export async function pay(receiver, key) {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
-
         // check if the payout has already been initiated
         const RewardTable = Moralis.Object.extend("Rewaeds");
         const rewardQuery = new Moralis.Query(RewardTable);
@@ -294,9 +293,9 @@ export async function pay(receiver, key) {
         const dividendsQueryCheck = new Moralis.Query(DividendsQueryCheckTable);
         dividendsQueryCheck.equalTo("address", to);
         const dividendsQueryCheckResult = await dividendsQueryCheck.first();
-        
+
         if (dividendsQueryCheckResult && dividendsQueryCheckResult.attributes.pendingTx) return;
-        
+
         if (dividendsQueryCheckResult) {
           dividendsQueryCheckResult.set("pendingTx", true);
           await dividendsQueryCheckResult.save(null, { useMasterKey: true });
@@ -305,32 +304,33 @@ export async function pay(receiver, key) {
           dividendsInstance.set("pendingTx", true);
           dividendsInstance.save(null, { useMasterKey: true });
         }
-        
+
         response = await contract.payRest(to, amount, {
           gasLimit: 10000000,
           maxFeePerGas: fastPriceInGwei || 490000000000,
           maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
         });
-        
+
         const receipt = await response.wait(3);
 
         const DividendsTable = Moralis.Object.extend("Dividends");
         const dividendsQuery = new Moralis.Query(DividendsTable);
         dividendsQuery.equalTo("address", to);
-        const dividendsResult = await dividendsQuery.first();
+        const dividendsQueryResult = await dividendsQuery.first();
 
         let dividendsWithdrawn = 0;
 
-        if (dividendsResult) {
-          dividendsWithdrawn = dividendsResult.attributes.withdrawn;
+        if (dividendsQueryResult) {
+          dividendsWithdrawn = dividendsQueryResult.attributes.withdrawn;
         }
 
-        dividendsResult.set(
+        dividendsQueryResult.set(
           "withdrawn",
           Number(dividendsWithdrawn) + Number(ethers.utils.formatEther(amount))
         );
-        dividendsResult.set("pendingTx", false);
-        await dividendsResult.save(null, { useMasterKey: true });
+        
+        dividendsQueryResult.set("pendingTx", false);
+        await dividendsQueryResult.save(null, { useMasterKey: true });
 
         return { status: await receipt.status };
       }

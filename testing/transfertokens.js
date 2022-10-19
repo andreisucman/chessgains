@@ -1,6 +1,6 @@
 async function transfer() {
-  const recipient = "0xe67b0d7e6f3c5ec87afbca2016c0dbd2fd2df26c";
-  const amount = 8000;
+  const recipient = "";
+  const amount = 5000;
 
   const provider = ethers.getDefaultProvider(
     "https://nd-841-992-697.p2pify.com/1ad3b1a9d06fc505ddd4e196ec48e8e5"
