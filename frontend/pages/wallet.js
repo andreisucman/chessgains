@@ -50,7 +50,6 @@ export default function Wallet() {
     const testAccounts = [
       "0x0fb7dc6cb2a6a057632fc7a5ef49b1dbb88538ff",
       "0x2a68d95659845821522a01fea665fd64d2d33003",
-      "0xd96c7bb5dea7abde595737c5df6c21dd32581b6d",
       "0x775b50152df74f5c58a3e86a8ea57a8a612e68b0",
       "0x9b4dd6b24d5202778dbe1f111d508077f19aac61",
       "0xfd0e1880a35efd1225e290659b5b9242603d60b8",
