@@ -90,7 +90,7 @@ server.post(
   }
 );
 
-server.get("/telegram", async (response) => {
+server.get("/telegram", async (request, response) => {
   try {
     const reply = await sendToTelegram();
     response.send(reply);
@@ -109,12 +109,13 @@ server.get(
       },
     },
   },
-  async (response) => {
+  async (request, response) => {
+    console.log(response)
     try {
       const reply = await getGasPrice();
       response.send(reply);
     } catch (error) {
-      response.code(404).send(error);
+      console.log(error);
     }
   }
 );

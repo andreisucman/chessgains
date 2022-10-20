@@ -20,15 +20,6 @@ export default function TestEntry() {
       return;
     }
 
-    // prevent cheaters from getting in
-    const gameQuery = new Moralis.Query("Game");
-    gameQuery.descending("createdAt");
-    gameQuery.equalTo("sessionId", chess.sessionId);
-    const gameResult = await gameQuery.first();
-    const objectAssign = gameResult.attributes.objectAssign;
-
-    if (objectAssign > process.env.NEXT_PUBLIC_THRESHOLD) return;
-
     // save enter fee to use it in the insufficient funds modal
     setEnterFee(enterFee);
 

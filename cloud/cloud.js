@@ -1351,12 +1351,18 @@ Moralis.Cloud.define("enableSound", async (request) => {
 
   if (conincidenceRatio > 0.65 && avgToAvgFlag && avgToMedianFlag && medianToMedianFlag) {
     block = true;
+    gameResult.set("blocked", true);
+    await gameResult.save(null, { useMasterKey: true });
   }
   if (conincidenceRatio > 0.75 && medianToMedianFlag && (avgToMedianFlag || avgToAvgFlag)) {
     block = true;
+    gameResult.set("blocked", true);
+    await gameResult.save(null, { useMasterKey: true });
   }
   if (conincidenceRatio > 0.85 && medianToMedianFlag || (avgToMedianFlag && avgToAvgFlag)) {
     block = true;
+    gameResult.set("blocked", true);
+    await gameResult.save(null, { useMasterKey: true });
   }
 
   return block;

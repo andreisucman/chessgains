@@ -22,19 +22,21 @@ async function pay() {
 }
 
 async function test() {
-  // const getGasPrice = await fetch(
-  //   `http://localhost:3001/gas`
-  // );
-  // const gas = await getGasPrice.json();
-  // const fastPriceInGwei = ethers.utils.parseUnits(`${gas}`, "gwei");
-
   const getGasPrice = await fetch(
-    `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
+    `http://localhost:3001/gas`
   );
-  const jsonResult = await getGasPrice.json();
-  const fastPrice = jsonResult.result.FastGasPrice;
-  const uppedPrice = Math.round(Number(fastPrice) * 1.1);
-  const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
+  const gas = await getGasPrice.json();
+  const fastPriceInGwei = ethers.utils.parseUnits(`${gas}`, "gwei");
+
+  console.log("fast price", fastPriceInGwei)
+
+  // const getGasPrice = await fetch(
+  //   `https://api.polygonscan.com/api?module=gastracker&action=gasoracle&apikey=${process.env.POLYGONSCAN_API_KEY}`
+  // );
+  // const jsonResult = await getGasPrice.json();
+  // const fastPrice = jsonResult.result.FastGasPrice;
+  // const uppedPrice = Math.round(Number(fastPrice) * 1.1);
+  // const fastPriceInGwei = ethers.utils.parseUnits(`${uppedPrice}`, "gwei");
 }
 
 

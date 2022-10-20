@@ -53,7 +53,7 @@ export default function WithdrawModal({ maticBalance, setShowWithdrawModal }) {
           <>
             <h3 className={styles.withdraw_modal__title}>Processing...</h3>
             <p className={styles.withdraw_modal__notice}>
-              Withdrawal usually takes 10-20 sec, but may extend to 10 min if the chain is busy.
+              Withdrawal usually takes 10-20 sec, but may extend to 1h when the chain is loaded.
             </p>
           </>
         ) : (
