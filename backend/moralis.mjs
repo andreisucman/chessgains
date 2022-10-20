@@ -226,7 +226,12 @@ export async function pay(receiver, key) {
   const readableBalance = ethers.utils.formatEther(contractBalance);
 
   async function pay(contract, to, amount) {
-    const gasPrice = await getGasPrice();
+    let gasPrice = await getGasPrice();
+
+    if (gasPrice < 400) {
+      gasPrice = gasPrice * 2;
+    }
+    
     const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
 
     try {
@@ -234,7 +239,7 @@ export async function pay(receiver, key) {
 
       if (key === "reward" && Number(amount) > 0) {
         // check if the payout has already been initiated
-        const RewardTable = Moralis.Object.extend("Rewaeds");
+        const RewardTable = Moralis.Object.extend("Rewards");
         const rewardQuery = new Moralis.Query(RewardTable);
         rewardQuery.equalTo("address", to);
         const rewardQueryResult = await rewardQuery.first();
