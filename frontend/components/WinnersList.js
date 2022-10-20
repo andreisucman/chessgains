@@ -50,7 +50,7 @@ export default function WinnersList({ gRefresh }) {
   };
 
   return (
-    <div style={{ maxHeight: "440px", overflowY: "auto", overflowX: "hidden" }}>
+    <div style={{ maxHeight: "496px", overflowY: "auto", overflowX: "hidden" }}>
       <AutoSizer disableHeight>
         {({ width }) => (
           <List
