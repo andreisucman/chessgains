@@ -16,7 +16,7 @@ import ls from "localstorage-slim";
 import Field from "../components/gamepage/Field";
 import PersistState from "../components/gamepage/PersistState";
 import RightColumn from "../components/gamepage/RightColumn";
-import WinScreenStepOneEthers from "../components/gamepage/winscreen/StepOne";
+import WinScreenStepOne from "../components/gamepage/winscreen/StepOne";
 import WinScreenStepTwo from "../components/gamepage/winscreen/StepTwo";
 import LoseScreen from "../components/gamepage/LoseScreen";
 import SelectAi from "../components/gamepage/SelectAi";
@@ -168,7 +168,7 @@ export default function Game() {
             </div>
           </div>
           {showFinalScreen === 1 && (
-            <WinScreenStepOneEthers
+            <WinScreenStepOne
               setShowFinalScreen={setShowFinalScreen}
               userAddress={currentState.userAddress}
               score={score}

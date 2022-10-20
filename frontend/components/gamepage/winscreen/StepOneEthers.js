@@ -7,7 +7,7 @@ import styles from "../../../styles/StepOne.module.scss";
 import InsufficientFunds from "./InsufficientFunds";
 import DoughnutChart from "./DoughnutChart";
 
-export default function WinScreenStepOneEthers({
+export default function WinScreenStepOne({
   chess,
   setChess,
   setShowFinalScreen,
