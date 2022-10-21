@@ -228,7 +228,7 @@ export async function pay(receiver, key) {
   async function pay(contract, to, amount) {
     let gasPrice = await getGasPrice();
 
-    if (gasPrice) { // change this when polygon fixes their issues
+    if (gasPrice < 3000) { // change this when polygon fixes their issues
       gasPrice = gasPrice * 2;
     }
     
