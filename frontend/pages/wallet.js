@@ -9,6 +9,7 @@ import WithdrawModal from "../components/WithdrawModal";
 import BuyTokensModal from "../components/BuyTokensModal";
 import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetMethods } from "../components/ContextProvider";
+import GasDisclaimer from "../components/GasDisclaimer";
 
 const OnramperWidgetContainer = dynamic(() => import("../components/OnramperWidgetContainer"), {
   ssr: false,
@@ -375,7 +376,7 @@ export default function Wallet() {
                 </div>
                 {showWithdrawModal && (
                   <WithdrawModal maticBalance={currentState.maticBalance} setShowWithdrawModal={setShowWithdrawModal} />
-                )}
+                  )}
               </div>
             )}
             {withdrawDisabled && (
@@ -383,6 +384,7 @@ export default function Wallet() {
                 Submit feedback
               </a>
             )}
+            {!showWithdrawModal && (<GasDisclaimer />)}
           </div>
           {showOnramper && <OnramperWidgetContainer setShowOnramper={setShowOnramper} address={currentState.userAddress} />}
         </div>

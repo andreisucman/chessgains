@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ReactLoading from "react-loading";
 import ls from "localstorage-slim";
 import styles from "../styles/WithdrawModal.module.scss";
+import GasDisclaimer from "./GasDisclaimer";
 
 export default function WithdrawModal({ maticBalance, setShowWithdrawModal }) {
   const { Moralis } = useMoralis();
@@ -57,7 +58,10 @@ export default function WithdrawModal({ maticBalance, setShowWithdrawModal }) {
             </p>
           </>
         ) : (
-          <h3 className={styles.withdraw_modal__title}>Withdraw balance</h3>
+          <>
+            <h3 className={styles.withdraw_modal__title}>Withdraw balance</h3>
+            <GasDisclaimer />
+          </>
         )}
         <div className={styles.withdraw_modal__fields}>
           {isLoading ? (
@@ -92,7 +96,7 @@ export default function WithdrawModal({ maticBalance, setShowWithdrawModal }) {
                   min={0.1}
                 />
                 <button
-                id="max_withdraw_btn"
+                  id="max_withdraw_btn"
                   className={styles.withdraw_modal__max_btn}
                   onClick={() => setWithdrawAmount(maticBalance - 0.01 /* subtract 0.01 for gas fee */)}
                 >

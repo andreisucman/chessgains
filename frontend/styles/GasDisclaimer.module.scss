@@ -1,0 +1,26 @@
+@import './mixins.scss';
+
+.gas_disclaimer {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  max-width: 560px;
+  margin: auto;
+  font-weight: normal;
+
+  filter: invert(35%) sepia(100%) saturate(6.5);
+  padding: 12px 0;
+
+  &__ico {
+    width: 80px;
+    height: 50px;
+    background-image: url('../public/assets/warning.svg');
+    background-size: 45%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &__text {
+    flex-basis: 85%;
+  }
+}
