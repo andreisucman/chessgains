@@ -19,7 +19,7 @@ export default function WinScreenStepOne({
   engineAbi,
 }) {
   const { Moralis } = useMoralis();
-  const [enterFee, setEnterFee] = useState( 1 / (maticRatio / 10 ** 8));
+  const [enterFee, setEnterFee] = useState(1 / (maticRatio / 10 ** 8));
   const [showInsufficientBalance, setShowInsufficientBalance] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -101,7 +101,9 @@ export default function WinScreenStepOne({
         await Moralis.Cloud.run("saveParticipantToDB", params);
         await Moralis.Cloud.run("updatePrizeTable", { maticRatio });
         setChess(Object.assign(chess, { isFinished: false, turn: "white" }));
-        ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {}, turn: "white" }), { encrypt: true });
+        ls.set(`${PERSIST_STATE_NAMESPACE}_chess`, Object.assign({}, chess, { prevConfig: {}, turn: "white" }), {
+          encrypt: true,
+        });
         setShowFinalScreen(2);
         setIsLoading(false);
       }
@@ -128,14 +130,19 @@ export default function WinScreenStepOne({
             <h3 className={styles.step_one__rank_text}>of players</h3>
           </div>
           <button className={styles.step_one__cta} onClick={signWithEthers} id="enter_lottery">
-            {!isLoading ? (
-              <div className={styles.step_one__cta_div} id="enter_lottery">
-                <div className={styles.step_one__cta_img}></div>
-                <p className={styles.step_one__cta_text}>Enter the lottery</p>
-              </div>
-            ) : (
-              <ReactLoading type="spin" color="#F4F0E6" width={45} height={45} />
-            )}
+            <div className={styles.step_one__cta_div} id="enter_lottery">
+              {!isLoading ? (
+                <>
+                  <div className={styles.step_one__cta_img}></div>
+                  <p className={styles.step_one__cta_text}>Enter the lottery</p>
+                </>
+              ) : (
+                <>
+                  <ReactLoading type="spin" color="#F4F0E6" width={45} height={45} />
+                  <p className={styles.step_one__cta_text}>Please wait</p>
+                </>
+              )}
+            </div>
           </button>
           {showInsufficientBalance && (
             <InsufficientFunds
