@@ -39,7 +39,7 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 
 export default function Game() {
   encrypt();
-  console.clear();
+  // console.clear();
 
   const { Moralis, isInitialized, isAuthenticated, isAuthUndefined } = useMoralis();
   const currentState = useGetCurrentState();
@@ -93,7 +93,7 @@ export default function Game() {
             });
             setScore(await serverScore);
             if (serverScore) {
-              if (await Moralis.Cloud.run("enableSound", { data: chess})) {
+              if (await Moralis.Cloud.run("checkIfCheating", { data: chess})) {
                 setShowFinalScreen(3);
               } else {
                 setShowFinalScreen(1);

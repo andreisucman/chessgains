@@ -1307,9 +1307,7 @@ Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
 
       await newResult.set("tokens", `${senderNewTokenBalance}`);
       await newResult.save(null, { useMasterKey: true });
-
     } else {
-
       const DividendsTable = Moralis.Object.extend("Dividends");
       const dividendsInstance = new DividendsTable();
       dividendsInstance.set("tokens", `${result.attributes.value}`);
@@ -1333,7 +1331,7 @@ Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
 });
 
 // this functon checks for cheating
-Moralis.Cloud.define("enableSound", async (request) => {
+Moralis.Cloud.define("checkIfCheating", async (request) => {
   const data = request.params.data;
 
   const GameTable = Moralis.Object.extend("Game");
@@ -1342,26 +1340,127 @@ Moralis.Cloud.define("enableSound", async (request) => {
   gameQuery.equalTo("sessionId", data.sessionId);
   const gameResult = await gameQuery.first();
 
-  const conincidenceRatio = gameResult.attributes.objectAssign;
+  const conincidenceRatio = gameResult.attributes.coincidenceRatio;
+  const previousChecks = gameResult.attributes.previousChecks;
   const avgToAvgFlag = data.avgToAvgFlag;
   const medianToMedianFlag = data.medianToMedianFlag;
   const avgToMedianFlag = data.avgToMedianFlag;
+  const progressiveAccuracyFlag = data.progressiveAccuracyFlag;
+  const progressiveTimeFlag = data.progressiveTimeFlag;
+  const idealMovesComboFlag = data.idealMovesComboFlag;
 
   let block = false;
 
-  if (conincidenceRatio > 0.65 && avgToAvgFlag && avgToMedianFlag && medianToMedianFlag) {
+  if (
+    conincidenceRatio > 0.65 &&
+    avgToAvgFlag &&
+    avgToMedianFlag &&
+    medianToMedianFlag
+  ) {
     block = true;
     gameResult.set("blocked", true);
+
+    gameResult.set(
+      "previousChecks",
+      Object.assign({}, previousChecks, {
+        avgToAvgFlag: previousChecks.avgToAvgFlag + 1,
+        avgToMedianFlag: previousChecks.avgToMedianFlag + 1,
+        medianToMedianFlag: previousChecks.medianToMedianFlag + 1,
+      })
+    );
+
     await gameResult.save(null, { useMasterKey: true });
   }
-  if (conincidenceRatio > 0.75 && medianToMedianFlag && (avgToMedianFlag || avgToAvgFlag)) {
+
+  if (
+    conincidenceRatio > 0.65 &&
+    (progressiveAccuracyFlag || progressiveTimeFlag) &&
+    (avgToMedianFlag || medianToMedianFlag || avgToAvgFlag)
+  ) {
     block = true;
     gameResult.set("blocked", true);
+
+    gameResult.set(
+      "previousChecks",
+      Object.assign({}, previousChecks, {
+        progressiveAccuracyFlag:
+          previousChecks.progressiveAccuracyFlag + progressiveAccuracyFlag
+            ? 1
+            : 0,
+        progressiveTimeFlag:
+          previousChecks.progressiveTimeFlag + progressiveTimeFlag ? 1 : 0,
+        avgToAvgFlag: previousChecks.avgToAvgFlag + avgToAvgFlag ? 1 : 0,
+        avgToMedianFlag:
+          previousChecks.avgToMedianFlag + avgToMedianFlag ? 1 : 0,
+        medianToMedianFlag:
+          previousChecks.medianToMedianFlag + medianToMedianFlag ? 1 : 0,
+      })
+    );
+
     await gameResult.save(null, { useMasterKey: true });
   }
-  if (conincidenceRatio > 0.85 && medianToMedianFlag || (avgToMedianFlag && avgToAvgFlag)) {
+
+  if (
+    conincidenceRatio > 0.65 &&
+    idealMovesComboFlag &&
+    (avgToMedianFlag ||
+      medianToMedianFlag ||
+      avgToAvgFlag ||
+      progressiveTimeFlag ||
+      progressiveAccuracyFlag)
+  ) {
     block = true;
     gameResult.set("blocked", true);
+
+    gameResult.set(
+      "previousChecks",
+      Object.assign({}, previousChecks, {
+        progressiveAccuracyFlag:
+          previousChecks.progressiveAccuracyFlag + progressiveAccuracyFlag
+            ? 1
+            : 0,
+        progressiveTimeFlag:
+          previousChecks.progressiveTimeFlag + progressiveTimeFlag ? 1 : 0,
+        avgToAvgFlag: previousChecks.avgToAvgFlag + avgToAvgFlag ? 1 : 0,
+        avgToMedianFlag:
+          previousChecks.avgToMedianFlag + avgToMedianFlag ? 1 : 0,
+        medianToMedianFlag:
+          previousChecks.medianToMedianFlag + medianToMedianFlag ? 1 : 0,
+        idealMovesComboFlag: previousChecks.idealMovesComboFlag + 1,
+      })
+    );
+
+    await gameResult.save(null, { useMasterKey: true });
+  }
+
+  if (
+    conincidenceRatio > 0.85 &&
+    (medianToMedianFlag ||
+      avgToMedianFlag ||
+      avgToAvgFlag ||
+      progressiveTimeFlag ||
+      progressiveAccuracyFlag)
+  ) {
+    block = true;
+    gameResult.set("blocked", true);
+
+    gameResult.set(
+      "previousChecks",
+      Object.assign({}, previousChecks, {
+        progressiveAccuracyFlag:
+          previousChecks.progressiveAccuracyFlag + progressiveAccuracyFlag
+            ? 1
+            : 0,
+        progressiveTimeFlag:
+          previousChecks.progressiveTimeFlag + progressiveTimeFlag ? 1 : 0,
+        avgToAvgFlag: previousChecks.avgToAvgFlag + avgToAvgFlag ? 1 : 0,
+        avgToMedianFlag:
+          previousChecks.avgToMedianFlag + avgToMedianFlag ? 1 : 0,
+        medianToMedianFlag:
+          previousChecks.medianToMedianFlag + medianToMedianFlag ? 1 : 0,
+      })
+    );
+
     await gameResult.save(null, { useMasterKey: true });
   }
 

@@ -13,12 +13,12 @@ export default function Cheater({
   setChess,
 }) {
 
-  const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [coincidenceRatio, setCoincidenceRatio] = useState(0);
 
   const data = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true, secret: "data:audio/wav;base64" });
 
   useEffect(() => {
-    setGamesPlayed(data.gamesPlayed);
+    setCoincidenceRatio(data.coincidenceRatio);
   }, [data])
 
   async function handlePlayAgain() {

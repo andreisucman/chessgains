@@ -850,13 +850,17 @@ export default class Board {
       enPassant: this.configuration.enPassant,
       halfMove: this.configuration.halfMove,
       fullMove: this.configuration.fullMove,
-      fiftyMovesRule: this.configuration.fiftyMovesRule,
-      aiDifficulty: this.configuration.aiDifficulty,
-      gamesPlayed: this.configuration.gamesPlayed,
+      turnCount: this.configuration.turnCount,
+      sameTurnCount: this.configuration.sameTurnCount,
+      coincidenceRatio: this.configuration.coincidenceRatio,
       moveTimes: this.configuration.moveTimes,
       avgToAvgFlag: this.configuration.avgToAvgFlag,
       medianToMedianFlag: this.configuration.medianToMedianFlag,
       avgToMedianFlag: this.configuration.avgToMedianFlag,
+      progressiveTimeFlag: this.configuration.progressiveTimeFlag,
+      progressiveAccuracyFlag: this.configuration.progressiveAccuracyFlag,
+      idealMovesComboFlag: this.configuration.idealMovesComboFlag,
+      coincided: this.configuration.coincided,
     };
   }
 

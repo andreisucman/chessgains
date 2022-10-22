@@ -56,6 +56,11 @@ export const NEW_GAME_SETTINGS = {
   avgToAvgFlag: false,
   medianToMedianFlag: false,
   avgToMedianFlag: false,
+  idealMovesComboFlag: false,
+  progressiveTimeFlag: false,
+  progressiveAccuracyFlag: false,
+  idealMovesComboFlag: false,
+  coincided: [],
 };
 
 export const NEW_GAME_BOARD_CONFIG = Object.assign(

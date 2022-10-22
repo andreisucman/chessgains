@@ -51,7 +51,7 @@ export const COMPUTER_DESCRIPTIONS = {
   },
   4: {
     name: "Omega",
-    desc: "Rumors go that he taught Magnus Carlsen chess.",
+    desc: "Rumors go that he taught Carlsen chess.",
     score: "225",
     image: omega_img,
     elo: "~2200",
@@ -110,7 +110,7 @@ export const NEW_GAME_BOARD_CONFIG = {
   isStarted: false,
   playerWon: false,
   sessionId: null,
-  fiftyMovesRule: 0, // turn count
+  turnCount: 0,
   checkMate: false,
   castling: {
     whiteShort: true,
@@ -119,15 +119,17 @@ export const NEW_GAME_BOARD_CONFIG = {
     blackLong: true,
   },
   score: 0,
-  aiDifficulty: 0, // same turn count
+  sameTurnCount: 0,
   fullMove: 1,
   halfMove: 0,
-  gamesPlayed: 0, // same turn count / turn count
+  coincidenceRatio: 0,
   prevConfig: {},
   moveTimes: [],
   avgToAvgFlag: false,
   medianToMedianFlag: false,
   avgToMedianFlag: false,
+  idealMovesCombo: 0,
+  coincided: [],
 };
 
 export const MOVE_SOUND =

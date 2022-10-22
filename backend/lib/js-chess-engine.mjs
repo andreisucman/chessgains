@@ -201,7 +201,7 @@ export async function saveScore(config, sessionId) {
   game.board.configuration.score = score;
   session.set("playerWon", true);
   session.set("score", score);
-  session.set("objectAssign", config.gamesPlayed);
+  session.set("coincidenceRatio", config.coincidenceRatio);
 
   await session.save(null, { useMasterKey: true });
   return score;
@@ -212,11 +212,11 @@ async function analyze(config, from, to) {
   let data = currentConfig.prevConfig;
 
   // if total moves is 0
-  if (currentConfig.fiftyMovesRule === 0) {
+  if (currentConfig.turnCount === 0) {
     data = currentConfig;
   }
 
-  //#region flag checking
+  //#region preparations for time flag checks
 
   // determine the boundaries
   const thirtyPercentBoundary = Math.floor((currentConfig.moveTimes.length - 1) * 0.3);
@@ -297,10 +297,13 @@ async function analyze(config, from, to) {
       2;
   }
 
-  // calculate cheating flags
+  // #endregion
+
+  // #region AVERAGE TIME CHECK
   let avgToAvgFlag = false;
   let medianToMedianFlag = false;
   let avgToMedianFlag = false;
+  let progressiveTimeFlag = false;
 
   // check if the average thinking time during the first, second, and third quarters varies enough
   let caseOne =
@@ -328,6 +331,12 @@ async function analyze(config, from, to) {
   if ((caseOne && caseTwo) || (caseOne && caseThree) || (caseTwo && caseThree))
     avgToMedianFlag = true;
 
+  // #endregion
+
+  // #region PROGRESSIVE TIME FLAG
+  if (sixtyMedian - thirtyMedian < thirtyMedian * 1.25) {
+    progressiveTimeFlag = true;
+  }
   //#endregion
 
   const fen = getFen(data);
@@ -352,24 +361,59 @@ async function analyze(config, from, to) {
 
   if (playerMoves.includes(c)) {
     newConfig = Object.assign({}, currentConfig, {
-      fiftyMovesRule: currentConfig.fiftyMovesRule + 1, // represents total moves
-      aiDifficulty: currentConfig.aiDifficulty + 1, // represents concidences
-      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule, // represents cheating ratio
+      turnCount: currentConfig.turnCount + 1,
+      sameTurnCount: currentConfig.sameTurnCount + 1,
+      coincidenceRatio: (currentConfig.sameTurnCount + 1) / currentConfig.turnCount,
       moveTimes: [...currentConfig.moveTimes, Math.floor(new Date() / 1000)],
       avgToAvgFlag,
       medianToMedianFlag,
       avgToMedianFlag,
+      progressiveTimeFlag,
+      coincided: [...currentConfig.coincided, playerMoves.includes(c)],
     });
   } else {
     newConfig = Object.assign({}, currentConfig, {
-      fiftyMovesRule: currentConfig.fiftyMovesRule + 1,
-      gamesPlayed: (currentConfig.aiDifficulty + 1) / currentConfig.fiftyMovesRule,
+      turnCount: currentConfig.turnCount + 1,
+      coincidenceRatio: (currentConfig.sameTurnCount + 1) / currentConfig.turnCount,
       moveTimes: [...currentConfig.moveTimes, Math.floor(new Date() / 1000)],
       avgToAvgFlag,
       medianToMedianFlag,
       avgToMedianFlag,
+      progressiveTimeFlag,
+      coincided: [...currentConfig.coincided, playerMoves.includes(c)],
     });
   }
+
+  // #region IDEAL MOVES COMBO CHECK check if there are 6 coinciding moves in a row
+  for (let i = 0; i < newConfig.coincided.length; i++) {
+    if (
+      newConfig.coincided[i] &&
+      newConfig.coincided[i + 1] &&
+      newConfig.coincided[i + 2] &&
+      newConfig.coincided[i + 3] &&
+      newConfig.coincided[i + 4] &&
+      newConfig.coincided[i + 5]
+    );
+    newConfig = Object.assign({}, newConfig, { idealMovesComboFlag: true });
+  }
+  // #endregion
+
+  // #region PROGRESSIVE ACCURACY CHECK
+  let firstQuarterCoincidences = 0;
+  let secondQuarterCoincidences = 0;
+
+  for (let i = 0; i < thirtyPercentBoundary; i++) {
+    if (newConfig.coincided[i]) firstQuarterCoincidences++;
+  }
+
+  for (let i = thirtyPercentBoundary; i < sixtyPercentBoundary; i++) {
+    if (newConfig.coincided[i]) secondQuarterCoincidences++;
+  }
+
+  if (firstQuarterCoincidences >= secondQuarterCoincidences)
+    newConfig = Object.assign({}, newConfig, { progressiveAccuracyFlag: true });
+
+  // #endregion
 
   return newConfig;
 }

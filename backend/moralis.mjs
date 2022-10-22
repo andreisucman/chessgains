@@ -1,6 +1,7 @@
 import Moralis from "moralis-v1/node.js";
 import { ethers } from "ethers";
 import XMLHttpRequest from "xhr2";
+import { engineAbi } from "./abi.mjs";
 
 export async function pay(receiver, key) {
   await Moralis.start({
@@ -90,133 +91,6 @@ export async function pay(receiver, key) {
     "b88c5f901aace1ff059bfcafb54e034ff0542eef37cfb2f1b90bd09349ee473d",
     provider
   );
-
-  const engineAbi = [
-    {
-      inputs: [],
-      name: "enter",
-      outputs: [],
-      stateMutability: "payable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "time",
-          type: "uint256",
-        },
-      ],
-      name: "fundsTransfer",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "participant",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "time",
-          type: "uint256",
-        },
-      ],
-      name: "participantEntry",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address payable",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "payPrize",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address payable",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "payRest",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address payable",
-          name: "user",
-          type: "address",
-        },
-      ],
-      name: "setAdmin",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getBalance",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
 
   const engineAddress = "0xb5a4EA5BB94741AAd2338d64465d256c18f142B4";
 
@@ -481,4 +355,21 @@ export async function getGasPrice() {
   const fastPrice = jsonResult.result.FastGasPrice;
   const uppedPrice = Math.round(Number(fastPrice) * 1.1);
   return uppedPrice;
+}
+
+export async function enterLottery({signer, enterFee}) {
+  const contract = new ethers.Contract(process.env.ENGINE_ADDRESS, engineAbi, signer);
+  const fastPriceInGwei = await getGasPrice();
+
+  const transaction = await contract.enter({
+    value: enterFee,
+    gasLimit: 1000000,
+    gasPrice: fastPriceInGwei,
+  });
+
+  console.log("transaction", transaction);
+
+  const receipt = await transaction.wait(3);
+
+  console.log("transaction hash", receipt.transactionHash);
 }
