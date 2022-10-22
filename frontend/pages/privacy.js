@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
 import styles from "../styles/legal.module.scss";
-import Link from "next/link";
 
 export default function Privacy() {
   return (

@@ -1,7 +1,7 @@
 @import './mixins.scss';
 
 .trustpilot {
-  padding: 48px;
+  padding: 48px 0 64px;
   transition: all 1s;
 
   @include tablet {

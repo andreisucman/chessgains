@@ -3,24 +3,7 @@ import styles from "../../styles/Cheater.module.scss";
 import { NEW_GAME_BOARD_CONFIG, PERSIST_STATE_NAMESPACE } from "./Board";
 import ls from "localstorage-slim";
 
-export default function Cheater({
-  setShowFinalScreen,
-  retryGame,
-  prizeValueUsd,
-  prizeValueMatic,
-  timer,
-  chess,
-  setChess,
-}) {
-
-  const [coincidenceRatio, setCoincidenceRatio] = useState(0);
-
-  const data = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true, secret: "data:audio/wav;base64" });
-
-  useEffect(() => {
-    setCoincidenceRatio(data.coincidenceRatio);
-  }, [data])
-
+export default function Cheater({ setShowFinalScreen, retryGame, prizeValueUsd, prizeValueMatic, timer, chess, setChess }) {
   async function handlePlayAgain() {
     retryGame();
     setShowFinalScreen(null);
