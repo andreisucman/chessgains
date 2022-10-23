@@ -1340,8 +1340,13 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   gameQuery.equalTo("sessionId", data.sessionId);
   const gameResult = await gameQuery.first();
 
-  const conincidenceRatio = gameResult.attributes.coincidenceRatio;
-  const previousChecks = gameResult.attributes.previousChecks;
+  let previousChecks = 0;
+
+  if (gameResult) {
+    previousChecks = gameResult.attributes.previousChecks;
+  }
+  
+  const coincidenceRatio = data.coincidenceRatio;
   const avgToAvgFlag = data.avgToAvgFlag;
   const medianToMedianFlag = data.medianToMedianFlag;
   const avgToMedianFlag = data.avgToMedianFlag;
@@ -1352,7 +1357,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   let block = false;
 
   if (
-    conincidenceRatio > 0.65 &&
+    coincidenceRatio > 0.65 &&
     avgToAvgFlag &&
     avgToMedianFlag &&
     medianToMedianFlag
@@ -1373,7 +1378,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   }
 
   if (
-    conincidenceRatio > 0.65 &&
+    coincidenceRatio > 0.65 &&
     (progressiveAccuracyFlag || progressiveTimeFlag) &&
     (avgToMedianFlag || medianToMedianFlag || avgToAvgFlag)
   ) {
@@ -1401,7 +1406,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   }
 
   if (
-    conincidenceRatio > 0.65 &&
+    coincidenceRatio > 0.65 &&
     idealMovesComboFlag &&
     (avgToMedianFlag ||
       medianToMedianFlag ||
@@ -1434,7 +1439,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   }
 
   if (
-    conincidenceRatio > 0.85 &&
+    coincidenceRatio > 0.85 &&
     (medianToMedianFlag ||
       avgToMedianFlag ||
       avgToAvgFlag ||
