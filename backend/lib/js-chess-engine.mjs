@@ -108,7 +108,7 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  if (level < 3) {
+  if (level < 4) {
     return aiMove(config, level);
   } else {
     return getStockFishMove(config, level);
@@ -134,16 +134,13 @@ export async function getStockFishMove(config, level) {
   const fen = getFen(config);
   let stockFishLevel = 1;
 
-  switch (Number(level)) {
-    case 3:
-      stockFishLevel = 1;
-      break;
-    case 4:
-      stockFishLevel = 2;
-      break;
-    default:
-      stockFishLevel = 1;
-  }
+  // switch (Number(level)) {
+  //   case 4:
+  //     stockFishLevel = 1;
+  //     break;
+  //   default:
+  //     stockFishLevel = 1;
+  // }
 
   const analysis = await chessAnalysisApi.getAnalysis({
     fen,

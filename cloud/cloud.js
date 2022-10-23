@@ -1431,7 +1431,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
           previousChecks.avgToMedianFlag + avgToMedianFlag ? 1 : 0,
         medianToMedianFlag:
           previousChecks.medianToMedianFlag + medianToMedianFlag ? 1 : 0,
-        idealMovesComboFlag: previousChecks.idealMovesComboFlag + 1,
+          idealMovesComboFlag: previousChecks.idealMovesComboFlag + 1,
       })
     );
 
