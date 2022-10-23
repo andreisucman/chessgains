@@ -103,6 +103,7 @@ export default function Game() {
                     progressiveTimeFlag: chess.progressiveTimeFlag,
                     idealMovesComboFlag: chess.idealMovesComboFlag,
                     coincidenceRatio: chess.coincidenceRatio,
+                    sessionId: chess.sessionId,
                   },
                 })
               ) {
