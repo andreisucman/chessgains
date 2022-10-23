@@ -128,7 +128,7 @@ export const NEW_GAME_BOARD_CONFIG = {
   avgToAvgFlag: false,
   medianToMedianFlag: false,
   avgToMedianFlag: false,
-  idealMovesCombo: 0,
+  idealMovesComboFlag: false,
   coincided: [],
 };
 
