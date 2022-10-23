@@ -356,20 +356,3 @@ export async function getGasPrice() {
   const uppedPrice = Math.round(Number(fastPrice) * 1.1);
   return uppedPrice;
 }
-
-export async function enterLottery({signer, enterFee}) {
-  const contract = new ethers.Contract(process.env.ENGINE_ADDRESS, engineAbi, signer);
-  const fastPriceInGwei = await getGasPrice();
-
-  const transaction = await contract.enter({
-    value: enterFee,
-    gasLimit: 1000000,
-    gasPrice: fastPriceInGwei,
-  });
-
-  console.log("transaction", transaction);
-
-  const receipt = await transaction.wait(3);
-
-  console.log("transaction hash", receipt.transactionHash);
-}

@@ -360,6 +360,7 @@ export default function ContextProvider({ children }) {
       tokenAbi,
       engineAbi,
       gRefresh,
+      wRefresh
     });
   }, [
     userAddress,
@@ -375,6 +376,7 @@ export default function ContextProvider({ children }) {
     tokenAbi,
     engineAbi,
     gRefresh,
+    wRefresh
   ]);
   // #endregion
 

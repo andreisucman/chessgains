@@ -26,7 +26,7 @@ export default function Footer() {
                 rel="noopener"
               >
                 <div className={styles.footer__trustpilot_logo}></div>
-                <span className={styles.footer__trustpilot_text}>Check us on Trustpilot</span>
+                <span className={styles.footer__trustpilot_text}>Check reviews on Trustpilot</span>
               </a>
             </div>
           </div>

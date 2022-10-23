@@ -9,6 +9,8 @@ import WithdrawModal from "../components/WithdrawModal";
 import BuyTokensModal from "../components/BuyTokensModal";
 import { useGetCurrentState } from "../components/ContextProvider";
 import { useGetMethods } from "../components/ContextProvider";
+import { formatNumber } from "../helpers/formatNumber";
+import { handleCopyTokenAddress } from "../helpers/handleCopyTokenAddress";
 import GasDisclaimer from "../components/GasDisclaimer";
 
 const OnramperWidgetContainer = dynamic(() => import("../components/OnramperWidgetContainer"), {
@@ -76,13 +78,42 @@ export default function Wallet() {
     }
   }
 
-  function handleCopyTokenAddress() {
-    setCopyTokenText("Copied");
-    navigator.clipboard.writeText(process.env.NEXT_PUBLIC_TOKEN_ADDRESS);
+  async function handleClaimDividends({ receiver, endpoint }) {
+    if (endpoint === "dividends" && currentState.dividends < 0.001) {
+      setDividendsLowToClaim(true);
 
-    setTimeout(() => {
-      setCopyTokenText("Copy");
-    }, 1500);
+      setInterval(() => {
+        setDividendsLowToClaim(false);
+      }, 4000);
+      return;
+    }
+    setClaimDividendsLoading(true);
+
+    // check if the payout has already been initiated
+    const dividendsQuery = new Moralis.Query("Dividends");
+    dividendsQuery.equalTo("address", currentState.userAddress);
+    const dividendsQueryResult = await dividendsQuery.first();
+
+    if (dividendsQueryResult && dividendsQueryResult.attributes.pendingTx) {
+      setDividendsAlreadyClaimed(true);
+      setClaimDividendsLoading(false);
+
+      setTimeout(() => {
+        setDividendsAlreadyClaimed(false);
+      }, 4000);
+
+      return;
+    }
+
+    const response = await methods.allocateReward({ receiver, endpoint });
+
+    if ((await response.status) === 200 || (await response.status) === 204) {
+      setTimeout(() => {
+        setClaimDividendsLoading(false);
+
+        methods.setDividends(0);
+      }, 30000);
+    }
   }
 
   async function handleClaimReward({ receiver, endpoint }) {
@@ -107,7 +138,7 @@ export default function Wallet() {
 
       setTimeout(() => {
         setRewardAlreadyClaimed(false);
-      },4000)
+      }, 4000);
       return;
     }
 
@@ -118,99 +149,10 @@ export default function Wallet() {
         setClaimRewardLoading(false);
 
         methods.setPerformanceReward(0);
-      }, 12000);
+      }, 30000);
     } else {
       console.log("an error happened while processing reward payment", response);
     }
-  }
-
-  async function handleClaimDividends({ receiver, endpoint }) {
-    if (endpoint === "dividends" && currentState.dividends < 0.001) {
-      setDividendsLowToClaim(true);
-
-      setInterval(() => {
-        setDividendsLowToClaim(false);
-      }, 4000);
-      return;
-    }
-    setClaimDividendsLoading(true);
-
-    // check if the payout has already been initiated
-    const dividendsQuery = new Moralis.Query("Dividends");
-    dividendsQuery.equalTo("address", currentState.userAddress);
-    const dividendsQueryResult = await dividendsQuery.first();
-
-    if (dividendsQueryResult&& dividendsQueryResult.attributes.pendingTx) {
-      setDividendsAlreadyClaimed(true);
-      setClaimDividendsLoading(false);
-
-      setTimeout(() => {
-        setDividendsAlreadyClaimed(false);
-      }, 4000)
-      return;
-    }
-
-    const response = await methods.allocateReward({ receiver, endpoint });
-
-    if ((await response.status) === 200 || (await response.status) === 204) {
-      setTimeout(() => {
-        setClaimDividendsLoading(false);
-
-        methods.setDividends(0);
-      }, 12000);
-    }
-  }
-
-  function formatNumber(input) {
-    const number = Number(input);
-    let message;
-
-    let b = 0;
-    let e = 0;
-    const array = `${number}`.split(".").join("").split("");
-    const length = array.length;
-
-    for (let i = 0; i < length; i++) {
-      if (array[i] > 0) {
-        b = i - 1;
-        e = b + 4;
-        break;
-      }
-    }
-
-    if (number < 0.001) {
-      message = "0..." + `${number.toFixed(length)}`.substring(b + 2, e);
-    }
-
-    if (number >= 0.001 && number < 0.1) {
-      message = `0${number.toFixed(length)}`.substring(b, e);
-    }
-
-    if (number >= 0.1 && number < 1) {
-      message = `${number.toFixed(length)}`.substring(b, e);
-    }
-
-    if (number >= 1) {
-      message = `${number.toFixed(length)}`.substring(b, e);
-    }
-
-    if (number >= 10) {
-      message = `${number.toFixed(length)}`.substring(b, e + 1);
-    }
-
-    if (number >= 100) {
-      message = `${number.toFixed(length)}`.substring(b, e + 2);
-    }
-
-    if (number >= 100) {
-      message = `${number.toFixed(length)}`.substring(b, e + 3);
-    }
-
-    if (number === 0 || !number) {
-      message = "0";
-    }
-
-    return message;
   }
 
   return (
@@ -376,7 +318,7 @@ export default function Wallet() {
                 </div>
                 {showWithdrawModal && (
                   <WithdrawModal maticBalance={currentState.maticBalance} setShowWithdrawModal={setShowWithdrawModal} />
-                  )}
+                )}
               </div>
             )}
             {withdrawDisabled && (
@@ -384,7 +326,7 @@ export default function Wallet() {
                 Submit feedback
               </a>
             )}
-            {!showWithdrawModal && (<GasDisclaimer />)}
+            {!showWithdrawModal && <GasDisclaimer />}
           </div>
           {showOnramper && <OnramperWidgetContainer setShowOnramper={setShowOnramper} address={currentState.userAddress} />}
         </div>
