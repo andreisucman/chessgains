@@ -112,7 +112,7 @@ export default function Wallet() {
         setClaimDividendsLoading(false);
 
         methods.setDividends(0);
-      }, 30000);
+      }, 12000);
     }
   }
 
@@ -149,7 +149,7 @@ export default function Wallet() {
         setClaimRewardLoading(false);
 
         methods.setPerformanceReward(0);
-      }, 30000);
+      }, 12000);
     } else {
       console.log("an error happened while processing reward payment", response);
     }
