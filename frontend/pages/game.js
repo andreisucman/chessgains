@@ -95,7 +95,15 @@ export default function Game() {
             if (serverScore) {
               if (
                 await Moralis.Cloud.run("checkIfCheating", {
-                  data: chess,
+                  data: {
+                    avgToAvgFlag: chess.avgToAvgFlag,
+                    medianToMedianFlag: chess.medianToMedianFlag,
+                    avgToMedianFlag: chess.avgToMedianFlag,
+                    progressiveAccuracyFlag: chess.progressiveAccuracyFlag,
+                    progressiveTimeFlag: chess.progressiveTimeFlag,
+                    idealMovesComboFlag: chess.idealMovesComboFlag,
+                    coincidenceRatio: chess.coincidenceRatio,
+                  },
                 })
               ) {
                 setShowFinalScreen(3);
