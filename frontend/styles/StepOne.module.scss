@@ -134,6 +134,7 @@
 
     @include mobile {
       width: unset;
+      padding: 16px;
     }
 
     &_text {

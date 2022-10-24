@@ -976,7 +976,7 @@ Moralis.Cloud.define("addParticipant", async () => {
   // #endregion
 
   // #region enter the participant into smart contract
-  const engineAddress = "0x1cfAd1DA845c6478F04c907951A29A06b10a9782";
+  const engineAddress = "0x6fB61A88Cb27ef8360de777bEEE84a0FaE17cDD0";
   const engineAbi = [
     {
       inputs: [],

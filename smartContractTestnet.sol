@@ -341,9 +341,9 @@ contract ChessGainsEngine {
     }
 
     function enter() public payable {
-        uint latestPrice = getLatestPrice();
+        uint latestPrice = uint(getLatestPrice());
         require(
-            msg.value / latestPrice / 10**8 >= 95,
+            (msg.value * latestPrice) / 10**24 >= 95,
             "the minimum value should be 1 dollar"
         );
         emit ParticipantEntry(msg.sender, block.timestamp);
