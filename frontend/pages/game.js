@@ -377,7 +377,6 @@ export default function Game() {
       }
       setLoading(false);
       return res.json().then((res) => {
-        console.log(res);
         return res;
       });
     } catch (error) {
