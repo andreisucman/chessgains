@@ -331,7 +331,7 @@ Moralis.Cloud.define("updatePrizeTable", async (request) => {
     await prizeRows.save(null, { useMasterKey: true });
   } else {
     const prizeInstance = new PrizeTable();
-    const timeNow = new Date() / 1000;
+    const timeNow = Math.trunc(new Date() / 1000);
     prizeInstance.set("maticValue", maticValue);
     prizeInstance.set("usdValue", usdValue);
     prizeInstance.set("unixTime", Math.floor(timeNow + 86400));
@@ -1237,6 +1237,7 @@ Moralis.Cloud.define("triggerPayout", async () => {
 
 Moralis.Cloud.define("payIfTimeUp", async () => {
   const prizeQuery = new Moralis.Query("Prize");
+  prizeQuery.descending("createdAt");
   prizeQuery.equalTo("finalized", false);
   const valueRow = await prizeQuery.first();
 
@@ -1246,17 +1247,17 @@ Moralis.Cloud.define("payIfTimeUp", async () => {
   const timeNow = Math.trunc(new Date() / 1000);
 
   // check if payout has already been triggered
-  const historyQuery = new Moralis.Query("History");
-  historyQuery.descending("createdAt");
-  historyQuery.notEqualTo("winAmount", 0);
-  const historyQueryResult = await historyQuery.first();
+  // const historyQuery = new Moralis.Query("History");
+  // historyQuery.descending("createdAt");
+  // historyQuery.notEqualTo("winAmount", 0);
+  // const historyQueryResult = await historyQuery.first();
 
   // if a winner has already been chosen within the last 24h return
-  if (
-    timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
-    86000
-  )
-    return;
+  // if (
+  //   timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
+  //   86400
+  // )
+  //   return;
 
   const difference = payoutTime - timeNow;
 

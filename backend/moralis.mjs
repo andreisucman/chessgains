@@ -271,7 +271,7 @@ export async function pay(receiver, key) {
           prizeTableInstance.set("finalized", false);
           prizeTableInstance.set("maticValue", 0);
           prizeTableInstance.set("usdValue", 0);
-          prizeTableInstance.set("unixTime", Math.round(new Date() / 1000 + 86400));
+          prizeTableInstance.set("unixTime", Math.round(new Date() / 1000) + 86400);
 
           await prizeTableInstance.save(null, { useMasterKey: true });
         } catch (err) {

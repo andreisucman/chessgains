@@ -322,11 +322,11 @@ export default function ContextProvider({ children }) {
   // #endregion
 
   // #region trigger payout and reward/dividend allocation
-  useEffect(() => {
-    if (isInitialized && seconds < 0) {
-      Moralis.Cloud.run("payIfTimeUp");
-    }
-  }, [seconds, isInitialized]);
+  // useEffect(() => {
+  //   if (isInitialized && seconds < 0) {
+  //     Moralis.Cloud.run("payIfTimeUp");
+  //   }
+  // }, [seconds, isInitialized]);
 
   async function allocateReward({ receiver, endpoint }) {
     try {
