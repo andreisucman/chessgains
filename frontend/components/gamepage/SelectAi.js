@@ -49,7 +49,7 @@ export default function SelectAi({ selectThisAi, setShowSelectAi, triggerGameSav
           <div className={styles.omega} onClick={() => handleSelect(4)}>
             <div className={styles.omega__img}></div>
             <h3 className={styles.omega__title}>Omega</h3>
-            <p className={styles.omega__desc}>Rumors go that he taught Magnus Carlsen chess.</p>
+            <p className={styles.omega__desc}>Rumors go that he taught Carlsen chess.</p>
             <p className={styles.omega__score}>ELO: ~2200</p>
             <p className={styles.omega__score}>Base score: 225</p>
           </div>

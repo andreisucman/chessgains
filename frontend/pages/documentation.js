@@ -204,10 +204,7 @@ export default function DocumentationPage() {
                   <div className={`${styles.image_container} ${styles.image_container_participants2}`}>
                     <Image className={styles.image} alt="winning chess for money" src={participants2} width={396} height={396} />
                     <p className={styles.image_desc}>
-                      <i>
-                        Pic. 2. Having the highest score doesn't guarantee victory. Any participant can get lucky and win the
-                        prize.
-                      </i>
+                      <i>Pic. 2. Having the highest score doesn't guarantee victory. Any participant can win the prize.</i>
                     </p>
                   </div>
                   <h3
@@ -230,15 +227,16 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    CHSS tokens are not directly related to the tournament and their only benefit is a potential share of the reward
-                    from each payout. The reward is allocated to token holders' addresses automatically after each session in
-                    proportion to the number of tokens they hold.
+                    CHSS tokens are not directly related to the tournament and their only benefit is a potential share of the
+                    reward from each payout. The reward is allocated to token holders' addresses automatically after each session
+                    in proportion to the number of tokens they hold.
                   </p>
                   <div className={`${styles.image_container} ${styles.image_container_holders1}`}>
                     <Image className={styles.image} alt="chessgains tokens" src={holders1} width={396} height={396} />
                     <p className={styles.image_desc}>
                       <i>
-                        Pic. 3. Anyone can support the project by buying CHSS tokens that grant a revenue share from each prize payout.
+                        Pic. 3. Anyone can support the project by buying CHSS tokens that grant a revenue share from each prize
+                        payout.
                       </i>
                     </p>
                   </div>
@@ -574,8 +572,8 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    This is done to reduce the overall transaction cost of the computing engine and make it stable by eliminating automatic
-                    mass payouts.
+                    This is done to reduce the overall transaction cost of the computing engine and make it stable by eliminating
+                    automatic mass payouts.
                   </p>
                   <div className={`${styles.image_container} ${styles.image_container_prizewithdraw}`}>
                     <Image className={styles.image} alt="how to withdraw prize at chessgains" src={prizewithdraw} />
@@ -622,8 +620,8 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    Every tournament results in a winner. Each participant gets a probability of winning in
-                    proportion to their score.
+                    Every tournament results in a winner. Each participant gets a probability of winning in proportion to their
+                    score.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -645,9 +643,9 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    When the tournament is over our algorithm calculates a random number ranging from the total score (line length) to
-                    1 trillion. For example, if the sum of all scores in the tournament is 488, the resulting random number will be
-                    between 488 and 1 trillion.
+                    When the tournament is over our algorithm calculates a random number ranging from the total score (line
+                    length) to 1 trillion. For example, if the sum of all scores in the tournament is 488, the resulting random
+                    number will be between 488 and 1 trillion.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -744,8 +742,8 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     In addition to the main prize and performance rewards, Chessgains may offer "dividends" to CHSS token holders
-                    for supporting the project financially. The holders of the tokens don't have to participate in the tournament to
-                    get their reward.
+                    for supporting the project financially. The holders of the tokens don't have to participate in the tournament
+                    to get their reward.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
