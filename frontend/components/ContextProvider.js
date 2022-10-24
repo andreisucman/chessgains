@@ -238,6 +238,8 @@ export default function ContextProvider({ children }) {
       }
     }
   }, [isInitialized, tokenAbi.status, gRefresh]);
+
+  console.log("matic ratio 242", getMaticRatio)
   // #endregion
 
   // #region fetch performance reward and dividends
