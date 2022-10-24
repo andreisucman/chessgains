@@ -1247,17 +1247,17 @@ Moralis.Cloud.define("payIfTimeUp", async () => {
   const timeNow = Math.trunc(new Date() / 1000);
 
   // check if payout has already been triggered
-  // const historyQuery = new Moralis.Query("History");
-  // historyQuery.descending("createdAt");
-  // historyQuery.notEqualTo("winAmount", 0);
-  // const historyQueryResult = await historyQuery.first();
+  const historyQuery = new Moralis.Query("History");
+  historyQuery.descending("createdAt");
+  historyQuery.notEqualTo("winAmount", 0);
+  const historyQueryResult = await historyQuery.first();
 
   // if a winner has already been chosen within the last 24h return
-  // if (
-  //   timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
-  //   86400
-  // )
-  //   return;
+  if (
+    timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
+    86400
+  )
+    return;
 
   const difference = payoutTime - timeNow;
 
