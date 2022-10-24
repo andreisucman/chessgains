@@ -409,7 +409,7 @@ Moralis.Cloud.define("saveParticipantToDB", async (request) => {
 
 Moralis.Cloud.define("fetchTokenBalance", async (request) => {
   const userAddress = request.params.userAddress;
-  const tokenAddress = "0xB07f84cab9f875Cd9296dF70c9863F023BBCfaA4";
+  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
 
   const options = {
     chain: "polygon",
@@ -513,7 +513,7 @@ Moralis.Cloud.define("addParticipant", async () => {
           type: "address",
         },
         {
-          indexed: false,
+          indexed: true,
           internalType: "uint256",
           name: "value",
           type: "uint256",
@@ -547,25 +547,6 @@ Moralis.Cloud.define("addParticipant", async () => {
         {
           indexed: true,
           internalType: "address",
-          name: "buyer",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-      ],
-      name: "TokensBought",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
           name: "from",
           type: "address",
         },
@@ -576,7 +557,7 @@ Moralis.Cloud.define("addParticipant", async () => {
           type: "address",
         },
         {
-          indexed: false,
+          indexed: true,
           internalType: "uint256",
           name: "value",
           type: "uint256",
@@ -587,51 +568,12 @@ Moralis.Cloud.define("addParticipant", async () => {
     },
     {
       inputs: [],
-      name: "_decimals",
+      name: "admin",
       outputs: [
         {
-          internalType: "uint8",
+          internalType: "address",
           name: "",
-          type: "uint8",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "_name",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "_symbol",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "_totalSupply",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
+          type: "address",
         },
       ],
       stateMutability: "view",
@@ -705,13 +647,7 @@ Moralis.Cloud.define("addParticipant", async () => {
       type: "function",
     },
     {
-      inputs: [
-        {
-          internalType: "address",
-          name: "buyer",
-          type: "address",
-        },
-      ],
+      inputs: [],
       name: "buyTokens",
       outputs: [],
       stateMutability: "payable",
@@ -756,20 +692,7 @@ Moralis.Cloud.define("addParticipant", async () => {
     },
     {
       inputs: [],
-      name: "getBalance",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getLatestRatio",
+      name: "getLatestPrice",
       outputs: [
         {
           internalType: "int256",
@@ -825,6 +748,19 @@ Moralis.Cloud.define("addParticipant", async () => {
           internalType: "string",
           name: "",
           type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address payable",
+          name: "",
+          type: "address",
         },
       ],
       stateMutability: "view",
@@ -917,6 +853,19 @@ Moralis.Cloud.define("addParticipant", async () => {
       type: "function",
     },
     {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
       inputs: [],
       name: "withdrawBalance",
       outputs: [],
@@ -925,7 +874,7 @@ Moralis.Cloud.define("addParticipant", async () => {
     },
   ];
 
-  const tokenAddress = "0xB07f84cab9f875Cd9296dF70c9863F023BBCfaA4";
+  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
   const tokenContract = new eth.ethers.Contract(
     tokenAddress,
     tokenAbi,
@@ -1027,7 +976,7 @@ Moralis.Cloud.define("addParticipant", async () => {
   // #endregion
 
   // #region enter the participant into smart contract
-  const engineAddress = "0xb5a4EA5BB94741AAd2338d64465d256c18f142B4";
+  const engineAddress = "0x1cfAd1DA845c6478F04c907951A29A06b10a9782";
   const engineAbi = [
     {
       inputs: [],
@@ -1047,23 +996,17 @@ Moralis.Cloud.define("addParticipant", async () => {
         {
           indexed: true,
           internalType: "address",
-          name: "to",
+          name: "previousOwner",
           type: "address",
         },
         {
           indexed: true,
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "time",
-          type: "uint256",
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
         },
       ],
-      name: "fundsTransfer",
+      name: "OwnershipTransferred",
       type: "event",
     },
     {
@@ -1078,29 +1021,23 @@ Moralis.Cloud.define("addParticipant", async () => {
         {
           indexed: true,
           internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
           name: "time",
           type: "uint256",
         },
       ],
-      name: "participantEntry",
+      name: "ParticipantEntry",
       type: "event",
     },
     {
       inputs: [
         {
           internalType: "address payable",
-          name: "to",
+          name: "winner",
           type: "address",
         },
         {
           internalType: "uint256",
-          name: "value",
+          name: "amount",
           type: "uint256",
         },
       ],
@@ -1113,12 +1050,12 @@ Moralis.Cloud.define("addParticipant", async () => {
       inputs: [
         {
           internalType: "address payable",
-          name: "to",
+          name: "recipient",
           type: "address",
         },
         {
           internalType: "uint256",
-          name: "value",
+          name: "amount",
           type: "uint256",
         },
       ],
@@ -1128,10 +1065,67 @@ Moralis.Cloud.define("addParticipant", async () => {
       type: "function",
     },
     {
+      anonymous: false,
       inputs: [
         {
-          internalType: "address payable",
-          name: "user",
+          indexed: true,
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "time",
+          type: "uint256",
+        },
+      ],
+      name: "PrizeTransfer",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "renounceOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
+        },
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "time",
+          type: "uint256",
+        },
+      ],
+      name: "RewardTransfer",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newAdmin",
           type: "address",
         },
       ],
@@ -1141,8 +1135,112 @@ Moralis.Cloud.define("addParticipant", async () => {
       type: "function",
     },
     {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "number",
+          type: "uint256",
+        },
+      ],
+      name: "setOwnerShare",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "number",
+          type: "uint256",
+        },
+      ],
+      name: "setWinnerShare",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address payable",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "admin",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
       inputs: [],
       name: "getBalance",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "getLatestPrice",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address payable",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "ownerShare",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "winnerShare",
       outputs: [
         {
           internalType: "uint256",
@@ -1282,7 +1380,7 @@ Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
 
   if (
     result.attributes.token_address ===
-    "0xb07f84cab9f875cd9296df70c9863f023bbcfaa4"
+    "0x6CF09208a84b289922146E7847612Ff59A1c92Fe"
   ) {
     const dividendsQuery = new Moralis.Query("Dividends");
     dividendsQuery.equalTo("address", result.attributes.to_address);
@@ -1346,7 +1444,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
   if (gameResult) {
     previousChecks = gameResult.attributes.previousChecks;
   }
-  
+
   const coincidenceRatio = data.coincidenceRatio;
   const avgToAvgFlag = data.avgToAvgFlag;
   const medianToMedianFlag = data.medianToMedianFlag;
@@ -1432,7 +1530,7 @@ Moralis.Cloud.define("checkIfCheating", async (request) => {
           previousChecks.avgToMedianFlag + avgToMedianFlag ? 1 : 0,
         medianToMedianFlag:
           previousChecks.medianToMedianFlag + medianToMedianFlag ? 1 : 0,
-          idealMovesComboFlag: previousChecks.idealMovesComboFlag + 1,
+        idealMovesComboFlag: previousChecks.idealMovesComboFlag + 1,
       })
     );
 

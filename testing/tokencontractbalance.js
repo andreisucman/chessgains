@@ -8,7 +8,7 @@ async function withdraw() {
     provider
   );
 
-  const tokenAddress = "0xB07f84cab9f875Cd9296dF70c9863F023BBCfaA4";
+  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
   const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
   async function withdrawBalance(contract) {
@@ -39,7 +39,7 @@ async function getBalance() {
     provider
   );
 
-  const tokenAddress = "0xB07f84cab9f875Cd9296dF70c9863F023BBCfaA4";
+  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
   const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
   const balance = await contract.getBalance();

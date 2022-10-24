@@ -20,7 +20,7 @@ const tokenAbi = [
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "value",
         type: "uint256",
@@ -54,25 +54,6 @@ const tokenAbi = [
       {
         indexed: true,
         internalType: "address",
-        name: "buyer",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "TokensBought",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
         name: "from",
         type: "address",
       },
@@ -83,7 +64,7 @@ const tokenAbi = [
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "value",
         type: "uint256",
@@ -94,51 +75,12 @@ const tokenAbi = [
   },
   {
     inputs: [],
-    name: "_decimals",
+    name: "admin",
     outputs: [
       {
-        internalType: "uint8",
+        internalType: "address",
         name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "_name",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "_symbol",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "_totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -212,13 +154,7 @@ const tokenAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "buyer",
-        type: "address",
-      },
-    ],
+    inputs: [],
     name: "buyTokens",
     outputs: [],
     stateMutability: "payable",
@@ -263,20 +199,7 @@ const tokenAbi = [
   },
   {
     inputs: [],
-    name: "getBalance",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getLatestRatio",
+    name: "getLatestPrice",
     outputs: [
       {
         internalType: "int256",
@@ -332,6 +255,19 @@ const tokenAbi = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -424,6 +360,19 @@ const tokenAbi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "withdrawBalance",
     outputs: [],
@@ -451,23 +400,17 @@ const engineAbi = [
       {
         indexed: true,
         internalType: "address",
-        name: "to",
+        name: "previousOwner",
         type: "address",
       },
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "time",
-        type: "uint256",
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
       },
     ],
-    name: "fundsTransfer",
+    name: "OwnershipTransferred",
     type: "event",
   },
   {
@@ -482,29 +425,23 @@ const engineAbi = [
       {
         indexed: true,
         internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
         name: "time",
         type: "uint256",
       },
     ],
-    name: "participantEntry",
+    name: "ParticipantEntry",
     type: "event",
   },
   {
     inputs: [
       {
         internalType: "address payable",
-        name: "to",
+        name: "winner",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "value",
+        name: "amount",
         type: "uint256",
       },
     ],
@@ -517,12 +454,12 @@ const engineAbi = [
     inputs: [
       {
         internalType: "address payable",
-        name: "to",
+        name: "recipient",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "value",
+        name: "amount",
         type: "uint256",
       },
     ],
@@ -532,10 +469,67 @@ const engineAbi = [
     type: "function",
   },
   {
+    anonymous: false,
     inputs: [
       {
-        internalType: "address payable",
-        name: "user",
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "time",
+        type: "uint256",
+      },
+    ],
+    name: "PrizeTransfer",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "time",
+        type: "uint256",
+      },
+    ],
+    name: "RewardTransfer",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newAdmin",
         type: "address",
       },
     ],
@@ -545,8 +539,112 @@ const engineAbi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "number",
+        type: "uint256",
+      },
+    ],
+    name: "setOwnerShare",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "number",
+        type: "uint256",
+      },
+    ],
+    name: "setWinnerShare",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "admin",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getLatestPrice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ownerShare",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "winnerShare",
     outputs: [
       {
         internalType: "uint256",

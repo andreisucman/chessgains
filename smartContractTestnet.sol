@@ -104,20 +104,23 @@ contract ChessGainsToken is IERC20 {
         _balances[owner] = _totalSupply;
 
         priceFeed = AggregatorV3Interface(
-            0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
-        ); // !!! UPDATE
+            0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
+        ); // MATIC / USD - Mainnet
 
         emit Transfer(address(0), msg.sender, _totalSupply);
     }
 
-    modifier onlyOwner {
-      require (msg.sender == owner, "only owner can perform this action");
-      _;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "only owner can perform this action");
+        _;
     }
 
-    modifier onlyAdmin {
-      require ((msg.sender == admin) || (msg.sender == owner), "only admin or owner can perform this action");
-      _;
+    modifier onlyAdmin() {
+        require(
+            (msg.sender == admin) || (msg.sender == owner),
+            "only admin or owner can perform this action"
+        );
+        _;
     }
 
     function getOwner() external view returns (address) {
@@ -144,13 +147,13 @@ contract ChessGainsToken is IERC20 {
         return _balances[account];
     }
 
-    function transferOwnership(address newOwner) onlyOwner public {
+    function transferOwnership(address newOwner) public onlyOwner {
         require(msg.sender == owner, "Only owner can transfer ownership");
         emit OwnershipTransferred(owner, address(0));
         owner = payable(newOwner);
     }
 
-    function renounceOwnership() onlyOwner public {
+    function renounceOwnership() public onlyOwner {
         require(msg.sender == owner, "Only owner can renounce ownership");
         emit OwnershipTransferred(owner, address(0));
         owner = payable(address(0));
@@ -248,10 +251,13 @@ contract ChessGainsToken is IERC20 {
 
     function buyTokens() public payable {
         uint latestPrice = uint(getLatestPrice());
-        require(msg.value * latestPrice / 10**24 >= 95, "the minimum value should be 1 dollar");
+        require(
+            (msg.value * latestPrice) / 10**24 >= 95,
+            "the minimum value should be 1 dollar"
+        );
 
-        uint amount = msg.value * latestPrice / 10**25;
-        
+        uint amount = (msg.value * latestPrice) / 10**25;
+
         _balances[owner] = _balances[owner] - amount;
         _balances[msg.sender] = _balances[msg.sender] + amount;
 
@@ -289,10 +295,7 @@ contract ChessGainsEngine {
         winnerShare = 5000;
     }
 
-    event ParticipantEntry(
-        address indexed participant,
-        uint indexed time
-    );
+    event ParticipantEntry(address indexed participant, uint indexed time);
     event PrizeTransfer(
         address indexed to,
         uint indexed amount,
@@ -308,14 +311,17 @@ contract ChessGainsEngine {
         address indexed newOwner
     );
 
-    modifier onlyOwner {
-      require (msg.sender == owner, "only owner can perform this action");
-      _;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "only owner can perform this action");
+        _;
     }
 
-    modifier onlyAdmin {
-      require ((msg.sender == admin) || (msg.sender == owner), "only admin or owner can perform this action");
-      _;
+    modifier onlyAdmin() {
+        require(
+            (msg.sender == admin) || (msg.sender == owner),
+            "only admin or owner can perform this action"
+        );
+        _;
     }
 
     function setAdmin(address newAdmin) public onlyOwner {
@@ -336,16 +342,26 @@ contract ChessGainsEngine {
 
     function enter() public payable {
         uint latestPrice = getLatestPrice();
-        require(msg.value / latestPrice / 10**8 >= 95, "the minimum value should be 1 dollar");
+        require(
+            msg.value / latestPrice / 10**8 >= 95,
+            "the minimum value should be 1 dollar"
+        );
         emit ParticipantEntry(msg.sender, block.timestamp);
     }
 
     function getLatestPrice() public view returns (uint) {
-        return uint(ChessGainsToken(0x9045aE6401E65887d608885f727041912a22277F).getLatestPrice());
+        return
+            uint(
+                ChessGainsToken(0x6CF09208a84b289922146E7847612Ff59A1c92Fe)
+                    .getLatestPrice()
+            );
     }
 
-    function payWinner(address payable winner, uint amount) public onlyAdmin {
-        require(address(this).balance > amount, "requested amount exceeds contract balance");
+    function payPrize(address payable winner, uint amount) public onlyAdmin {
+        require(
+            address(this).balance > amount,
+            "requested amount exceeds contract balance"
+        );
         uint prize = ((amount * winnerShare) / 10000);
         uint ownerReward = ((amount * ownerShare) / 10000);
 
@@ -356,18 +372,21 @@ contract ChessGainsEngine {
     }
 
     function payRest(address payable recipient, uint amount) public onlyAdmin {
-        require(address(this).balance > amount, "requested amount exceeds contract balance");
+        require(
+            address(this).balance > amount,
+            "requested amount exceeds contract balance"
+        );
         recipient.transfer(amount);
 
         emit RewardTransfer(recipient, amount, block.timestamp);
     }
 
-    function transferOwnership(address payable newOwner) onlyOwner public {
+    function transferOwnership(address payable newOwner) public onlyOwner {
         emit OwnershipTransferred(owner, newOwner);
         owner = newOwner;
     }
 
-    function renounceOwnership() onlyOwner public {
+    function renounceOwnership() public onlyOwner {
         emit OwnershipTransferred(owner, address(0));
         owner = payable(address(0));
     }
