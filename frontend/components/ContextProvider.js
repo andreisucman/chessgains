@@ -315,9 +315,9 @@ export default function ContextProvider({ children }) {
   let timerMessage;
 
   if (seconds > 0) {
-    timerMessage = `draws in ${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
+    timerMessage = `paid in ${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`;
   } else {
-    timerMessage = `drawing now`;
+    timerMessage = `paying now`;
   }
   // #endregion
 
