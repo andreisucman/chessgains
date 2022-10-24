@@ -63,7 +63,6 @@ async function checkBalances() {
     }
     
     balances.i = earned - withdrawn;
-    console.log(balances);
   }
 }
 

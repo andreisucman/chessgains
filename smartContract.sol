@@ -352,7 +352,7 @@ contract ChessGainsEngine {
     function getLatestPrice() public view returns (uint) {
         return
             uint(
-                ChessGainsToken(0x6CF09208a84b289922146E7847612Ff59A1c92Fe)
+                ChessGainsToken(0x6cf09208a84b289922146e7847612ff59a1c92fe)
                     .getLatestPrice()
             );
     }

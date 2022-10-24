@@ -8,11 +8,11 @@ async function withdraw() {
     provider
   );
 
-  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
+  const tokenAddress = "0x6cf09208a84b289922146e7847612ff59a1c92fe";
   const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
   async function withdrawBalance(contract) {
-    console.log("withdrawing...")
+    console.log("withdrawing...");
     try {
       const response = await contract.withdrawBalance({
         gasLimit: 5000000,
@@ -20,9 +20,9 @@ async function withdraw() {
         // maxPriorityFeePerGas: 150000000000,
       });
       const receipt = await response.wait(3);
-      console.log("success", receipt.transactionHash)
+      console.log("success", receipt.transactionHash);
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
   }
 
@@ -39,7 +39,7 @@ async function getBalance() {
     provider
   );
 
-  const tokenAddress = "0x6CF09208a84b289922146E7847612Ff59A1c92Fe";
+  const tokenAddress = "0x6cf09208a84b289922146e7847612ff59a1c92fe";
   const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
   const balance = await contract.getBalance();

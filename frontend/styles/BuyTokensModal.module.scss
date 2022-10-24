@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
   &__formula {
@@ -19,7 +19,7 @@
     border-radius: 4px;
     background-color: var(--dark-grey-c);
     width: fit-content;
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
   &__wrapper {
@@ -41,7 +41,7 @@
     align-items: center;
     justify-content: center;
 
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: center;
     line-height: 150%;
     height: 100%;
@@ -169,7 +169,7 @@
   }
 
   &__more_info {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--font-color);
     text-decoration: none;
 

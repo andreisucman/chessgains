@@ -92,7 +92,7 @@ export async function pay(receiver, key) {
     provider
   );
 
-  const engineAddress = "0x6fB61A88Cb27ef8360de777bEEE84a0FaE17cDD0";
+  const engineAddress = "0x6fb61a88cb27ef8360de777beee84a0fae17cdd0";
 
   const contract = new ethers.Contract(engineAddress, engineAbi, signer);
 
@@ -105,7 +105,7 @@ export async function pay(receiver, key) {
     if (gasPrice < 4000) {
       gasPrice = gasPrice * 2;
     }
-    
+
     const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
 
     try {
@@ -207,7 +207,7 @@ export async function pay(receiver, key) {
           "withdrawn",
           Number(dividendsWithdrawn) + Number(ethers.utils.formatEther(amount))
         );
-        
+
         dividendsQueryResult.set("pendingTx", false);
         await dividendsQueryResult.save(null, { useMasterKey: true });
 
