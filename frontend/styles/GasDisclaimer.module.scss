@@ -14,6 +14,7 @@
   &__ico {
     width: 50px;
     height: 50px;
+    min-width: 50px;
     background-image: url('../public/assets/warning.svg');
     background-size: 70%;
     background-position: center;
@@ -21,7 +22,6 @@
   }
 
   &__text {
-    flex-basis: 85%;
     padding: 0 8px;
   }
 }
