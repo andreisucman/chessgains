@@ -133,7 +133,6 @@
     height: 80px;
 
     @include mobile {
-      width: unset;
       padding: 16px;
     }
 
@@ -168,6 +167,10 @@
         margin: 0;
       }
     }
+  }
+
+  &__processing_disclaimer {
+    color: var(--font-color);
   }
 
   &__cross {
