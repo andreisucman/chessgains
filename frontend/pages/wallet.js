@@ -186,7 +186,7 @@ export default function Wallet() {
                 tokensForSale={currentState.tokensForSale}
                 maticRatio={currentState.maticRatio}
                 tokenAbi={currentState.tokenAbi}
-                setWRefresh={currentState.setWRefresh}
+                setWRefresh={methods.setWRefresh}
               />
             ) : (
               <div className={styles.wallet_page__content}>
