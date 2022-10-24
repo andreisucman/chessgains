@@ -50,6 +50,10 @@ export default function WinScreenStepOne({
     const fastPriceInGwei = Moralis.Units.Token(`${gas}`, "9") || 400000000000;
     const ethers = Moralis.web3Library; // get ethers.js library
 
+    console.log("fast price in gwei", fastPriceInGwei.toString())
+    console.log("normalized ratio", normalizedRatio);
+
+
     let web3Provider;
     try {
       web3Provider = await Moralis.enableWeb3({

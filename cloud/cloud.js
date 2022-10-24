@@ -881,7 +881,7 @@ Moralis.Cloud.define("addParticipant", async () => {
     ethersProvider
   );
 
-  const bigNumber = await tokenContract.getLatestRatio();
+  const bigNumber = await tokenContract.getLatestPrice();
   const rawRatio = eth.ethers.utils.formatEther(bigNumber);
   // #endregion
 

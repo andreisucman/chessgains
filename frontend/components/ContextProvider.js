@@ -218,7 +218,7 @@ export default function ContextProvider({ children }) {
   const optionsRatio = {
     chain: "polygon",
     address: process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
-    function_name: "getLatestRatio",
+    function_name: "getLatestPrice",
     abi: tokenAbi.abi,
   };
 
