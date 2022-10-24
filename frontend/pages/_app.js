@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
         <ContextProvider>
           <Header />
           <Cookies />
-          <AgeDisclaimerPopup />
+          {/* <AgeDisclaimerPopup /> */}
           <Layout>
             <Component {...pageProps} />
           </Layout>

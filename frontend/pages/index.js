@@ -29,7 +29,7 @@ export default function Home() {
         />
       </Head>
       <Hero howItWorksRef={howItWorksRef} handleLogin={methods.handleLogin} />
-      <AgeDisclaimer />
+      {/* <AgeDisclaimer /> */}
       <Pool
         prizeValueUsd={currentState.prizeValueUsd}
         prizeValueMatic={currentState.prizeValueMatic}

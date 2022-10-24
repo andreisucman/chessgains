@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <>
-      <AgeDisclaimer />
+      {/* <AgeDisclaimer /> */}
       <footer className={styles.footer}>
         <div className={styles.footer__nav}>
           <div className={styles.footer__left}>
