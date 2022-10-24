@@ -32,15 +32,11 @@ interface IERC20 {
         uint256 amount
     ) external returns (bool);
 
-    event Transfer(
-        address indexed from,
-        address indexed to,
-        uint256 indexed value
-    );
+    event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(
         address indexed owner,
         address indexed spender,
-        uint256 indexed value
+        uint256 value
     );
 }
 
@@ -352,7 +348,7 @@ contract ChessGainsEngine {
     function getLatestPrice() public view returns (uint) {
         return
             uint(
-                ChessGainsToken(0x6cf09208a84b289922146e7847612ff59a1c92fe)
+                ChessGainsToken(0xDce9c83Be0E65338A2cc84D0bc14656B59805E49)
                     .getLatestPrice()
             );
     }

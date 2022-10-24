@@ -11,7 +11,7 @@ async function transfer() {
     provider
   );
 
-  const tokenAddress = "0x6cf09208a84b289922146e7847612ff59a1c92fe";
+  const tokenAddress = "0xDce9c83Be0E65338A2cc84D0bc14656B59805E49";
   const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
   async function transfer(contract) {

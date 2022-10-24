@@ -409,7 +409,7 @@ Moralis.Cloud.define("saveParticipantToDB", async (request) => {
 
 Moralis.Cloud.define("fetchTokenBalance", async (request) => {
   const userAddress = request.params.userAddress;
-  const tokenAddress = "0x6cf09208a84b289922146e7847612ff59a1c92fe";
+  const tokenAddress = "0xDce9c83Be0E65338A2cc84D0bc14656B59805E49";
 
   const options = {
     chain: "polygon",
@@ -874,7 +874,7 @@ Moralis.Cloud.define("addParticipant", async () => {
     },
   ];
 
-  const tokenAddress = "0x6cf09208a84b289922146e7847612ff59a1c92fe";
+  const tokenAddress = "0xDce9c83Be0E65338A2cc84D0bc14656B59805E49";
   const tokenContract = new eth.ethers.Contract(
     tokenAddress,
     tokenAbi,
@@ -976,7 +976,7 @@ Moralis.Cloud.define("addParticipant", async () => {
   // #endregion
 
   // #region enter the participant into smart contract
-  const engineAddress = "0x6fb61a88cb27ef8360de777beee84a0fae17cdd0";
+  const engineAddress = "0x432F12B07673a87579Da46cA482305374768EA41";
   const engineAbi = [
     {
       inputs: [],
@@ -1380,7 +1380,7 @@ Moralis.Cloud.afterSave("PolygonTokenTransfers", async (request) => {
 
   if (
     result.attributes.token_address ===
-    "0x6cf09208a84b289922146e7847612ff59a1c92fe"
+    "0xDce9c83Be0E65338A2cc84D0bc14656B59805E49"
   ) {
     const dividendsQuery = new Moralis.Query("Dividends");
     dividendsQuery.equalTo("address", result.attributes.to_address);
