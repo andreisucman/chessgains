@@ -129,12 +129,12 @@ export default function WinScreenStepOne({
             <DoughnutChart score={score} />
             <h3 className={styles.step_one__rank_text}>of players</h3>
           </div>
-          <button className={styles.step_one__cta} onClick={signWithEthers} id="enter_lottery">
-            <div className={styles.step_one__cta_div} id="enter_lottery">
+          <button className={styles.step_one__cta} onClick={signWithEthers}>
+            <div className={styles.step_one__cta_div}>
               {!isLoading ? (
                 <>
                   <div className={styles.step_one__cta_img}></div>
-                  <p className={styles.step_one__cta_text}>Enter the lottery</p>
+                  <p className={styles.step_one__cta_text}>Enter the tournament</p>
                 </>
               ) : (
                 <>
@@ -153,7 +153,7 @@ export default function WinScreenStepOne({
             />
           )}
         </div>
-        <button onClick={() => setShowFinalScreen(null)} className={styles.step_one__cross} id="enter_lottery_cross"></button>
+        <button onClick={() => setShowFinalScreen(null)} className={styles.step_one__cross} id="enter_tournament_cross"></button>
       </div>
     </div>
   );

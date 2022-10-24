@@ -8,7 +8,7 @@ export default function Winner() {
     <>
       <Head>
         <title>Chessgains - Winners</title>
-        <meta name="winners" content="Chessgains - skill-based lottery for chess lovers - winners page" />
+        <meta name="winners" content="Chessgains - Skill-based tournament for chess lovers - winners page" />
       </Head>
       <div className={styles.container}>
         <Stats />

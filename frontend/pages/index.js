@@ -22,10 +22,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Chessgains - Play chess against computer and win in the lottery</title>
+        <title>Chessgains - Play chess against computer and win in the tournament</title>
         <meta
           name="description"
-          content="Chessgains - play chess against computer to get a chance of winning in the lottery based on your skill. Check it out!"
+          content="Chessgains - play chess against computer to get a chance of winning in the tournament based on your skill. Check it out!"
         />
       </Head>
       <Hero howItWorksRef={howItWorksRef} handleLogin={methods.handleLogin} />

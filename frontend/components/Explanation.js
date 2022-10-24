@@ -24,13 +24,13 @@ export default function Explanation() {
           <div className={styles.explanation__main_text}>
             <h3 className={styles.explanation__main_title}>Main prize</h3>
             <p className={styles.explanation__paragraph}>
-              After defeating the AI you can enter the lottery with your score to get a chance of winning. The higher your score -
+              After defeating the AI you can enter the tournament with your score to get a chance of winning. The higher your score -
               the more chances you have to win. Your payment combined with the payments of other players forms the prize pool that
               the winner is going to take.
             </p>
             <ul className={styles.explanation__main_list}>
               <li className={styles.explanation__main_list_item}>1. Win the game to get a score</li>
-              <li className={styles.explanation__main_list_item}>2. Send your score to the lottery</li>
+              <li className={styles.explanation__main_list_item}>2. Send your score to the tournament</li>
               <li className={styles.explanation__main_list_item}>3. Receive the prize to your wallet</li>
             </ul>
             <Link href="/documentation">
@@ -51,7 +51,7 @@ export default function Explanation() {
           <div className={styles.explanation__top_text}>
             <h3 className={styles.explanation__top_title}>Performance rewards</h3>
             <p className={styles.explanation__paragraph}>
-              You can get performance rewards from every lottery draw based on how well you compare to other players. If you
+              You can get performance rewards from every tournament prize based on how well you compare to other players. If you
               scored within the top 10% of your session you get $1 back. If you rank within the top 5% or top 1% of players you
               get $2 and $3 back respectively.
             </p>
@@ -95,7 +95,7 @@ export default function Explanation() {
           <div className={styles.explanation__club_text}>
             <h3 className={styles.explanation__club_title}>CHSS token rewards</h3>
             <p className={styles.explanation__paragraph} style={{ marginBottom: "24px" }}>
-              You can support the project by getting CHSS tokens that grant a share of the reward from every lottery draw. The
+              You can support the project by getting CHSS tokens that grant a share of the reward from every tournament prize. The
               more CHSS tokens you have, the bigger is your share from each payout.
             </p>
             <Link href="/documentation">

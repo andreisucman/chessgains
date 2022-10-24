@@ -18,7 +18,7 @@ export default function Contact() {
     <>
       <Head>
         <title>Chessgains - Contact</title>
-        <meta name="contact" content="Chessgains skill-based lottery for chess lovers - contact us page" />
+        <meta name="contact" content="Chessgains skill-based competition for chess lovers - contact us page" />
       </Head>
       <div className={styles.contact_page}>
         <h1 className={styles.contact_page__title}>Contact</h1>

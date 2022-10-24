@@ -8,7 +8,7 @@ export default function Terms() {
     <>
       <Head>
         <title>Chessgains - Terms</title>
-        <meta name="terms" content="Chessgains - skill-based lottery for chess lovers - terms of service" />
+        <meta name="terms" content="Chessgains - Skill-based tournament for chess lovers - terms of service" />
       </Head>
       <main className={styles.legal}>
         <div className={styles.legal__wrapper}>

@@ -9,7 +9,7 @@ export default function FAQPage() {
     <>
       <Head>
         <title>Chessgains - FAQ</title>
-        <meta name="faq" content="Chessgains skill-based lottery for chess lovers - faq page" />
+        <meta name="faq" content="Chessgains - Skill-based competition for chess lovers - faq page" />
       </Head>
       <main className={styles.faq_page}>
         <div className={styles.faq_page__wrapper}>
@@ -36,7 +36,7 @@ export default function FAQPage() {
                   </p>
                   <p className={`${styles.accordion__paragraph} ${styles.accordion__paragraph_bottom_16}`}>
                     We can't disclose these limitations due to obvious reasons, but if we suspect a participant of cheating we
-                    deny his access to the lottery immediately.
+                    deny his access to the tournament immediately.
                   </p>
                   <YoutubeEmbed videoId={"te8tAxay-M8"} title={"Can you cheat at chessgains.com?"} />
                 </div>
@@ -55,7 +55,7 @@ export default function FAQPage() {
                     before making the buying decision.
                   </p>{" "}
                   <p className={styles.accordion__paragraph}>
-                    The amount of reward depends on the number of players in the lottery and the number of CHSS tokens in your
+                    The amount of reward depends on the number of players in the tournament and the number of CHSS tokens in your
                     wallet. You can find the return formula, and estimated projections in the "Token holders reward" section of
                     the{" "}
                     <Link href="/documentation">
@@ -77,7 +77,7 @@ export default function FAQPage() {
                   </p>
                   <p className={styles.accordion__paragraph}>
                     If you feel uneasy about the security of your money or you have specific return expectations we strongly
-                    advise you NOT to get involved in the Chessgains lottery and NOT buy any CHSS tokens.
+                    advise you NOT to get involved in the Chessgains tournament and NOT buy any CHSS tokens.
                   </p>
                 </div>
               </div>
@@ -102,7 +102,7 @@ export default function FAQPage() {
                 <div className={styles.accordion__answer}>
                   <p className={styles.accordion__paragraph}>
                     Your in-game wallet displays only MATIC and CHSS tokens. That's why we recommend using it only for
-                    game-related transactions and keeping there only the amount of MATIC that you need for entering the lottery.
+                    game-related transactions and keeping there only the amount of MATIC that you need for entering the tournament.
                   </p>
                 </div>
               </div>

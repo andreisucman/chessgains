@@ -34,7 +34,7 @@ export default function InsufficientFunds({ setShowInsufficientBalance, maticBal
             <h2 className={styles.insufficient_funds__main_title}>Insufficient balance</h2>
           </div>
           <h3 className={styles.insufficient_funds__description}>
-            You need at least {(enterFee - maticBalance).toFixed(3)} more MATIC to enter the lottery
+            You need at least {(enterFee - maticBalance).toFixed(3)} more MATIC to enter the tournament
           </h3>
           <div className={styles.insufficient_funds__balance}>Your wallet balance: {maticBalance} MATIC</div>
           <div className={styles.insufficient_funds__btns}>

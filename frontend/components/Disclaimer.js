@@ -12,12 +12,12 @@ export default function Disclaimer({ disclaimerRef }) {
       <p
         className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full} ${styles.documentation_page__section_paragraph_disclaimer}`}
       >
-        The purpose of this page is to describe how Chessgains and its token operate, how to enter the Chessgains lottery and what
+        The purpose of this page is to describe how Chessgains and its token operate, how to enter the Chessgains tournament and what
         benefits it provides to its users.
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>
         Information provided here is NOT a commitment on our part to any stakeholder or potential investor of any current or
-        future value or functionality of the Chessgains lottery or its token. Neither is it a solicitation for buying CHSS tokens.
+        future value or functionality of the Chessgains tournament or its token. Neither is it a solicitation for buying CHSS tokens.
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>
         Buying CHSS tokens bears significant risk and you should never buy them with the money you can't afford to lose. The value
@@ -25,9 +25,9 @@ export default function Disclaimer({ disclaimerRef }) {
         <b>In these cases you will not be refunded or exchanged</b>.
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>
-        We don't guarantee you any value from buying CHSS tokens or participating in the Chessgains lottery. You should assume the
+        We don't guarantee you any value from buying CHSS tokens or participating in the Chessgains tournament. You should assume the
         risk of loss from the time of getting involved and by getting involved you accept that the current value you get from the
-        lottery and token may be the highest value you can ever obtain from them.
+        tournament and token may be the highest value you can ever obtain from them.
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>
         You agree that buying CHSS tokens doesn't grant you any right to any compensation, and you will not assert any claim,
@@ -36,7 +36,7 @@ export default function Disclaimer({ disclaimerRef }) {
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>
         Therefore if you're concerned about losing your money by purchasing CHSS tokens or of the value you are getting from the
-        lottery in light of this disclaimer we strongly recommend you NOT to get involved in the Chessgains lottery and NOT to buy
+        tournament in light of this disclaimer we strongly recommend you NOT to get involved in the Chessgains tournament and NOT to buy
         any CHSS tokens.
       </p>
       <p className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_disclaimer}`}>

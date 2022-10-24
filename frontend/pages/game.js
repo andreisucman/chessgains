@@ -143,8 +143,8 @@ export default function Game() {
   return (
     <>
       <Head>
-        <title>Chessgains - Skill-based lottery for chess lovers</title>
-        <meta name="description" content="Chessgains - skill-based lottery for chess lovers - game page" />
+        <title>Chessgains - Skill-based tournament for chess lovers</title>
+        <meta name="description" content="Chessgains - Skill-based tournament for chess lovers - game page" />
       </Head>
       <div className={styles.gamepage}>
         <div className={styles.interface}>

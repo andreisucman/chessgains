@@ -159,7 +159,7 @@ export default function Wallet() {
     <>
       <Head>
         <title>Chessgains - Wallet</title>
-        <meta name="wallet" content="Chessgains - skill-based lottery for chess lovers - wallet page" />
+        <meta name="wallet" content="Chessgains - Skill-based tournament for chess lovers - wallet page" />
       </Head>
       {isAuthenticated && (
         <div className={styles.wallet_page}>

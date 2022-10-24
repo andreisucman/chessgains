@@ -80,7 +80,7 @@ export default function DocumentationPage() {
     <>
       <Head>
         <title>Chessgains - Documentation</title>
-        <meta name="documentation" content="Chessgains - skill-based lottery for chess lovers - documentation page" />
+        <meta name="documentation" content="Chessgains - Skill-based competition for chess lovers - documentation page" />
       </Head>
       <div ref={topPageRef}>
         <main className={styles.documentation_page}>
@@ -178,17 +178,17 @@ export default function DocumentationPage() {
               </div>
             </div>
             <div className={styles.documentation_page__main}>
-              <h1 className={styles.documentation_page__title}>Chessgains - Skill-based Lottery for Chess Lovers</h1>
+              <h1 className={styles.documentation_page__title}>Chessgains - Skill-based Competition for Chess Lovers</h1>
               <Disclaimer disclaimerRef={disclaimerRef} />
 
               <div className={styles.documentation_page__block} ref={aboutRef} id="about">
                 <h2 className={styles.documentation_page__section_title}>About</h2>
-                <h3 className={styles.documentation_page__section_subtitle}>Lottery</h3>
+                <h3 className={styles.documentation_page__section_subtitle}>Tournament</h3>
                 <div className={styles.documentation_page__block_text_container}>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    <b>Chessgains</b> is a skill-based lottery built on the Polygon blockchain that accepts 1$ from each
+                    <b>Chessgains</b> is a skill-based competition that runs on the Polygon blockchain. It accepts 1$ from each
                     participant and distributes the collected funds to one of them at random based on their score from the
                     gameplay.
                   </p>
@@ -196,7 +196,7 @@ export default function DocumentationPage() {
                     <Image className={styles.image} alt="play chess for money" src={participants1} width={396} height={396} />
                     <p className={styles.image_desc}>
                       <i>
-                        Pic. 1. Participants submit their score to the lottery along with the $1 payment to get a chance of
+                        Pic. 1. Participants submit their score along with the $1 payment to the tournament to get a chance of
                         winning.
                       </i>
                     </p>
@@ -219,7 +219,7 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     <b>Chess token</b> (CHSS) is an ERC20 token whose purpose is to let interested people financially support the
-                    project for a potential share of the reward from every lottery draw.
+                    project for a potential share of the reward from every prize payout.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -230,7 +230,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    CHSS tokens are not directly related to the lottery and their only benefit is a potential share of the reward
+                    CHSS tokens are not directly related to the tournament and their only benefit is a potential share of the reward
                     from each payout. The reward is allocated to token holders' addresses automatically after each session in
                     proportion to the number of tokens they hold.
                   </p>
@@ -238,8 +238,7 @@ export default function DocumentationPage() {
                     <Image className={styles.image} alt="chessgains tokens" src={holders1} width={396} height={396} />
                     <p className={styles.image_desc}>
                       <i>
-                        Pic. 3. Anyone can support the project by buying CHSS tokens that grant a revenue share from each lottery
-                        draw.
+                        Pic. 3. Anyone can support the project by buying CHSS tokens that grant a revenue share from each prize payout.
                       </i>
                     </p>
                   </div>
@@ -286,7 +285,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    To participate in the lottery the player has to have a web3 wallet. We create a new web3 wallet for each
+                    To participate in the tournament the player has to have a web3 wallet. We create a new web3 wallet for each
                     participant automatically during the first login. All that is required is to authenticate using the email or a
                     social account.
                   </p>
@@ -309,7 +308,7 @@ export default function DocumentationPage() {
                     </picture>
                     <p className={styles.image_desc}>
                       <i>
-                        Pic. 6. The player a) plays the game, b) gets a score, c) submits the score to the lottery, d) gets the
+                        Pic. 6. The player a) plays the game, b) gets a score, c) submits the score to the tournament, d) gets the
                         prize or reward, or both deposited to the in-game wallet, e) withdraws the reward to the personal wallet.
                       </i>
                     </p>
@@ -321,7 +320,7 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     Every player can play chess on Chessgains free unlimited number of times. The user is not charged until he
-                    submits the score to the lottery.{" "}
+                    submits the score to the tournament.{" "}
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -332,7 +331,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    The score is counted only after the player submits his request for entry into the lottery and pays the one
+                    The score is counted only after the player submits his request for entry into the tournament and pays the one
                     dollar participation fee.
                   </p>
                   <p className={styles.documentation_page__section_paragraph}>
@@ -475,7 +474,7 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     The user needs to deposit this amount to his in-game wallet from where it's automatically deducted after he
-                    clicks the "enter lottery" button. To deposit Matic the player can
+                    clicks the "enter the tournament" button. To deposit Matic the player can
                   </p>
                   <ul className={styles.ul_style}>
                     <li
@@ -575,7 +574,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    This is done to reduce the overall transaction cost of the lottery and make it stable by eliminating automatic
+                    This is done to reduce the overall transaction cost of the computing engine and make it stable by eliminating automatic
                     mass payouts.
                   </p>
                   <div className={`${styles.image_container} ${styles.image_container_prizewithdraw}`}>
@@ -623,7 +622,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    In Chessgains every lottery draw results in a winner. Each participant gets a probability of winning in
+                    Every tournament results in a winner. Each participant gets a probability of winning in
                     proportion to their score.
                   </p>
                   <p
@@ -646,8 +645,8 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    When the lottery draws our algorithm calculates a random number ranging from the total score (line length) to
-                    1 trillion. For example, if the sum of all scores in the lottery is 488, the resulting random number will be
+                    When the tournament is over our algorithm calculates a random number ranging from the total score (line length) to
+                    1 trillion. For example, if the sum of all scores in the tournament is 488, the resulting random number will be
                     between 488 and 1 trillion.
                   </p>
                   <p
@@ -695,8 +694,8 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     In addition to the main prize, each participant gets performance rewards based on how they compare to the
-                    other players in the same lottery round. Thus the top 1% get $3, the top 5% get $2, and the top 10% get $1
-                    allocated to their wallet after the lottery draw.
+                    other players in the same tournament. Thus the top 1% get $3, the top 5% get $2, and the top 10% get $1
+                    allocated to their wallet after the competition is finished.
                   </p>
                   <table className={styles.documentation_page__about_table}>
                     <thead>
@@ -745,7 +744,7 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     In addition to the main prize and performance rewards, Chessgains may offer "dividends" to CHSS token holders
-                    for supporting the project financially. The holders of the tokens don't have to participate in the lottery to
+                    for supporting the project financially. The holders of the tokens don't have to participate in the tournament to
                     get their reward.
                   </p>
                   <p
@@ -757,7 +756,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    Each token grants its holders a share of the revenue from each lottery draw. This reward, however, is not
+                    Each token grants its holders a share of the revenue from each tournament. This reward, however, is not
                     guaranteed and we urge everyone to read the disclaimer section of this paper before making any purchasing
                     decision.
                   </p>
@@ -773,7 +772,7 @@ export default function DocumentationPage() {
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
                     As it follows from the formula the return from each CHSS token is equal to 0.00000022 * prize, which means
-                    that the more participants there are in the lottery the higher the return for the token holders.
+                    that the more participants there are in the tournament the higher the return for the token holders.
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -819,7 +818,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_footnote}`}
                   >
-                    * Numbers represent return per lottery draw depending on the number of tokens and participants in the lottery
+                    * Numbers represent return per tournament depending on the number of tokens and participants
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
@@ -846,7 +845,7 @@ export default function DocumentationPage() {
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}
                   >
-                    Our next major milestone is to reach 1000 monthly lottery players.{" "}
+                    Our next major milestone is to reach 1000 monthly participants.{" "}
                   </p>
                   <p
                     className={`${styles.documentation_page__section_paragraph} ${styles.documentation_page__section_paragraph_full}`}

@@ -94,11 +94,11 @@ export default function TestEntry() {
     }
   }
 
-  async function enterLottery() {
+  async function enterTournament() {
     const normalizedRatio = currentState.maticRatio / 10 ** 8;
     const enterFee = Moralis.Units.Token(1 / normalizedRatio, "18");
 
-    // enter the lottery
+    // enter the tournament
     const options = {
       contractAddress: process.env.NEXT_PUBLIC_ENGINE_ADDRESS,
       functionName: "enter",
@@ -121,5 +121,5 @@ export default function TestEntry() {
     });
   }
 
-  return <button onClick={signWithEthers}>Enter lottery</button>;
+  return <button onClick={signWithEthers}>Enter tournament</button>;
 }

@@ -106,7 +106,7 @@ export default function BuyTokensModal({
               <>
                 <h3 className={styles.buy_tokens__content_title}>Buy CHSS tokens</h3>
                 <div className={styles.buy_tokens__explanation}>
-                  CHSS tokens grant a share from each lottery draw represented by the following formula:
+                  CHSS tokens grant a share from each tournament prize represented by the following formula:
                   <p className={styles.buy_tokens__formula}>Token reward = 1 / 10^6 * prize * 0.22</p>
                 </div>
               </>

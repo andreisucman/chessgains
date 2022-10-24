@@ -7,7 +7,7 @@ export default function Privacy() {
     <>
       <Head>
         <title>Chessgains - Privacy policy</title>
-        <meta name="privacy" content="Chessgains - skill-based lottery for chess lovers - privacy policy" />
+        <meta name="privacy" content="Chessgains - Skill-based tournament for chess lovers - privacy policy" />
       </Head>
       <main className={styles.legal}>
         <div className={styles.legal__wrapper}>
