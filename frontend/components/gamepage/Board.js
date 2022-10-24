@@ -54,7 +54,7 @@ export const COMPUTER_DESCRIPTIONS = {
     desc: "Rumors go that he taught Carlsen chess.",
     score: "225",
     image: omega_img,
-    elo: "~2200",
+    elo: "~2400",
   },
 }
 
