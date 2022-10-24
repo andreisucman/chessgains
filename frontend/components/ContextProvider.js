@@ -215,12 +215,7 @@ export default function ContextProvider({ children }) {
     setEngineAbi({ abi: abiResult.attributes.engine, status: true });
   }
 
-  const optionsRatio = {
-    chain: "polygon",
-    address: process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
-    function_name: "getLatestPrice",
-    abi: tokenAbi.abi,
-  };
+
 
   const getMaticRatio = useMoralisWeb3ApiCall(native.runContractFunction, {
     ...optionsRatio,
