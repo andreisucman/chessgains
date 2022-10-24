@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
-import { useGetCurrentState } from "../frontend/components/ContextProvider";
+import { useGetCurrentState } from "../components/ContextProvider";
 
 export default function TestEntry() {
   const { Moralis } = useMoralis();
@@ -73,22 +73,22 @@ export default function TestEntry() {
     try {
       const tx = await transaction.wait(3);
 
-      // save the participant to DB
-      const params = {
-        sessionId: chess.sessionId,
-        userAddress,
-        enterFee,
-        maticRatio,
-        txLink: tx.transactionHash,
-      };
+      // // save the participant to DB
+      // const params = {
+      //   sessionId: chess.sessionId,
+      //   userAddress,
+      //   enterFee,
+      //   maticRatio,
+      //   txLink: tx.transactionHash,
+      // };
 
-      async function finalizeRound() {
-        await Moralis.Cloud.run("saveParticipantToDB", params);
-        await Moralis.Cloud.run("updatePrizeTable", { maticRatio });
-        setShowFinalScreen(2);
-        setIsLoading(false);
-      }
-      finalizeRound();
+      // async function finalizeRound() {
+      //   await Moralis.Cloud.run("saveParticipantToDB", params);
+      //   await Moralis.Cloud.run("updatePrizeTable", { maticRatio });
+      //   setShowFinalScreen(2);
+      //   setIsLoading(false);
+      // }
+      // finalizeRound();
     } catch (err) {
       console.log(err);
     }

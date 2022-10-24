@@ -48,5 +48,3 @@ async function getBalance() {
   const balanceBoard = document.getElementById("balance");
   balanceBoard.innerHTML = `${readableBalance}`;
 }
-
-getBalance();
