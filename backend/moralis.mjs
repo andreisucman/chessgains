@@ -124,50 +124,69 @@ export async function pay(receiver, key) {
 
         if (rewardQueryResult && rewardQueryResult.attributes.pendingTx) return;
 
+        let rewardsWithdrawn = 0;
+
         if (rewardQueryResult) {
+          rewardsWithdrawn = rewardQueryResult.attributes.withdrawn;
           rewardQueryResult.set("pendingTx", true);
+          rewardQueryResult.set("pendingAmount", `${amount}`);
+          rewardQueryResult.set(
+            "withdrawn",
+            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
+          );
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
+          rewardInstance.set("pendingAmount", `${amount}`);
+          rewardInstance.set("address", to);
+          rewardInstance.set(
+            "withdrawn",
+            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
+          );
           rewardInstance.set(null, { useMasterKey: true });
         }
 
-        response = await contract.payRest(to, amount, {
-          gasLimit: 10000000,
-          maxFeePerGas: fastPriceInGwei || 490000000000,
-          maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
-        });
+        try {
+          response = await contract.payRest(to, amount, {
+            gasLimit: 10000000,
+            maxFeePerGas: fastPriceInGwei || 490000000000,
+            maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
+          });
 
-        const receipt = await response.wait(3);
+          const receipt = await response.wait(3);
 
-        const RewardsTable = Moralis.Object.extend("Rewards");
-        const rewardsQuery = new Moralis.Query(RewardsTable);
-        rewardsQuery.equalTo("address", to);
-        const rewardsResult = await rewardsQuery.first();
+          const RewardsTable = Moralis.Object.extend("Rewards");
+          const rewardsQuery = new Moralis.Query(RewardsTable);
+          rewardsQuery.equalTo("address", to);
+          const rewardsResult = await rewardsQuery.first();
 
-        let rewardsWithdrawn = 0;
+          if (rewardsResult) {
+            rewardsResult.set("pendingTx", false);
+            rewardsResult.set("pendingAmount", "0");
+            await rewardsResult.save(null, { useMasterKey: true });
+          } else {
+            const rewardsInstance = new RewardsTable();
+            rewardsInstance.set("pendingTx", false);
+            rewardsInstance.set("pendingAmount", "0");
+            await rewardsInstance.save(null, { useMasterKey: true });
+          }
 
-        if (rewardsResult) {
-          rewardsWithdrawn = rewardsResult.attributes.withdrawn;
-          rewardsResult.set(
-            "withdrawn",
-            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
-          );
-          rewardsResult.set("pendingTx", false);
-          await rewardsResult.save(null, { useMasterKey: true });
-        } else {
-          const rewardsInstance = new RewardsTable();
-          rewardsInstance.set("address", to);
-          rewardsInstance.set(
-            "withdrawn",
-            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
-          );
-          rewardsInstance.set("pendingTx", false);
-          await rewardsInstance.save(null, { useMasterKey: true });
+          return { status: await receipt.status };
+        } catch (err) {
+          const RewardsTable = Moralis.Object.extend("Rewards");
+          const rewardsQuery = new Moralis.Query(RewardsTable);
+          rewardsQuery.equalTo("address", to);
+          const rewardsResult = await rewardsQuery.first();
+
+          if (rewardsResult) {
+            const pendingAmount = rewardsResult.attributes.pendingAmount;
+            const withdrawn = rewardsResult.attributes.withdrawn;
+            rewardsResult.set("withdrawn", Number(withdrawn) - Number(pendingAmount) / 10 ** 18);
+            await rewardsResult.save(null, { useMasterKey: true });
+          }
+          return { err };
         }
-
-        return { status: await receipt.status };
       }
 
       if (key === "dividends" && Number(amount) > 0) {
@@ -179,43 +198,64 @@ export async function pay(receiver, key) {
 
         if (dividendsQueryCheckResult && dividendsQueryCheckResult.attributes.pendingTx) return;
 
-        if (dividendsQueryCheckResult) {
-          dividendsQueryCheckResult.set("pendingTx", true);
-          await dividendsQueryCheckResult.save(null, { useMasterKey: true });
-        } else {
-          const dividendsInstance = new DividendsQueryCheckTable();
-          dividendsInstance.set("pendingTx", true);
-          dividendsInstance.save(null, { useMasterKey: true });
-        }
-
-        response = await contract.payRest(to, amount, {
-          gasLimit: 10000000,
-          maxFeePerGas: fastPriceInGwei || 490000000000,
-          maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
-        });
-
-        const receipt = await response.wait(3);
-
-        const DividendsTable = Moralis.Object.extend("Dividends");
-        const dividendsQuery = new Moralis.Query(DividendsTable);
-        dividendsQuery.equalTo("address", to);
-        const dividendsQueryResult = await dividendsQuery.first();
-
         let dividendsWithdrawn = 0;
 
-        if (dividendsQueryResult) {
-          dividendsWithdrawn = dividendsQueryResult.attributes.withdrawn;
+        if (dividendsQueryCheckResult) {
+          dividendsWithdrawn = dividendsQueryCheckResult.attributes.withdrawn;
         }
 
-        dividendsQueryResult.set(
+        dividendsQueryCheckResult.set(
           "withdrawn",
           Number(dividendsWithdrawn) + Number(ethers.utils.formatEther(amount))
         );
 
-        dividendsQueryResult.set("pendingTx", false);
-        await dividendsQueryResult.save(null, { useMasterKey: true });
+        if (dividendsQueryCheckResult) {
+          dividendsQueryCheckResult.set("pendingTx", true);
+          dividendsQueryCheckResult.set("pendingAmount", `${amount}`);
+          await dividendsQueryCheckResult.save(null, { useMasterKey: true });
+        } else {
+          const dividendsInstance = new DividendsQueryCheckTable();
+          dividendsInstance.set("pendingTx", true);
+          dividendsInstance.set("pendingAmount", `${amount}`);
+          dividendsInstance.save(null, { useMasterKey: true });
+        }
 
-        return { status: await receipt.status };
+        try {
+          response = await contract.payRest(to, amount, {
+            gasLimit: 10000000,
+            maxFeePerGas: fastPriceInGwei || 490000000000,
+            maxPriorityFeePerGas: fastPriceInGwei || 490000000000,
+          });
+
+          const receipt = await response.wait(3);
+
+          const DividendsTable = Moralis.Object.extend("Dividends");
+          const dividendsQuery = new Moralis.Query(DividendsTable);
+          dividendsQuery.equalTo("address", to);
+          const dividendsQueryResult = await dividendsQuery.first();
+
+          dividendsQueryResult.set("pendingTx", false);
+          dividendsQueryResult.set("pendingAmount", "0");
+          await dividendsQueryResult.save(null, { useMasterKey: true });
+
+          return { status: await receipt.status };
+        } catch (err) {
+          const DividendsTable = Moralis.Object.extend("Dividends");
+          const dividendsQuery = new Moralis.Query(DividendsTable);
+          dividendsQuery.equalTo("address", to);
+          const dividendsQueryResult = await dividendsQuery.first();
+
+          if (dividendsQueryResult) {
+            const pendingAmount = dividendsQueryResult.attributes.pendingAmount;
+            const withdrawn = dividendsQueryResult.attributes.withdrawn;
+            dividendsQueryResult.set(
+              "withdrawn",
+              Number(withdrawn) - Number(pendingAmount) / 10 ** 18
+            );
+            await dividendsQueryResult.save(null, { useMasterKey: true });
+          }
+          return { err };
+        }
       }
 
       if (key === "pay" && Number(amount) > 0) {

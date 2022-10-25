@@ -79,16 +79,6 @@ export default function Wallet() {
   // }
 
   async function handleClaimDividends({ receiver, endpoint }) {
-    if (endpoint === "dividends" && currentState.dividends < 0.001) {
-      setDividendsLowToClaim(true);
-
-      setInterval(() => {
-        setDividendsLowToClaim(false);
-      }, 4000);
-      return;
-    }
-    setClaimDividendsLoading(true);
-
     // check if the payout has already been initiated
     const dividendsQuery = new Moralis.Query("Dividends");
     dividendsQuery.equalTo("address", currentState.userAddress);
@@ -105,6 +95,16 @@ export default function Wallet() {
       return;
     }
 
+    if (endpoint === "dividends" && currentState.dividends < 0.001) {
+      setDividendsLowToClaim(true);
+
+      setInterval(() => {
+        setDividendsLowToClaim(false);
+      }, 4000);
+      return;
+    }
+    setClaimDividendsLoading(true);
+
     const response = await methods.allocateReward({ receiver, endpoint });
 
     if ((await response.status) === 200 || (await response.status) === 204) {
@@ -117,16 +117,6 @@ export default function Wallet() {
   }
 
   async function handleClaimReward({ receiver, endpoint }) {
-    if (endpoint === "reward" && currentState.performanceReward < 0.001) {
-      setRewardLowToClaim(true);
-
-      setInterval(() => {
-        setRewardLowToClaim(false);
-      }, 4000);
-      return;
-    }
-    setClaimRewardLoading(true);
-
     // check if the payout has already been initiated
     const rewardsQuery = new Moralis.Query("Rewards");
     rewardsQuery.equalTo("address", currentState.userAddress);
@@ -141,6 +131,16 @@ export default function Wallet() {
       }, 4000);
       return;
     }
+
+    if (endpoint === "reward" && currentState.performanceReward < 0.001) {
+      setRewardLowToClaim(true);
+
+      setInterval(() => {
+        setRewardLowToClaim(false);
+      }, 4000);
+      return;
+    }
+    setClaimRewardLoading(true);
 
     const response = await methods.allocateReward({ receiver, endpoint });
 
