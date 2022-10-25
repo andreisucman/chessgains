@@ -34,6 +34,7 @@
   &__sidebar {
     position: fixed;
     width: 300px;
+    z-index: 4;
 
     background: linear-gradient(#3c3934, #302E2A);
     padding: 24px;
