@@ -38,7 +38,7 @@ export default function FAQPage() {
                     We can't disclose these limitations due to obvious reasons, but if we suspect a participant of cheating we
                     deny his access to the tournament immediately.
                   </p>
-                  <YoutubeEmbed videoId={"te8tAxay-M8"} title={"Can you cheat at chessgains.com?"} />
+                  <YoutubeEmbed videoId={"qd_Id2UahnE"} title={"Can you cheat at chessgains.com?"} />
                 </div>
               </div>
               <div className={styles.accordion__item} id="question2">
