@@ -104,6 +104,10 @@ export async function pay(receiver, key) {
 
     if (gasPrice < 1000) {
       gasPrice = gasPrice * 7;
+    } else if (gasPrice >= 1000 && gasPrice < 1500) {
+      gasPrice = gasPrice * 5;
+    } else {
+      gasPrice = gasPrice = 2.5;
     }
 
     const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
