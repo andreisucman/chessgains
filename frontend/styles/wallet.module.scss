@@ -25,7 +25,7 @@
     }
   }
 
-  &__too_low_to_claim, &__claim_already_processing {
+  &__too_low_to_claim, &__claim_already_processing, &__received_claim_request {
     color: var(--light-yellow-c);
   }
 
@@ -138,7 +138,7 @@
   &__btn {
     position: relative;
     width: fit-content;
-    min-width: 100px;
+    min-width: 80px;
     padding: 16px;
     text-align: center;
     cursor: pointer;
@@ -156,7 +156,7 @@
     }
 
     &_claim {
-      width: 100px;
+      width: 80px;
       display: flex;
       justify-content: center;
       align-items: center;
