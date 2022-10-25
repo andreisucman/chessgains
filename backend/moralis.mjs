@@ -102,8 +102,8 @@ export async function pay(receiver, key) {
   async function pay(contract, to, amount) {
     let gasPrice = await getGasPrice();
 
-    if (gasPrice < 4000) {
-      gasPrice = gasPrice * 2;
+    if (gasPrice < 1000) {
+      gasPrice = gasPrice * 7;
     }
 
     const fastPriceInGwei = ethers.utils.parseUnits(`${gasPrice}`, "gwei");
