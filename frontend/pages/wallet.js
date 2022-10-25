@@ -120,7 +120,7 @@ export default function Wallet() {
         setTimeout(() => {
           setReceivedClaimRequestDividends(false);
         }, 5000);
-      }, 2000);
+      }, 1000);
     }
   }
 
@@ -163,7 +163,7 @@ export default function Wallet() {
         setTimeout(() => {
           setReceivedClaimRequestReward(false);
         }, 5000);
-      }, 2000);
+      }, 1000);
     } else {
       console.log("an error happened while processing reward payment", response);
     }
