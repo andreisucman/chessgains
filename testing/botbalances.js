@@ -39,6 +39,7 @@ const balances = {};
 let k = 0;
 
 async function checkBalances() {
+
   for (let i = 0; i < addresses.length; i++) {
     const earnedQuery = new Moralis.Query("History");
     const withdrawnQuery = new Moralis.Query("Rewards");
@@ -63,6 +64,7 @@ async function checkBalances() {
     }
     
     balances.i = earned - withdrawn;
+    console.log(balances.i) 
   }
 }
 

@@ -33,7 +33,8 @@ export default function Wallet() {
   const [withdrawDisabled, setWithdrawDisabled] = useState(false);
   const [rewardAlreadyClaimed, setRewardAlreadyClaimed] = useState(false);
   const [dividendsAlreadyClaimed, setDividendsAlreadyClaimed] = useState(false);
-  const [receivedClaimRequest, setReceivedClaimRequest] = useState(false);
+  const [receivedClaimRequestReward, setReceivedClaimRequestReward] = useState(false);
+  const [receivedClaimRequestDividends, setReceivedClaimRequestDividends] = useState(false);
 
   // useEffect(() => {
   //   if (!currentState.userAddress) return;
@@ -114,10 +115,10 @@ export default function Wallet() {
 
         methods.setDividends(0);
 
-        setReceivedClaimRequest(true);
+        setReceivedClaimRequestDividends(true);
 
         setTimeout(() => {
-          setReceivedClaimRequest(false);
+          setReceivedClaimRequestDividends(false);
         }, 5000);
       }, 2000);
     }
@@ -157,10 +158,10 @@ export default function Wallet() {
 
         methods.setPerformanceReward(0);
 
-        setReceivedClaimRequest(true);
+        setReceivedClaimRequestReward(true);
 
         setTimeout(() => {
-          setReceivedClaimRequest(false);
+          setReceivedClaimRequestReward(false);
         }, 5000);
       }, 2000);
     } else {
@@ -225,7 +226,7 @@ export default function Wallet() {
                 <div className={styles.wallet_page__row}>
                   <p className={styles.wallet_page__performance_reward}>
                     Reward: {formatNumber(currentState.performanceReward)} MATIC
-                    {receivedClaimRequest && (
+                    {receivedClaimRequestReward && (
                       <span className={styles.wallet_page__received_claim_request}>
                         Claim request received. Your balance will update within several minutes.
                       </span>
@@ -273,7 +274,7 @@ export default function Wallet() {
                   <p className={styles.wallet_page__eligible_to_withdraw}>
                     Dividends:
                     <span>{formatNumber(currentState.dividends)} MATIC</span>{" "}
-                    {receivedClaimRequest && (
+                    {receivedClaimRequestDividends && (
                       <span className={styles.wallet_page__received_claim_request}>
                         Claim request received. Your balance will update within several minutes.
                       </span>
