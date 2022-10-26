@@ -18,7 +18,7 @@ const OnramperWidgetContainer = dynamic(() => import("../components/OnramperWidg
 });
 
 export default function Wallet() {
-  const { isAuthenticated, isAuthUndefined, isWeb3EnableLoading, Moralis } = useMoralis();
+  const { isAuthenticated, isAuthUndefined, isWeb3EnableLoading, Moralis, isWeb3Enabled } = useMoralis();
   const currentState = useGetCurrentState();
   const methods = useGetMethods();
   const [copyButtonText, setCopyButtonText] = useState("Copy");
@@ -253,7 +253,7 @@ export default function Wallet() {
                         endpoint: "reward",
                       })
                     }
-                    disabled={claimRewardLoading}
+                    disabled={claimRewardLoading || !isWeb3Enabled}
                   >
                     {claimRewardLoading ? <ReactLoading type="spin" color="#F4F0E6" width={26} height={26} /> : "Claim"}
                   </button>
@@ -301,7 +301,7 @@ export default function Wallet() {
                         endpoint: "dividends",
                       })
                     }
-                    disabled={claimDividendsLoading}
+                    disabled={claimDividendsLoading || !isWeb3Enabled}
                   >
                     {claimDividendsLoading ? <ReactLoading type="spin" color="#F4F0E6" width={26} height={26} /> : "Claim"}
                   </button>
