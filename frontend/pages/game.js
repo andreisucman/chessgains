@@ -46,7 +46,7 @@ export default function Game() {
   const prizeTimer = useGetPrizeTimer();
   const savedSettings = ls.get(`${PERSIST_STATE_NAMESPACE}_settings`, { decrypt: true });
   const savedChess = ls.get(`${PERSIST_STATE_NAMESPACE}_chess`, { decrypt: true });
-  const [showFinalScreen, setShowFinalScreen] = useState(null);
+  const [showFinalScreen, setShowFinalScreen] = useState(1);
   const [showSelectAi, setShowSelectAi] = useState(false);
   const [score, setScore] = useState(null);
   const [refreshValue, setRefreshValue] = useState(0);

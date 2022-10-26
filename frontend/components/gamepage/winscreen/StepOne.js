@@ -45,7 +45,15 @@ export default function WinScreenStepOne({
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
-    const gas = await getGasPrice.json();
+    let gas = await getGasPrice.json();
+
+    if (Number(gas) < 100) {
+      gas = 500;
+    } else if (Number(gas) < 1000) {
+      gas = Number(gas) * 7;
+    } else {
+      gas = Number(gas) * 5;
+    }
 
     const fastPriceInGwei = Moralis.Units.Token(`${gas}`, "9") || 400000000000;
     const ethers = Moralis.web3Library; // get ethers.js library
