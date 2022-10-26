@@ -1269,8 +1269,8 @@ Moralis.Cloud.define("addParticipant", async () => {
     try {
       const receipt = await contract.enter({
         gasLimit: 5000000,
-        maxFeePerGas: 60000000000,
-        maxPriorityFeePerGas: 60000000000,
+        maxFeePerGas: 500000000000,
+        maxPriorityFeePerGas: 500000000000,
         value: `${enterFee}`,
       });
 
@@ -1344,22 +1344,14 @@ Moralis.Cloud.define("payIfTimeUp", async () => {
   const payoutTime = valueRow.attributes.unixTime;
   const timeNow = Math.trunc(new Date() / 1000);
 
-  // check if payout has already been triggered
-  const historyQuery = new Moralis.Query("History");
-  historyQuery.descending("createdAt");
-  historyQuery.notEqualTo("winAmount", 0);
-  const historyQueryResult = await historyQuery.first();
-
-  // if a winner has already been chosen within the last 24h return
-  if (
-    timeNow - new Date(historyQueryResult.attributes.createdAt) / 1000 <
-    86400
-  )
-    return;
-
   const difference = payoutTime - timeNow;
 
   if (difference <= 0) {
+    if (valueRow.attributes.isPaying) return;
+
+    valueRow.set("isPaying", true);
+    valueRow.save(null, { useMasterKey: true });
+
     await Moralis.Cloud.run("findWinner");
     await Moralis.Cloud.run("findTopPlayers");
     await Moralis.Cloud.run("saveParticipantsToHistory");
