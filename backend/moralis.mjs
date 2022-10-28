@@ -116,7 +116,6 @@ export async function pay(receiver, key) {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
-
         console.log("to", to);
         console.log("amount", amount);
 
@@ -140,13 +139,18 @@ export async function pay(receiver, key) {
           );
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
-          console.log("Executed")
+          console.log("Executed");
           rewardsWithdrawn = rewardQueryResult.attributes.withdrawn;
+          console.log("rewards withdrawn", rewardsWithdrawn);
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
-          rewardInstance.set("pendingAmount", `${amount}`);
+          rewardInstance.set("pendingAmount", `${ethers.utils.formatEther(amount)}`);
           rewardInstance.set("address", to);
           rewardInstance.set(
+            "withdrawn",
+            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
+          );
+          console.log(
             "withdrawn",
             Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
           );
@@ -180,6 +184,7 @@ export async function pay(receiver, key) {
 
           return { status: await receipt.status };
         } catch (err) {
+          console.log("error", err)
           const RewardsTable = Moralis.Object.extend("Rewards");
           const rewardsQuery = new Moralis.Query(RewardsTable);
           rewardsQuery.equalTo("address", to);
@@ -217,12 +222,12 @@ export async function pay(receiver, key) {
 
         if (dividendsQueryCheckResult) {
           dividendsQueryCheckResult.set("pendingTx", true);
-          dividendsQueryCheckResult.set("pendingAmount", `${amount}`);
+          dividendsQueryCheckResult.set("pendingAmount", `${ethers.utils.formatEther(amount)}`);
           await dividendsQueryCheckResult.save(null, { useMasterKey: true });
         } else {
           const dividendsInstance = new DividendsQueryCheckTable();
           dividendsInstance.set("pendingTx", true);
-          dividendsInstance.set("pendingAmount", `${amount}`);
+          dividendsInstance.set("pendingAmount", `${ethers.utils.formatEther(amount)}`);
           dividendsInstance.save(null, { useMasterKey: true });
         }
 
