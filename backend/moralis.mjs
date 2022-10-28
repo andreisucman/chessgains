@@ -153,7 +153,7 @@ export async function pay(receiver, key) {
             "withdrawn",
             Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
           );
-          rewardInstance.set(null, { useMasterKey: true });
+          rewardInstance.save(null, { useMasterKey: true });
         }
 
         try {
