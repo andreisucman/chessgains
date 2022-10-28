@@ -140,7 +140,6 @@ export async function pay(receiver, key) {
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
           console.log("Executed");
-          rewardsWithdrawn = rewardQueryResult.attributes.withdrawn;
           console.log("rewards withdrawn", rewardsWithdrawn);
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
