@@ -116,6 +116,10 @@ export async function pay(receiver, key) {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
+
+        console.log("to", to);
+        console.log("amount", amount);
+
         // check if the payout has already been initiated
         const RewardTable = Moralis.Object.extend("Rewards");
         const rewardQuery = new Moralis.Query(RewardTable);
@@ -136,6 +140,7 @@ export async function pay(receiver, key) {
           );
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
+          console.log("Executed")
           rewardsWithdrawn = rewardQueryResult.attributes.withdrawn;
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
