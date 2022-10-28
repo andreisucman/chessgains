@@ -136,6 +136,7 @@ export async function pay(receiver, key) {
           );
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
+          rewardsWithdrawn = rewardQueryResult.attributes.withdrawn;
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
           rewardInstance.set("pendingAmount", `${amount}`);

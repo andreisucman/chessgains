@@ -474,13 +474,8 @@ Moralis.Cloud.job("addParticipantJob", () => {
   return run();
 });
 
-Moralis.Cloud.job("finalizeSession", () => {
-  const run = async () => await Moralis.Cloud.run("payIfTimeUp");
-  return run();
-});
-
 Moralis.Cloud.define("addParticipant", async () => {
-  const shouldRun = Math.random() < 0.4;
+  const shouldRun = Math.random() < 0.6;
 
   if (!shouldRun) return shouldRun;
 
