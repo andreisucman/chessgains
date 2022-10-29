@@ -48,7 +48,7 @@
   background-color: var(--dark-grey-c);
   padding: 12px 16px;
   border-radius: 4px;
-  top: -56px;
+  top: -72px;
   left: 50%;
   transform: translateX(-50%);
   width: 144px;
@@ -570,6 +570,11 @@
   &__heading {
     text-align: center;
     padding: 8px;
+  }
+
+  &__footer_text {
+    padding: 8px;
+    font-size: 1rem;
   }
 
   &__ai_bio {

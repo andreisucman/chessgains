@@ -89,6 +89,7 @@ export default function RightColumn(props) {
           </div>
           <Image src={COMPUTER_DESCRIPTIONS[settings.computerLevel].image} objectFit="contain" />
         </div>
+        <p className={styles.level__footer_text}>at chessgains.com</p>
       </div>
     </div>
   );
