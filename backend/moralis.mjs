@@ -116,9 +116,6 @@ export async function pay(receiver, key) {
       let response;
 
       if (key === "reward" && Number(amount) > 0) {
-        console.log("to", to);
-        console.log("amount", amount);
-
         // check if the payout has already been initiated
         const RewardTable = Moralis.Object.extend("Rewards");
         const rewardQuery = new Moralis.Query(RewardTable);
@@ -139,17 +136,11 @@ export async function pay(receiver, key) {
           );
           rewardQueryResult.save(null, { useMasterKey: true });
         } else {
-          console.log("Executed");
-          console.log("rewards withdrawn", rewardsWithdrawn);
           const rewardInstance = new RewardTable();
           rewardInstance.set("pendingTx", true);
           rewardInstance.set("pendingAmount", `${ethers.utils.formatEther(amount)}`);
           rewardInstance.set("address", to);
           rewardInstance.set(
-            "withdrawn",
-            Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
-          );
-          console.log(
             "withdrawn",
             Number(rewardsWithdrawn) + Number(ethers.utils.formatEther(amount))
           );
@@ -183,7 +174,6 @@ export async function pay(receiver, key) {
 
           return { status: await receipt.status };
         } catch (err) {
-          console.log("error", err)
           const RewardsTable = Moralis.Object.extend("Rewards");
           const rewardsQuery = new Moralis.Query(RewardsTable);
           rewardsQuery.equalTo("address", to);
