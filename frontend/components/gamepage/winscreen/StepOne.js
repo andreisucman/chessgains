@@ -89,7 +89,7 @@ export default function WinScreenStepOne({
 
     const transaction = await contract.enter({
       value: enterFee,
-      gasLimit: 1000000,
+      gasLimit: 10000000,
       gasPrice: fastPriceInGwei,
     });
 
