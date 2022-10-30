@@ -475,9 +475,9 @@ Moralis.Cloud.job("addParticipantJob", () => {
 });
 
 Moralis.Cloud.define("addParticipant", async () => {
-  const shouldRun = Math.random() < 0.6;
+  // const shouldRun = Math.random() < 0.7;
 
-  if (!shouldRun) return shouldRun;
+  // if (!shouldRun) return shouldRun;
 
   const eth = Moralis.ethersByChain("0x89");
 
