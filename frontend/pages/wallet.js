@@ -228,7 +228,7 @@ export default function Wallet() {
                     Reward: {formatNumber(currentState.performanceReward)} MATIC
                     {receivedClaimRequestReward && (
                       <span className={styles.wallet_page__received_claim_request}>
-                        Claim request received. Your balance will update within several minutes.
+                        Claim request received. Please wait 1-2 min.
                       </span>
                     )}
                     {rewardLowToClaim && (
@@ -276,7 +276,7 @@ export default function Wallet() {
                     <span>{formatNumber(currentState.dividends)} MATIC</span>{" "}
                     {receivedClaimRequestDividends && (
                       <span className={styles.wallet_page__received_claim_request}>
-                        Claim request received. Your balance will update within several minutes.
+                        Claim request received. Please wait 1-2 min.
                       </span>
                     )}
                     {dividendsLowToClaim && (
