@@ -34,14 +34,14 @@ export default function WinScreenStepOne({
       return;
     }
 
-    // // prevent cheaters from getting in
-    // const gameQuery = new Moralis.Query("Game");
-    // gameQuery.descending("createdAt");
-    // gameQuery.equalTo("sessionId", chess.sessionId);
-    // const gameResult = await gameQuery.first();
-    // const coincidenceRatio = gameResult.attributes.coincidenceRatio;
+    // prevent cheaters from getting in
+    const gameQuery = new Moralis.Query("Game");
+    gameQuery.descending("createdAt");
+    gameQuery.equalTo("sessionId", chess.sessionId);
+    const gameResult = await gameQuery.first();
+    const coincidenceRatio = gameResult.attributes.coincidenceRatio;
 
-    // if (coincidenceRatio >= 0.85) return; 
+    if (coincidenceRatio >= 0.85) return; 
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
