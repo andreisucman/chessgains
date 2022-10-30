@@ -107,7 +107,7 @@ export default function Game() {
                   },
                 })
               ) {
-                setShowFinalScreen(3);
+                setShowFinalScreen(1); // UPDATE!!!
               } else {
                 setShowFinalScreen(1);
               }
