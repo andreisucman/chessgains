@@ -39,7 +39,7 @@ const moveSound = typeof Audio !== "undefined" ? new Audio(`data:audio/wav;base6
 
 export default function Game() {
   encrypt();
-  console.clear();
+  // console.clear();
 
   const { Moralis, isInitialized, isAuthenticated, isAuthUndefined } = useMoralis();
   const currentState = useGetCurrentState();
