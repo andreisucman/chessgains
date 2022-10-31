@@ -156,7 +156,7 @@ export async function getStockFishMove(config, level) {
     fen,
     depth: stockFishLevel,
     multipv: 1,
-    // excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
+    excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
   });
 
   const allMoves = analysis.moves.map((entry) => entry.uci).flat(1);
