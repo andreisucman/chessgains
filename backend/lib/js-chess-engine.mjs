@@ -108,15 +108,8 @@ export async function fetchAiLevel(config, sessionId) {
 
   const level = await Moralis.Cloud.run("fetchAiLevel", { sessionId });
 
-  if (level < 3) {
+  if (level < 4) {
     return aiMove(config, level);
-  } else if (level === 3) {
-    const random = Math.random() < 0.5;
-    if (random) {
-      return getStockFishMove(config, level);
-    } else {
-      return aiMove(config, level);
-    }
   } else {
     return getStockFishMove(config, level);
   }
@@ -145,9 +138,6 @@ export async function getStockFishMove(config, level) {
     case 4:
       stockFishLevel = 2;
       break;
-    case 3:
-      stockFishLevel = 1;
-      break;
     default:
       stockFishLevel = 1;
   }
@@ -156,7 +146,6 @@ export async function getStockFishMove(config, level) {
     fen,
     depth: stockFishLevel,
     multipv: 1,
-    excludes: [PROVIDERS.LICHESS_BOOK, PROVIDERS.LICHESS_CLOUD_EVAL],
   });
 
   const allMoves = analysis.moves.map((entry) => entry.uci).flat(1);
