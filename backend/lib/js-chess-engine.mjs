@@ -134,13 +134,13 @@ export async function getStockFishMove(config, level) {
   const fen = getFen(config);
   let stockFishLevel = 1;
 
-  switch (Number(level)) {
-    case 4:
-      stockFishLevel = 2;
-      break;
-    default:
-      stockFishLevel = 1;
-  }
+  // switch (Number(level)) {
+  //   case 4:
+  //     stockFishLevel = 2;
+  //     break;
+  //   default:
+  //     stockFishLevel = 1;
+  // }
 
   const analysis = await chessAnalysisApi.getAnalysis({
     fen,
