@@ -41,7 +41,10 @@ export default function WinScreenStepOne({
     const gameResult = await gameQuery.first();
     const blocked = gameResult.attributes.blocked;
 
-    if (blocked) return; 
+    if (blocked) {
+      console.log("session blocked");
+      return;
+    }
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
@@ -93,8 +96,12 @@ export default function WinScreenStepOne({
       gasPrice: fastPriceInGwei,
     });
 
+    console.log("transaction details", { value: enterFee, gasLimit: 1000000, gasPrice: fastPriceInGwei});
+
     try {
       const tx = await transaction.wait(3);
+
+      console.log("transaction completed", tx)
 
       // save the participant to DB
       const params = {
@@ -152,7 +159,7 @@ export default function WinScreenStepOne({
               )}
             </div>
           </button>
-          {isLoading && (<div className={styles.step_one__processing_disclaimer}>This process may take a few minutes</div>)}
+          {isLoading && <div className={styles.step_one__processing_disclaimer}>This process may take a few minutes</div>}
           {showInsufficientBalance && (
             <InsufficientFunds
               setShowInsufficientBalance={setShowInsufficientBalance}
