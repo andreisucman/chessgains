@@ -47,7 +47,6 @@ export default function Contact() {
               </button>
             </div>
             <input type="hidden" name="_next" value="https://chessgains.com/contact"></input>
-            <input type="hidden" name="_captcha" />
           </form>
           <div className={styles.contact__info}>
             <ul className={styles.contact__info_list}>
