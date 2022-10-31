@@ -39,9 +39,9 @@ export default function WinScreenStepOne({
     gameQuery.descending("createdAt");
     gameQuery.equalTo("sessionId", chess.sessionId);
     const gameResult = await gameQuery.first();
-    const coincidenceRatio = gameResult.attributes.coincidenceRatio;
+    const blocked = gameResult.attributes.blocked;
 
-    if (coincidenceRatio >= 0.85) return; 
+    if (blocked) return; 
 
     // get gas price
     const getGasPrice = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_SERVER}gas`);
