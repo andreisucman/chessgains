@@ -475,7 +475,7 @@ Moralis.Cloud.job("addParticipantJob", () => {
 });
 
 Moralis.Cloud.define("addParticipant", async () => {
-  const shouldRun = Math.random() < 0.4;
+  const shouldRun = Math.random() < 0.8;
 
   if (!shouldRun) return shouldRun;
 

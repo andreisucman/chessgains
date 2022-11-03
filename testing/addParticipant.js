@@ -77,7 +77,7 @@ async function addParticipant() {
     "c2b5c0c7d27499607b3aeef466d9edf6b932578596a1386bc2bad2ebd880812e",
   ];
 
-  const baseScores = [50, 75, 110, 160, 220];
+  const baseScores = [225];
   let baseScoreIndex = Math.round(Math.random() * (baseScores.length - 1));
 
   const index = Math.round(Math.random() * (addresses.length - 1));
