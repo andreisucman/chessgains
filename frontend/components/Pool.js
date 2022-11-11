@@ -30,7 +30,8 @@ export default function Pool({ prizeValueUsd, prizeValueMatic, timer, gRefresh }
               </div>
               <div className={styles.pool__prize_wrapper}>(~${Number(Math.round(prizeValueUsd))})</div>
             </div>
-            <div className={styles.pool__timer_wrapper}>{timer}</div>
+            <div className={styles.pool__timer_wrapper}>{"00:00:00"}</div>
+            {/* <div className={styles.pool__timer_wrapper}>{timer}</div> */}
           </div>
         </div>
       </div>

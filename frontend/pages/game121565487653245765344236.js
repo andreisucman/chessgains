@@ -58,14 +58,12 @@ export default function Game() {
     }
   }, [isAuthenticated, isAuthUndefined]);
 
-  // const [chess, setChess] = useState({ ...NEW_GAME_BOARD_CONFIG });
   const [chess, setChess] = useState(
     savedChess && typeof savedChess === "object"
       ? Object.assign({}, NEW_GAME_BOARD_CONFIG, savedChess)
       : { ...NEW_GAME_BOARD_CONFIG }
   );
 
-  // const [settings, setSettings] = useState({ ...SETTINGS });
   const [settings, setSettings] = useState(
     savedSettings && typeof savedSettings === "object" ? Object.assign({}, SETTINGS, savedSettings) : { ...SETTINGS }
   );

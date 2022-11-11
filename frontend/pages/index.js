@@ -3,7 +3,7 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Pool from "../components/Pool";
-import AgeDisclaimer from "../components/AgeDisclaimer";
+import MaintenanceDisclaimer from "../components/MaintenanceDisclaimer";
 import HowItWorks from "../components/HowItWorks";
 import Stats from "../components/Stats";
 import Explanation from "../components/Explanation";
@@ -29,7 +29,7 @@ export default function Home() {
         />
       </Head>
       <Hero howItWorksRef={howItWorksRef} handleLogin={methods.handleLogin} />
-      {/* <AgeDisclaimer /> */}
+      <MaintenanceDisclaimer />
       <Pool
         prizeValueUsd={currentState.prizeValueUsd}
         prizeValueMatic={currentState.prizeValueMatic}
@@ -39,6 +39,7 @@ export default function Home() {
       <HowItWorks howItWorksRef={howItWorksRef} />
       <Trustpilot />
       <Stats gRefresh={currentState.gRefresh} />
+      <MaintenanceDisclaimer />
       <Explanation />
       <StayNotified />
       <Footer />

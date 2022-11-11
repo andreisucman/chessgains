@@ -327,7 +327,8 @@ export default function Wallet() {
                     >
                       Get Matic
                     </button>
-                    <Link href="/game">
+                    <Link href="/">
+                    {/* <Link href="/game"> */}
                       <a
                         id="play_btn_wallet"
                         className={`${styles.wallet_page__btn} 
